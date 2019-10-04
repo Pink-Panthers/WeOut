@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     header: {
         borderColor: 'black',
         borderWidth: 0.6,
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: "flex-end",
@@ -22,4 +21,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Header
+export default Header;
