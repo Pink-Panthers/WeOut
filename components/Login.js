@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Keyboard} from 'react-native';
-import { ScrollView, TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
+import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
 
 
-export default function App() {
+export default function Login() {
     return (
         <View style={styles.container}>
             <View style={styles.innerContainer}>
@@ -53,8 +53,9 @@ export default function App() {
                 </View>
             </View>
         </View>
-    );
+    )
 }
+
 const styles = StyleSheet.create({
     oath: {
         flexDirection: "row",
@@ -82,5 +83,4 @@ const styles = StyleSheet.create({
         width: 310,
         textAlign: "center"
     }
-    
-});
+})
