@@ -6,7 +6,7 @@ export default function Home(props) {
   return (
     <View style={styles.container}>
         <Menu navigation={props.navigation}/>
-        <Text>HOME SCREEN</Text>
+        <Text style={styles.title}>Events</Text>
     </View>
   );
 }
@@ -14,8 +14,12 @@ export default function Home(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#fff'
   },
+  title: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    top: 40
+  }
 })

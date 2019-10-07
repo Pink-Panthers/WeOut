@@ -7,7 +7,7 @@ export default function Circle (props) {
         <View style={styles.container}>
             <Menu navigation={props.navigation}/>
             <View>
-                <Text style={styles.header}>Single Circle</Text>
+                <Text style={styles.title}>Single Circle</Text>
             </View>
         </View>
     )
@@ -16,13 +16,12 @@ export default function Circle (props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 45,
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#fff',
     },
-    header: {
-        fontSize: 25,
+    title: {
+        fontSize: 30,
         textAlign: 'center',
-        margin: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        top: 40
     }
 });
