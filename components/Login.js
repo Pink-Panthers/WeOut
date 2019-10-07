@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux'
 import { StyleSheet, View, Text } from "react-native";
 import { Keyboard} from 'react-native';
-import { ScrollView, TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
+import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
 
 
 class DisconnectedLogin extends Component{
@@ -65,6 +65,7 @@ class DisconnectedLogin extends Component{
         )
     }
 }
+
 const styles = StyleSheet.create({
     oath: {
         flexDirection: "row",
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
         width: 310,
         textAlign: "center"
     }
-    
+ 
 });
 
 const Login = connect()(DisconnectedLogin)
