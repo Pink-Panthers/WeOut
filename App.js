@@ -15,7 +15,7 @@ const drawerNavigation = createDrawerNavigator({
   Circle
 },
 {
-  drawerWidth: Dimensions.get('window').width*0.24,
+  drawerWidth: Dimensions.get('window').width*0.3,
   contentComponent: ({ navigation }) => <DrawerDesign navigation={navigation}/>
 })
 

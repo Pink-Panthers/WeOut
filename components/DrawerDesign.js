@@ -6,10 +6,15 @@ export default class DrawerDesign extends React.Component {
     navLink(nav, text) {
         return (
             <TouchableOpacity 
-                style={{height: 40}} 
                 onPress={() => this.props.navigation.navigate(nav)}
             >
-                <Text style={styles.link}>{text}</Text>
+                <View style={styles.circle}>
+                    <Image
+                        style={styles.icon}
+                        source={require("../assets/weOut.png")}
+                    />
+                    <Text style={styles.link}>{text}</Text>
+                </View>
             </TouchableOpacity>
         )
     }
@@ -44,27 +49,30 @@ const styles = StyleSheet.create({
     top: {
         height: 140,
         backgroundColor: '#ff7f50',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'flex-end'
     },
     bottom: {
         flex: 1,
         backgroundColor: 'tan',
-        paddingTop: 20,
-        paddingBottom: 450
+        paddingTop: 10
     },
     link: {
         flex: 1,
-        fontSize: 20,
-        padding: 2,
-        paddingLeft: 12,
-        margin: 6,
-        textAlign: 'left'
+        fontSize: 16,
+        textAlign: 'center'
     },
     logo: {
-        paddingTop: 40,
-        paddingLeft: 12,
+        marginBottom: 6,
         width: 100,
         height: 100
+    },
+    circle: {
+        height: 100,
+        alignItems: 'center'
+    },
+    icon: {
+        width: 80,
+        height: 80
     }
 })
