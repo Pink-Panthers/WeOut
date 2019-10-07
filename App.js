@@ -1,15 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Map from './components/Map'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import MapContainer from "./containers/MapContainer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header />
-      <Map />
-      <Footer />
+    <View style={{ flex: 1 }}>
+      {/* <Header /> */}
+      <MapContainer />
+      {/* <Footer /> */}
     </View>
   );
 }
@@ -17,8 +17,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
