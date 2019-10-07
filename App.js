@@ -4,6 +4,7 @@ import Map from './components/Map'
 import Login from './components/Login'
 import Home from './components/Home'
 import Circle from './components/Circle'
+import DrawerDesign from './components/DrawerDesign'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { createAppContainer } from 'react-navigation'
 
@@ -14,7 +15,8 @@ const drawerNavigation = createDrawerNavigator({
   Circle
 },
 {
-  drawerWidth: Dimensions.get('window').width*0.30
+  drawerWidth: Dimensions.get('window').width*0.24,
+  contentComponent: ({ navigation }) => <DrawerDesign navigation={navigation}/>
 })
 
 const Drawer = createAppContainer(drawerNavigation)
@@ -30,7 +32,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
 })
