@@ -4,7 +4,6 @@ import Map from './components/Map'
 import Login from './components/Login'
 import Home from './components/Home'
 import Circle from './components/Circle'
-import SettingsScreen from './components/SettingsScreen';
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import { createAppContainer } from 'react-navigation'
 
@@ -12,8 +11,7 @@ const drawerNavigation = createDrawerNavigator({
   Home,
   Login,
   Map,
-  Circle,
-  SettingsScreen
+  Circle
 },
 {
   drawerWidth: Dimensions.get('window').width*0.30
