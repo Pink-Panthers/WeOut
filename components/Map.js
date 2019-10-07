@@ -35,6 +35,7 @@ export default class Map extends React.Component {
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   map: {
     flex: 8,
     width: "100%",
@@ -42,6 +43,15 @@ const styles = StyleSheet.create({
     borderWidth: 0.6
   }
 });
+=======
+    map: {
+        flex: 1,
+        width: '100%',
+        borderColor: 'black',
+        borderWidth: 0.6
+    }
+})
+>>>>>>> db5a48c1ee53aa95e349aed6c1eb5f27c5894da2
 
 const newYork = {
   latitude: 40.7473735256486,
