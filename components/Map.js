@@ -14,7 +14,7 @@ const Map = props => {
 
 const styles = StyleSheet.create({
     map: {
-        flex: 8,
+        flex: 1,
         width: '100%',
         borderColor: 'black',
         borderWidth: 0.6
