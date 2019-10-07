@@ -1,59 +1,69 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from 'react-redux'
 import { StyleSheet, View, Text } from "react-native";
 import { Keyboard} from 'react-native';
 import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
 
 
-export default function Login() {
-    return (
-        <View style={styles.container}>
-            <View style={styles.innerContainer}>
-                <Image
-                    style={{ width: 200, height: 200 }}
-                    source={require("../assets/weOut.png")}
-                />
-            </View>
-            <View style={styles.innerContainer}>
-                <View>
-                    <TextInput
-                        style={styles.texts}
-                        placeholder="Email"
-                        maxLength={30}
-                        onBlur={Keyboard.dismiss}
-                    />
-                    <TextInput
-                        style={styles.texts}
-                        secureTextEntry={true}
-                        placeholder="Password"
+class DisconnectedLogin extends Component{
+    constructor() {
+        super()
+        this.state = {
+
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.innerContainer}>
+                    <Image
+                        style={{ width: 200, height: 200 }}
+                        source={require("../assets/weOut.png")}
                     />
                 </View>
-                <View style={styles.button}>
-                    <Button
-                    title="Login"
-                    onPress={() => Alert.alert("Login Button Pressed")}
-                    />
-                    <Button
-                    title="Sign Up"
-                    onPress={() => Alert.alert("Sign Up Button Pressed")}
-                    />
-                </View>
-                <View style={styles.oath}>
-                    <TouchableHighlight onPress={() => Alert.alert("Sign in with Google.")}>
-                        <Image
-                            style={{ width: 43, height: 43, marginRight: 15 }}
-                            source={require("../assets/googlebutton.png")}
-                            />
-                    </TouchableHighlight>
-                    <TouchableHighlight onPress={() => Alert.alert("Sign in with Facebook.")}>
-                        <Image
-                            style={{ width: 40, height: 40, marginLeft: 15 }}
-                            source={require("../assets/facebookbutton.png")}  
+                <View style={styles.innerContainer}>
+                    <View>
+                        <TextInput
+                            style={styles.texts}
+                            placeholder="Email"
+                            maxLength={30}
+                            onBlur={Keyboard.dismiss}
                         />
-                    </TouchableHighlight>
+                        <TextInput
+                            style={styles.texts}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                        />
+                    </View>
+                    <View style={styles.button}>
+                        <Button
+                        title="Login"
+                        onPress={() => Alert.alert("Login Button Pressed")}
+                        />
+                        <Button
+                        title="Sign Up"
+                        onPress={() => Alert.alert("Sign Up Button Pressed")}
+                        />
+                    </View>
+                    <View style={styles.oath}>
+                        <TouchableHighlight onPress={() => Alert.alert("Sign in with Google.")}>
+                            <Image
+                                style={{ width: 43, height: 43, marginRight: 15 }}
+                                source={require("../assets/googlebutton.png")}
+                                />
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => Alert.alert("Sign in with Facebook.")}>
+                            <Image
+                                style={{ width: 40, height: 40, marginLeft: 15 }}
+                                source={require("../assets/facebookbutton.png")}  
+                            />
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </View>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -83,4 +93,9 @@ const styles = StyleSheet.create({
         width: 310,
         textAlign: "center"
     }
-})
+ 
+});
+
+const Login = connect()(DisconnectedLogin)
+
+export default Login
