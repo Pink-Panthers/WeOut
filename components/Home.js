@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Menu from './Menu'
 
-export default function Home() {
+export default function Home(props) {
   return (
     <View style={styles.container}>
-        <Menu />
+        <Menu navigation={props.navigation}/>
         <Text>HOME SCREEN</Text>
     </View>
   );
