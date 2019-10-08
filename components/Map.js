@@ -1,31 +1,51 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import React from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  TextInput,
+  Dimensions,
+  Image
+} from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import * as Permissions from "expo-permissions";
+import MapInput from "./MapInput";
 
-const Map = props => {
+export default class Map extends React.Component {
+  async componentDidMount() {
+    const { status } = await Permissions.getAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      const response = await Permissions.askAsync(Permissions.LOCATION);
+    }
+  }
+
+  render() {
     return (
-        <MapView
-            region={newYork}
-            style={styles.map}
-        >
-        </MapView>
-    )
+      <MapView
+        provider="google"
+        // mapType="mutedStandard"
+        showsUserLocation
+        showsMyLocationButton
+        initialRegion={newYork}
+        style={{ flex: 1 }}
+      ></MapView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    map: {
-        flex: 1,
-        width: '100%',
-        borderColor: 'black',
-        borderWidth: 0.6
-    }
-})
+  map: {
+    flex: 1,
+    width: "100%",
+    borderColor: "black",
+    borderWidth: 0.6
+  }
+});
 
 const newYork = {
-    latitude: 40.7473735256486,
-    longitude: -73.98564376909184,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-}
-
-export default Map
+  latitude: 40.7473735256486,
+  longitude: -73.98564376909184,
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421
+};

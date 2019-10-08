@@ -21,7 +21,7 @@ const drawerNavigation = createDrawerNavigator({
   contentComponent: ({ navigation }) => <DrawerDesign navigation={navigation}/>
 })
 
-const Drawer = createAppContainer(drawerNavigation)
+const Drawer = createAppContainer(drawerNavigation);
 
 const AppStack = createStackNavigator({
   Drawer: Drawer,
@@ -56,5 +56,4 @@ export default createAppContainer(
   )
 
 )
-
 
