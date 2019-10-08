@@ -44,13 +44,12 @@ export default class Login extends Component{
     handleSignUp = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(user => {
             const collection = db.collection('users')
-            // console.log(user)
+            
             collection.doc(user.user.uid).set({
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email
             })
-            console.log(currentUser)
         }
         ).catch(error => this.setState({errorMessage: error.message}))
     }
