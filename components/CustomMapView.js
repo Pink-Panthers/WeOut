@@ -1,5 +1,5 @@
 import React from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 
 const CustomMapView = props => {
   return (
@@ -13,7 +13,9 @@ const CustomMapView = props => {
       showsUserLocation={true}
       onRegionChange={reg => props.onRegionChange(reg)}
     >
-      <Marker coordinate={props.region} />
+      <Marker coordinate={props.region}>
+        <Callout onPress={e => console.log(props.data)}></Callout>
+      </Marker>
     </MapView>
   );
 };

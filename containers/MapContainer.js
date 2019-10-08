@@ -2,10 +2,11 @@ import React from "react";
 import { View, Dimensions } from "react-native";
 import MapInput from "../components/MapInput";
 import CustomMapView from "../components/CustomMapView";
-import { getLocation } from "../services.js/getLocation";
+import { getLocation } from "../services/getLocation";
+
 const { width, height } = Dimensions.get("screen");
 
-export default class MapContainer extends React.Component {
+export default class Map extends React.Component {
   state = {
     region: {}
   };
@@ -16,7 +17,7 @@ export default class MapContainer extends React.Component {
 
   getInitialState() {
     getLocation().then(data => {
-      console.log(data);
+      // console.log(data);
       this.setState({
         region: {
           latitude: data.latitude,
@@ -62,13 +63,16 @@ export default class MapContainer extends React.Component {
             width,
             paddingTop: 10,
             alignSelf: "center",
-            alignItems: "center",
+            // alignItems: "center",
             height: height * 0.1,
             backgroundColor: "white",
             justifyContent: "flex-end"
           }}
         >
-          <MapInput notifyChange={loc => this.getCoordsFromName(loc)} />
+          <MapInput
+            notifyChange={loc => this.getCoordsFromName(loc)}
+            style={{ paddingTop: 10 }} //How do I move the search bar down?
+          />
         </View>
 
         {this.state.region["latitude"] ? (
