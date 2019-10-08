@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
-import MapInput from "../components/MapInput";
-import CustomMapView from "../components/CustomMapView";
+import Map from "../components/Map";
 import { getLocation } from "../services/getLocation";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const { width, height } = Dimensions.get("screen");
 
-export default class Map extends React.Component {
+export default class MapContainer extends React.Component {
   state = {
-    region: {}
+    region: {},
+    selected: {}
   };
 
   componentDidMount() {
@@ -17,7 +18,6 @@ export default class Map extends React.Component {
 
   getInitialState() {
     getLocation().then(data => {
-      // console.log(data);
       this.setState({
         region: {
           latitude: data.latitude,
@@ -54,6 +54,9 @@ export default class Map extends React.Component {
   onMapRegionChange(region) {
     this.setState({ region });
   }
+  notifyChange(loc) {
+    this.getCoordsFromName(loc);
+  }
 
   render() {
     return (
@@ -69,17 +72,39 @@ export default class Map extends React.Component {
             justifyContent: "flex-end"
           }}
         >
-          <MapInput
-            notifyChange={loc => this.getCoordsFromName(loc)}
-            style={{ paddingTop: 10 }} //How do I move the search bar down?
+          <GooglePlacesAutocomplete
+            // ref={ref => {
+            //   this.placesRef = ref;
+            // }}
+            title={true}
+            placeholder="Search"
+            minLength={2}
+            autoFocus={true}
+            // returnKeytype={"search"}
+            listViewDisplayed={false}
+            fetchDetails={true}
+            // renderDescription={row => row.description}
+            onPress={(data, details = null) => {
+              console.log("DATA FROM GOOGLE PLACES", data);
+              this.notifyChange(details.geometry.location);
+              this.setState({ selected: data });
+            }}
+            query={{
+              key: "AIzaSyDtL-Gqej9DslO6FZU49rSS8PFOwNUmFM4",
+              language: "en"
+            }}
+            nearbyPlacesAPI="GooglePlacesSearch"
+            debounce={200} //in MS, essentially throttles the API load https://blog.bitsrc.io/understanding-throttling-and-debouncing-973131c1ba07
+            style={{ flex: 1, zIndex: 2 }}
           />
         </View>
 
         {this.state.region["latitude"] ? (
-          <View style={{ flex: 1 }}>
-            <CustomMapView
+          <View style={{ flex: 1, zIndex: 0 }}>
+            <Map
               region={this.state.region}
               onRegionChange={reg => this.onMapRegionChange(reg)}
+              selected={this.state.selected}
             />
           </View>
         ) : null}

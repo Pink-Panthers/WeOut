@@ -1,51 +1,30 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  TextInput,
-  Dimensions,
-  Image
-} from "react-native";
-import MapView, { Marker } from "react-native-maps";
-import * as Permissions from "expo-permissions";
-import MapInput from "./MapInput";
+import MapView, { Marker, Callout } from "react-native-maps";
+import { View, Text } from "react-native";
 
-export default class Map extends React.Component {
-  async componentDidMount() {
-    const { status } = await Permissions.getAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      const response = await Permissions.askAsync(Permissions.LOCATION);
-    }
-  }
-
-  render() {
-    return (
-      <MapView
-        provider="google"
-        // mapType="mutedStandard"
-        showsUserLocation
-        showsMyLocationButton
-        initialRegion={newYork}
-        style={{ flex: 1 }}
-      ></MapView>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  map: {
-    flex: 1,
-    width: "100%",
-    borderColor: "black",
-    borderWidth: 0.6
-  }
-});
-
-const newYork = {
-  latitude: 40.7473735256486,
-  longitude: -73.98564376909184,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
+const Map = props => {
+  return (
+    <MapView
+      provider="google"
+      mapType="mutedStandard"
+      showsUserLocation
+      showsMyLocationButton
+      style={{ flex: 1 }}
+      region={props.region}
+    >
+      <Marker coordinate={props.region}>
+        {props.selected.description ? (
+          <Callout>
+            <View>
+              <Text>
+                {props.selected.description}
+                {/* {props.selected.types[0]} */}
+              </Text>
+            </View>
+          </Callout>
+        ) : null}
+      </Marker>
+    </MapView>
+  );
 };
+export default Map;
