@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Keyboard} from 'react-native';
-import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native';
+import React, { Component } from "react"
+import { StyleSheet, View, Text } from "react-native"
+import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import '../firebase'
 import * as firebase from 'firebase'
 import db from '../firebase'
@@ -25,19 +25,19 @@ export default class Login extends Component{
             let getUser = users.get()
             .then(doc => {
                 if (!doc.exists) {
-                    console.log('Typo? Or You fucked something up');
+                    console.log('Typo? Or You fucked something up')
                 } else {
-                    console.log('HAH, GOTEEEEEEM', doc.data());
+                    console.log('HAH, GOTEEEEEEM', doc.data())
                 }
             })
             .catch(err => {
-                console.log('Error', err);
+                console.log('Error', err)
             });
             
             
             console.log(getUser)
 
-        }).catch(error => this.setState({errorMessage: error.message}));
+        }).catch(error => this.setState({errorMessage: error.message}))
 
     }
 
@@ -60,106 +60,142 @@ export default class Login extends Component{
     render() {
         return (
 
-            
-            <View style={styles.container}>
-            <View style={styles.innerContainer}>
-              <Image
-                style={{ width: 200, height: 200 }}
-                source={require("../assets/weOut.png")}
-              />
-            </View>
-                <View style={styles.errorMessage}>
-                    {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <Text>No error</Text>}
-                </View>
-            <View style={styles.innerContainer}>
-              <View>
-                <TextInput
-                  autoCapitalize="none"
-                  onChangeText={email => this.setState({ email })}
-                  value={this.state.email}
-                  style={styles.texts}
-                  placeholder="Email"
-                  maxLength={30}
-                />
-                <TextInput
-                  autoCapitalize="none"
-                  onChangeText={password => this.setState({ password })}
-                  value={this.state.password}
-                  style={styles.texts}
-                  secureTextEntry={true}
-                  placeholder="Password"
-                />
-              </View>
-              {!this.state.signingUp ? 
-              <View>
-              <View style={styles.button}>
-                  <Button
-                    title="Login"
-                    onPress={this.handleLogin}
-                  />
-                <Button
-                  title="Sign Up"
-                  onPress={this.toggleSignUp}
-                />
-              </View>
-              <View style={styles.oath}>
-                <TouchableHighlight
-                  onPress={() => Alert.alert("Sign in with Google.")}
-                >
-                  <Image
-                    style={{ width: 43, height: 43, marginRight: 15 }}
-                    source={require("../assets/googlebutton.png")}
-                  />
-                </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => Alert.alert("Sign in with Facebook.")}
-                >
-                  <Image
-                    style={{ width: 40, height: 40, marginLeft: 15 }}
-                    source={require("../assets/facebookbutton.png")}
-                  />
-                </TouchableHighlight>
-                </View>
-              </View>
-              : 
-                <View>
-
-                  <TextInput
-                       autoCapitalize="none"
-                       onChangeText={firstName => this.setState({ firstName })}
-                       value={this.state.firstName}
-                       style={styles.texts}
-                        placeholder="First Name"
-                       maxLength={30}
-                />
-                <TextInput
-                    autoCapitalize="none"
-                    onChangeText={lastName => this.setState({ lastName })}
-                    value={this.state.lastName}
-                       style={styles.texts}
-                    placeholder="Last Name"
-                />
-                        <View style={styles.button}>
-                            <Button
-                                title="Submit"
-                                onPress={this.handleSignUp}
+            <View style={styles.superContainer}>
+                {!this.state.signingUp ?
+                <View style={styles.container}>
+                    <View style={styles.innerContainer}>
+                        <Image
+                            style={{ width: 200, height: 200 }}
+                            source={require("../assets/weOut.png")}
+                        />
+                    </View>
+                    <View style={styles.errorMessage}>
+                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <Text>No error</Text>}
+                    </View>
+                    <View style={styles.innerContainer}>
+                        <View>
+                            <TextInput
+                            autoCapitalize="none"
+                            onChangeText={email => this.setState({ email })}
+                            value={this.state.email}
+                            style={styles.texts}
+                            placeholder="Email"
+                            maxLength={30}
                             />
-
+                            <TextInput
+                            autoCapitalize="none"
+                            onChangeText={password => this.setState({ password })}
+                            value={this.state.password}
+                            style={styles.texts}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                            />
+                        </View> 
+                        <View>
+                            <View style={styles.button}>
+                                <Button
+                                    title="Login"
+                                    onPress={this.handleLogin}
+                                />
+                                <Button
+                                title="Sign Up"
+                                onPress={this.toggleSignUp}
+                                />
+                            </View>
+                            <View style={styles.oath}>
+                                <TouchableHighlight
+                                onPress={() => Alert.alert("Sign in with Google.")}
+                                >
+                                    <Image
+                                        style={{ width: 43, height: 43, marginRight: 15 }}
+                                        source={require("../assets/googlebutton.png")}
+                                    />
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                onPress={() => Alert.alert("Sign in with Facebook.")}
+                                >
+                                    <Image
+                                        style={{ width: 40, height: 40, marginLeft: 15 }}
+                                        source={require("../assets/facebookbutton.png")}
+                                    />
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+                :
+                <KeyboardAwareScrollView
+                    style={{ backgroundColor: '#4c69a5' }}
+                    resetScrollToCoords={{ x: 0, y: 0 }}
+                    contentContainerStyle={styles.container}
+                    scrollEnabled={true}
+                    enableOnAndroid={true}
+                >
+                    <View style={styles.innerContainer}>
+                        <Image
+                            style={{ width: 200, height: 200 }}
+                            source={require("../assets/weOut.png")}
+                        />
+                    </View>
+                    <View style={styles.errorMessage}>
+                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <Text>No error</Text>}
+                    </View>
+                    <View style={styles.innerContainer}>
+                        <View>
+                            <TextInput
+                            autoCapitalize="none"
+                            onChangeText={email => this.setState({ email })}
+                            value={this.state.email}
+                            style={styles.texts}
+                            placeholder="Email"
+                            maxLength={30}
+                            />
+                            <TextInput
+                            autoCapitalize="none"
+                            onChangeText={password => this.setState({ password })}
+                            value={this.state.password}
+                            style={styles.texts}
+                            secureTextEntry={true}
+                            placeholder="Password"
+                            />
                         </View>
                         <View>
-                            <Text>
-                                Already have an account?
-                            </Text>
+                            <TextInput
+                            autoCapitalize="none"
+                            onChangeText={firstName => this.setState({ firstName })}
+                            value={this.state.firstName}
+                            style={styles.texts}
+                                placeholder="First Name"
+                            maxLength={30}
+                            />
+                            <TextInput
+                                autoCapitalize="none"
+                                onChangeText={lastName => this.setState({ lastName })}
+                                value={this.state.lastName}
+                                style={styles.texts}
+                                placeholder="Last Name"
+                            />
+                            <View>
+                                <Button
+                                    title="Submit"
+                                    onPress={this.handleSignUp}
+                                />
+                            </View>
+                            <View style={styles.haveAccount}>
+                                <Text>
+                                    Already have an account?   
+                                </Text>
                                 <Button
                                     title="Log In"
                                     onPress={this.toggleSignUp}
                                 />
+                            </View>
                         </View>
-                </View>
-              }
+                    </View>
+                </KeyboardAwareScrollView>
+                }
             </View>
-          </View>
-        );
+        )
     }
 }
 
@@ -179,6 +215,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff'
     },
+    superContainer: {
+        flex: 1,
+        backgroundColor: '#fff'
+    },
     innerContainer: {
         backgroundColor: '#ff7f50',
         flex: 1,
@@ -193,9 +233,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: 310,
         textAlign: "center"
+    },
+    haveAccount: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: 'center',
+        marginTop: 20
     }
- 
-});
-
-// const Login = connect()(DisconnectedLogin)
-
+})
