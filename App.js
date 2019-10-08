@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
+import LoadingScreen from './components/LoadingScreen'
 import Map from './components/Map'
 import Login from './components/Login'
 import Home from './components/Home'
 import Circle from './components/Circle'
 import DrawerDesign from './components/DrawerDesign'
 import { createDrawerNavigator } from 'react-navigation-drawer'
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
 
 const drawerNavigation = createDrawerNavigator({
   Home,
@@ -21,17 +23,38 @@ const drawerNavigation = createDrawerNavigator({
 
 const Drawer = createAppContainer(drawerNavigation)
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Drawer />
-    </View>
-  );
+const AppStack = createStackNavigator({
+  Drawer: Drawer,
+  Home: Home
+},{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false
+  }
 }
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff'
-  },
-})
+const AuthStack = createStackNavigator(
+  { 
+  Login: Login
+},
+{
+  headerMode: 'none',
+navigationOptions: {
+  headerVisible: false
+}}
+);
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {initialRouteName: 'Loading'}
+  )
+
+)
+
+
