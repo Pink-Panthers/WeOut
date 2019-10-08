@@ -5,7 +5,7 @@ import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-nativ
 import '../firebase'
 import * as firebase from 'firebase'
 import db from '../firebase'
-
+import * as Google from 'expo-google-app-auth'
 export default class Login extends Component{
 
     state = {
@@ -16,6 +16,27 @@ export default class Login extends Component{
          lastName: '',
          signingUp: false
     }
+
+
+    signInWithGoogleAsync = async () =>{
+    try {
+        console.log(Google)
+        const result = await Google.logInAsync({
+            behavior: 'web',
+            iosClientId: '122621961076-bbv3j631vggpue3nilbsdms0ifj3cioq.apps.googleusercontent.com',
+            scopes: ['profile', 'email'],
+        });
+        console.log(result)
+
+        if (result.type === 'success') {
+            return result.accessToken;
+        } else {
+            return { cancelled: true };
+        }
+    } catch (error) {
+        this.setState({ errorMessage: error.message })
+    }
+}
 
     handleLogin = () => {
         const {email, password} = this.state;
@@ -104,21 +125,14 @@ export default class Login extends Component{
               </View>
               <View style={styles.oath}>
                 <TouchableHighlight
-                  onPress={() => Alert.alert("Sign in with Google.")}
+                  onPress={this.signInWithGoogleAsync}
                 >
                   <Image
                     style={{ width: 43, height: 43, marginRight: 15 }}
                     source={require("../assets/googlebutton.png")}
                   />
                 </TouchableHighlight>
-                <TouchableHighlight
-                  onPress={() => Alert.alert("Sign in with Facebook.")}
-                >
-                  <Image
-                    style={{ width: 40, height: 40, marginLeft: 15 }}
-                    source={require("../assets/facebookbutton.png")}
-                  />
-                </TouchableHighlight>
+
                 </View>
               </View>
               : 
@@ -129,14 +143,14 @@ export default class Login extends Component{
                        onChangeText={firstName => this.setState({ firstName })}
                        value={this.state.firstName}
                        style={styles.texts}
-                        placeholder="First Name"
+                       placeholder="First Name"
                        maxLength={30}
                 />
                 <TextInput
                     autoCapitalize="none"
                     onChangeText={lastName => this.setState({ lastName })}
                     value={this.state.lastName}
-                       style={styles.texts}
+                    style={styles.texts}
                     placeholder="Last Name"
                 />
                         <View style={styles.button}>
@@ -197,5 +211,5 @@ const styles = StyleSheet.create({
  
 });
 
-// const Login = connect()(DisconnectedLogin)
+
 

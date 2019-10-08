@@ -40,7 +40,7 @@ const AuthStack = createStackNavigator(
 },
 {
   headerMode: 'none',
-navigationOptions: {
+  navigationOptions: {
   headerVisible: false
 }}
 );
