@@ -6,6 +6,7 @@ import '../firebase'
 import * as firebase from 'firebase'
 import db from '../firebase'
 import * as Google from 'expo-google-app-auth'
+import { GoogleUser, GoogleAuthData } from "expo-google-sign-in";
 export default class Login extends Component{
 
     state = {
@@ -20,15 +21,16 @@ export default class Login extends Component{
 
     signInWithGoogleAsync = async () =>{
     try {
-        console.log(Google)
         const result = await Google.logInAsync({
             behavior: 'web',
             iosClientId: '122621961076-bbv3j631vggpue3nilbsdms0ifj3cioq.apps.googleusercontent.com',
             scopes: ['profile', 'email'],
         });
         console.log(result)
-
         if (result.type === 'success') {
+            // firebase.auth.().currentUser() = 
+            const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken)
+            const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
             return result.accessToken;
         } else {
             return { cancelled: true };
@@ -37,6 +39,8 @@ export default class Login extends Component{
         this.setState({ errorMessage: error.message })
     }
 }
+
+    
 
     handleLogin = () => {
         const {email, password} = this.state;
@@ -49,6 +53,7 @@ export default class Login extends Component{
                     console.log('Typo? Or You fucked something up')
                 } else {
                     console.log('HAH, GOTEEEEEEM', doc.data())
+                    console.log(firebase.auth().currentUser)
                 }
             })
             .catch(err => {
@@ -75,6 +80,7 @@ export default class Login extends Component{
         ).catch(error => this.setState({errorMessage: error.message}))
     }
     toggleSignUp = () => {
+        console.log(firebase.auth().currentUser)
         this.setState({signingUp: !this.state.signingUp})
     }
 
