@@ -95,9 +95,9 @@ export default class Login extends Component{
                             style={{ width: 200, height: 200 }}
                             source={require("../assets/weOut.png")}
                         />
-                    </View>
                     <View style={styles.errorMessage}>
-                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <Text>No error</Text>}
+                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
+                    </View>
                     </View>
                     <View style={styles.innerContainer}>
                         <View>
@@ -155,9 +155,9 @@ export default class Login extends Component{
                             style={{ width: 200, height: 200 }}
                             source={require("../assets/weOut.png")}
                         />
-                    </View>
                     <View style={styles.errorMessage}>
-                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <Text>No error</Text>}
+                        {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
+                    </View>
                     </View>
                     <View style={styles.innerContainer}>
                         <View>
@@ -220,6 +220,9 @@ export default class Login extends Component{
 
 const styles = StyleSheet.create({
     errorMessage: {
+        borderColor: '#CCCCCC',
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
         alignItems: "center",
         justifyContent: "center"
     },
