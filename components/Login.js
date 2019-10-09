@@ -59,7 +59,6 @@ export default class Login extends Component{
         firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
             const users = db.collection("users").doc(user.user.uid);
             
-            let getUser = users.get()
             .then(doc => {
                 if (!doc.exists) {
                     console.log('Typo? Or You fucked something up')
@@ -73,7 +72,6 @@ export default class Login extends Component{
             });
             
             
-            console.log(getUser)
 
         }).catch(error => this.setState({errorMessage: error.message}))
 
