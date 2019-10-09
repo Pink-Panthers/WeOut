@@ -28,7 +28,7 @@
       "bundleIdentifier": "com.theboiz.weout"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "com.theboiz.weout"
     }
   }
 }
