@@ -57,7 +57,7 @@ export default class Login extends Component{
     handleLogin = () => {
         const {email, password} = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-            const users = db.collection("users").doc(user.user.uid);
+            const users = db.collection("users").doc(user.user.uid)
             
             .then(doc => {
                 if (!doc.exists) {
