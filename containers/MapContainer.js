@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
-import Map from "../components/Map";
+import { View, Dimensions, StyleSheet } from "react-native";
 import { getLocation } from "../services/getLocation";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import Map from "../components/Map";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -40,11 +40,11 @@ export default class MapContainer extends React.Component {
     });
   }
 
-  getCoordsFromName(loc) {
+  getCoordsFromName(location) {
     this.setState({
       region: {
-        latitude: loc.lat,
-        longitude: loc.lng,
+        latitude: location.lat,
+        longitude: location.lng,
         latitudeDelta: 0.003,
         longitudeDelta: 0.003
       }
@@ -54,24 +54,15 @@ export default class MapContainer extends React.Component {
   onMapRegionChange(region) {
     this.setState({ region });
   }
-  notifyChange(loc) {
-    this.getCoordsFromName(loc);
+
+  notifyChange(location) {
+    this.getCoordsFromName(location);
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View
-          style={{
-            width,
-            paddingTop: 10,
-            alignSelf: "center",
-            // alignItems: "center",
-            height: height * 0.1,
-            backgroundColor: "white",
-            justifyContent: "flex-end"
-          }}
-        >
+        <View style={styles.input}>
           <GooglePlacesAutocomplete
             // ref={ref => {
             //   this.placesRef = ref;
@@ -85,7 +76,6 @@ export default class MapContainer extends React.Component {
             fetchDetails={true}
             // renderDescription={row => row.description}
             onPress={(data, details = null) => {
-              console.log("DATA FROM GOOGLE PLACES", data);
               this.notifyChange(details.geometry.location);
               this.setState({ selected: data });
             }}
@@ -95,12 +85,11 @@ export default class MapContainer extends React.Component {
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={200} //in MS, essentially throttles the API load https://blog.bitsrc.io/understanding-throttling-and-debouncing-973131c1ba07
-            style={{ flex: 1, zIndex: 2 }}
           />
         </View>
 
         {this.state.region["latitude"] ? (
-          <View style={{ flex: 1, zIndex: 0 }}>
+          <View style={{ flex: 1}}>
             <Map
               region={this.state.region}
               onRegionChange={reg => this.onMapRegionChange(reg)}
@@ -112,3 +101,13 @@ export default class MapContainer extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  input: {
+    width: width*0.8,
+    height: height * 0.12,
+    paddingTop: 10,
+    marginTop: 30,
+    alignSelf: "center"
+  }
+})

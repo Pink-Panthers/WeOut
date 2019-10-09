@@ -1,7 +1,6 @@
 import React from "react";
 import { Dimensions } from "react-native";
 import LoadingScreen from "./components/LoadingScreen";
-// import Map from './components/Map'
 import Map from "./containers/MapContainer";
 import Login from "./components/Login";
 import Home from "./components/Home";
