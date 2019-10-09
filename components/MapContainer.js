@@ -2,7 +2,8 @@ import React from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { getLocation } from "../services/getLocation";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import Map from "../components/Map";
+import Map from "./Map";
+import Menu from './Menu'
 
 const { width, height } = Dimensions.get("screen");
 
@@ -11,7 +12,7 @@ export default class MapContainer extends React.Component {
     region: {},
     selected: {}
   };
-
+  
   componentDidMount() {
     this.getInitialState();
   }
@@ -62,19 +63,15 @@ export default class MapContainer extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <Menu navigation={this.props.navigation}/>
         <View style={styles.input}>
           <GooglePlacesAutocomplete
-            // ref={ref => {
-            //   this.placesRef = ref;
-            // }}
             title={true}
             placeholder="Search"
             minLength={2}
             autoFocus={true}
-            // returnKeytype={"search"}
             listViewDisplayed={false}
             fetchDetails={true}
-            // renderDescription={row => row.description}
             onPress={(data, details = null) => {
               this.notifyChange(details.geometry.location);
               this.setState({ selected: data });
@@ -89,7 +86,7 @@ export default class MapContainer extends React.Component {
         </View>
 
         {this.state.region["latitude"] ? (
-          <View style={{ flex: 1}}>
+          <View style={styles.map}>
             <Map
               region={this.state.region}
               onRegionChange={reg => this.onMapRegionChange(reg)}
@@ -104,10 +101,15 @@ export default class MapContainer extends React.Component {
 
 const styles = StyleSheet.create({
   input: {
-    width: width*0.8,
+    width: width*0.7,
     height: height * 0.12,
     paddingTop: 10,
     marginTop: 30,
     alignSelf: "center"
+  },
+  map: {
+    flex: 1,
+    borderTopColor: 'black',
+    borderTopWidth: 1
   }
 })
