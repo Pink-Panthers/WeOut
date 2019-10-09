@@ -15,7 +15,7 @@ const drawerNavigation = createDrawerNavigator(
     Home,
     Login,
     MapContainer,
-    Circle
+    Circle,
   },
   {
     drawerWidth: Dimensions.get("window").width * 0.3,

@@ -1,25 +1,41 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
+import db from '../firebase'
 
 export default class DrawerDesign extends React.Component {
-    navLink(nav, text) {
+    constructor() {
+        super()
+        this.state = {
+            userCircles: []
+        }
+    }
+
+    componentDidMount() {
+        db.collection('users').doc(/*firebase.auth().currentUser.uid*/'sampleUser').get().then(user => user.data().circles).then(circles => this.setState({userCircles: circles}))
+    }
+
+    navLink(nav, text, third) {
         return (
             <TouchableOpacity 
                 onPress={() => this.props.navigation.navigate(nav)}
+                key={Math.random * 999}
             >
                 <View style={styles.circle}>
                     <Image
                         style={styles.icon}
                         source={require("../assets/weOut.png")}
+                        value={third}
                     />
-                    <Text style={styles.link}>{text}</Text>
+                    <Text style={styles.link}>{text}{third}</Text>
                 </View>
             </TouchableOpacity>
         )
     }
     
     render() {
+        console.log(this.state.userCircles)
+        const {userCircles} = this.state
         return (
             <View style={styles.container}>
                 <View style={styles.top}>
@@ -29,12 +45,16 @@ export default class DrawerDesign extends React.Component {
                     />
                 </View>
                 <ScrollView style={styles.bottom}>
-                <View>
-                    {this.navLink('Home', 'Home')}
-                    {this.navLink('Circle', 'Circle')}
-                    {this.navLink('MapContainer', 'Map')}
-                    {this.navLink('Login', 'Login')}
-                </View>
+                    <View>
+                        {userCircles.map(circleID => this.navLink('Circle', circleID, 'third'))}
+                        {this.navLink('Home', 'Home')}
+                        {/* {this.navLink('Circle', 'Circle')}
+                        {this.navLink('Circle', 'Circle')}
+                        {this.navLink('Circle', 'Circle')}
+                        {this.navLink('Circle', 'Circle')}
+                        {this.navLink('Circle', 'Circle')} */}
+                        {this.navLink('MapContainer', 'Map')}
+                    </View>
                 </ScrollView>
             </View>
         )
