@@ -22,15 +22,27 @@ export default class Login extends Component{
     signInWithGoogleAsync = async () =>{
     try {
         const result = await Google.logInAsync({
-            behavior: 'web',
-            iosClientId: '122621961076-bbv3j631vggpue3nilbsdms0ifj3cioq.apps.googleusercontent.com',
-            scopes: ['profile', 'email'],
+          behavior: "web",
+          androidClientId:
+            "122621961076-d4pv96gsva2bn8b4f64pe6ccu73j1r4d.apps.googleusercontent.com",
+          iosClientId:
+            "122621961076-bbv3j631vggpue3nilbsdms0ifj3cioq.apps.googleusercontent.com",
+          scopes: ["profile", "email"]
         });
-        console.log(result)
+
+        
         if (result.type === 'success') {
             // firebase.auth.().currentUser() = 
             const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken)
             const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
+
+            const collection = db.collection('users')
+
+            collection.doc(firebase.auth().currentUser.uid).set({
+                firstName: result.user.givenName,
+                lastName: result.user.familyName,
+                email: result.user.email
+            })
             return result.accessToken;
         } else {
             return { cancelled: true };
@@ -47,7 +59,6 @@ export default class Login extends Component{
         firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
             const users = db.collection("users").doc(user.user.uid);
             
-            let getUser = users.get()
             .then(doc => {
                 if (!doc.exists) {
                     console.log('Typo? Or You fucked something up')
@@ -61,7 +72,6 @@ export default class Login extends Component{
             });
             
             
-            console.log(getUser)
 
         }).catch(error => this.setState({errorMessage: error.message}))
 
