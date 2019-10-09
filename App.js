@@ -1,8 +1,7 @@
 import React from "react";
 import { Dimensions } from "react-native";
 import LoadingScreen from "./components/LoadingScreen";
-// import Map from './components/Map'
-import Map from "./containers/MapContainer";
+import MapContainer from "./components/MapContainer";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Circle from "./components/Circle";
@@ -15,7 +14,7 @@ const drawerNavigation = createDrawerNavigator(
   {
     Home,
     Login,
-    Map,
+    MapContainer,
     Circle
   },
   {

@@ -13,18 +13,21 @@ const Map = props => {
       region={props.region}
     >
       <Marker coordinate={props.region}>
-        {props.selected.description ? (
-          <Callout>
-            <View>
-              <Text>
-                {props.selected.description}
-                {/* {props.selected.types[0]} */}
-              </Text>
-            </View>
-          </Callout>
-        ) : null}
+        {
+          props.selected.description ? (
+            <Callout>
+              <View>
+                <Text>
+                  {props.selected.description}
+                  {/* {props.selected.types[0]} */}
+                </Text>
+              </View>
+            </Callout>
+          ) : null
+        }
       </Marker>
     </MapView>
   );
 };
+
 export default Map;

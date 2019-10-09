@@ -32,7 +32,7 @@ export default class DrawerDesign extends React.Component {
                 <View>
                     {this.navLink('Home', 'Home')}
                     {this.navLink('Circle', 'Circle')}
-                    {this.navLink('Map', 'Map')}
+                    {this.navLink('MapContainer', 'Map')}
                     {this.navLink('Login', 'Login')}
                 </View>
                 </ScrollView>
@@ -44,13 +44,16 @@ export default class DrawerDesign extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        borderRightColor: 'black',
+        borderRightWidth: 1
     },
     top: {
         height: 140,
         backgroundColor: '#ff7f50',
         alignItems: 'center',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        borderBottomColor: 'black',
+        borderBottomWidth: 1
     },
     bottom: {
         flex: 1,
