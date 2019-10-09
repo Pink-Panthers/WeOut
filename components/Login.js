@@ -32,7 +32,6 @@ export default class Login extends Component{
 
         
         if (result.type === 'success') {
-            // firebase.auth.().currentUser() = 
             const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken)
             const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
 
@@ -56,25 +55,8 @@ export default class Login extends Component{
 
     handleLogin = () => {
         const {email, password} = this.state;
-        firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-            const users = db.collection("users").doc(user.user.uid)
-            
-            .then(doc => {
-                if (!doc.exists) {
-                    console.log('Typo? Or You fucked something up')
-                } else {
-                    console.log('HAH, GOTEEEEEEM', doc.data())
-                    console.log(firebase.auth().currentUser)
-                }
-            })
-            .catch(err => {
-                console.log('Error', err)
-            });
-            
-            
-
-        }).catch(error => this.setState({errorMessage: error.message}))
-
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(error => this.setState({errorMessage: error.message}))
     }
 
     handleSignUp = () => {
