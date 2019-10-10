@@ -1,20 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 import Menu from './Menu'
 
-const { width, height } = Dimensions.get("screen");
-
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
-    console.log(circleData)
+
     return (
         <View style={styles.container}>
             <Menu navigation={props.navigation}/>
             <View>
                 <Text style={styles.title}>{circleData.name}</Text>
             </View>
-            <MaterialIcons name="add-circle" size={32} style={styles.add} />
+            <MaterialIcons name="add-circle" size={32} style={styles.add} onPress={() => props.navigation.navigate('MapContainer')} />
             <View style={styles.body}>
 
                 <View style={styles.events}>
@@ -28,7 +26,7 @@ export default function Circle (props) {
                     </View>
 
                 <View style={styles.members}>
-                    <Text style={styles.subtitle}>Members</Text>
+                    <Text style={styles.subtitle} >Members</Text>
                     {
                         circleData.members.map(member => <Text key={Math.random() * 999}>{member}</Text>)
                     }
@@ -38,6 +36,8 @@ export default function Circle (props) {
         </View>
     )
 }
+
+const { width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
     container: {
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 40,
         paddingRight: 14,
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        zIndex: 9
     },
     body: {
         alignItems: 'center',

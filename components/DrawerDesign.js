@@ -30,7 +30,7 @@ export default class DrawerDesign extends React.Component {
   navLink(nav, text, circle) {
     return (
       <TouchableOpacity
-        onPress={ () => this.props.navigation.navigate(nav, {circle})}
+        onPress={() => this.props.navigation.navigate(nav, {circle})}
         key={Math.random() * 999}
       >
         <View style={styles.circle}>
