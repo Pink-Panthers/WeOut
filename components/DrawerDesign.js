@@ -7,9 +7,8 @@ export default class DrawerDesign extends React.Component {
   constructor() {
     super();
     this.state = {
-      userCircles: [],
-      selectedCircle: {}
-    };
+      userCircles: []
+    }
   }
 
   componentDidMount() {
@@ -17,20 +16,21 @@ export default class DrawerDesign extends React.Component {
       .doc(/*firebase.auth().currentUser.uid*/ "sampleUser")
       .get()
       .then(user => user.data().circles)
-      .then(circles => this.setState({ userCircles: circles }));
+      .then(circles => {
+        circles.forEach( circleID => {
+        db.collection('circles')
+        .doc(circleID)
+        .get()
+        .then( circle => this.setState({userCircles: [...this.state.userCircles, circle.data()]}))
+        })
+      })
   }
 
-  async selectCircle (id) {
-    const data = await db.collection(`${id}`).doc("sampleCircle").get()
-    // console.log(data.members)
-    this.setState({selectedCircle: data})
-  }
 
-  navLink(nav, text) {
-    const state = this.state
+  navLink(nav, text, circle) {
     return (
       <TouchableOpacity
-        onPress={() => {this.props.navigation.navigate(nav, state); this.selectCircle(text)}}
+        onPress={ () => this.props.navigation.navigate(nav, {circle})}
         key={Math.random() * 999}
       >
         <View style={styles.circle}>
@@ -43,11 +43,11 @@ export default class DrawerDesign extends React.Component {
           </Text>
         </View>
       </TouchableOpacity>
-    );
+    )
   }
 
   render() {
-    const { userCircles } = this.state;
+    const { userCircles } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.top}>
@@ -55,15 +55,10 @@ export default class DrawerDesign extends React.Component {
         </View>
         <ScrollView style={styles.bottom}>
           <View>
-            {userCircles.map(circleID =>
-              this.navLink("Circle", circleID)
+            {userCircles.map(circle =>
+              this.navLink("Circle", circle.name, circle)
             )}
             {this.navLink("Home", "Home")}
-            {/* {this.navLink('Circle', 'Circle')}
-                        {this.navLink('Circle', 'Circle')}
-                        {this.navLink('Circle', 'Circle')}
-                        {this.navLink('Circle', 'Circle')}
-                        {this.navLink('Circle', 'Circle')} */}
             {this.navLink("MapContainer", "Map")}
           </View>
         </ScrollView>
@@ -109,4 +104,4 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80
   }
-});
+})
