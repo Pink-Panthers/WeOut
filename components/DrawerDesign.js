@@ -7,7 +7,8 @@ export default class DrawerDesign extends React.Component {
   constructor() {
     super();
     this.state = {
-      userCircles: []
+      userCircles: [],
+      selectedCircle: {}
     };
   }
 
@@ -19,21 +20,26 @@ export default class DrawerDesign extends React.Component {
       .then(circles => this.setState({ userCircles: circles }));
   }
 
-  navLink(nav, text, third) {
+  async selectCircle (id) {
+    const data = await db.collection(`${id}`).doc("sampleCircle").get()
+    // console.log(data.members)
+    this.setState({selectedCircle: data})
+  }
+
+  navLink(nav, text) {
+    const state = this.state
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.navigate(nav)}
+        onPress={() => {this.props.navigation.navigate(nav, state); this.selectCircle(text)}}
         key={Math.random() * 999}
       >
         <View style={styles.circle}>
           <Image
             style={styles.icon}
             source={require("../assets/weOut.png")}
-            value={third}
           />
           <Text style={styles.link}>
             {text}
-            {third}
           </Text>
         </View>
       </TouchableOpacity>
@@ -41,7 +47,6 @@ export default class DrawerDesign extends React.Component {
   }
 
   render() {
-    console.log(this.state.userCircles);
     const { userCircles } = this.state;
     return (
       <View style={styles.container}>
@@ -51,7 +56,7 @@ export default class DrawerDesign extends React.Component {
         <ScrollView style={styles.bottom}>
           <View>
             {userCircles.map(circleID =>
-              this.navLink("Circle", circleID, "third")
+              this.navLink("Circle", circleID)
             )}
             {this.navLink("Home", "Home")}
             {/* {this.navLink('Circle', 'Circle')}
