@@ -4,6 +4,8 @@ import Menu from './Menu'
 
 
 export default function Circle (props) {
+    console.log(props.navigation.getParam('selectedCircle'))
+    console.log(props.navigation.getParam('userCircles'))
     return (
         <View style={styles.container}>
             <Menu navigation={props.navigation}/>
