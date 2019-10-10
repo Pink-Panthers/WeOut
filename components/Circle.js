@@ -17,6 +17,7 @@ export default function Circle (props) {
 
                 <View style={styles.events}>
                     <Text style={styles.subtitle}>Upcoming Events</Text>
+                    <View style={styles.list}>
                     {
                         circleData.upcomingEvents[0]
                         ? circleData.upcomingEvents.map(event => 
@@ -24,12 +25,15 @@ export default function Circle (props) {
                         : <Text>No Upcoming Events</Text>
                     }
                     </View>
+                </View>
 
                 <View style={styles.members}>
                     <Text style={styles.subtitle} >Members</Text>
+                    <View style={styles.list}>
                     {
                         circleData.members.map(member => <Text key={Math.random() * 999}>{member}</Text>)
                     }
+                    </View>
                 </View>
 
             </View>
@@ -42,7 +46,7 @@ const { width } = Dimensions.get("screen");
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: "#ff7f50",
     },
     title: {
         fontSize: 30,
@@ -70,10 +74,13 @@ const styles = StyleSheet.create({
    },
    subtitle: {
        fontSize: 20,
-       backgroundColor: "#ff7f50",
+       backgroundColor: "tan",
        width: width * .9,
        borderColor: 'black',
        borderWidth: 1,
        textAlign: 'center'
+   },
+   list: {
+       alignItems: 'center'
    }
 });

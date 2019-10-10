@@ -1,6 +1,7 @@
 import React from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons'
 
 const Map = props => {
   return (
@@ -15,11 +16,11 @@ const Map = props => {
       <Marker coordinate={props.region} image={require("../assets/weOut.png")}>
         {props.selected.description ? (
           <Callout>
-            <View>
-              <Text>
+            <View style={styles.callout}>
+              <Text style={{padding:2}}>
                 {props.selected.description}
-                {/* {props.selected.types[0]} */}
               </Text>
+              <MaterialIcons name="add-circle" size={22} style={{padding:2}}/>
             </View>
           </Callout>
         ) : null}
@@ -27,5 +28,11 @@ const Map = props => {
     </MapView>
   );
 };
+
+const styles = StyleSheet.create({
+  callout: {
+    alignItems: 'center'
+  }
+})
 
 export default Map;
