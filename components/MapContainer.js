@@ -75,6 +75,7 @@ export default class MapContainer extends React.Component {
             onPress={(data, details = null) => {
               this.notifyChange(details.geometry.location);
               this.setState({ selected: data });
+              console.log(details.geometry.location)
             }}
             query={{
               key: "AIzaSyDtL-Gqej9DslO6FZU49rSS8PFOwNUmFM4",

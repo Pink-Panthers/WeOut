@@ -6,7 +6,6 @@ export default function Menu (props) {
     return (
         <Ionicons
             name="md-menu"
-            color="black"
             size={32}
             style={styles.menu}
             onPress={() => props.navigation.toggleDrawer()}
