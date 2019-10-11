@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Button, Image, ImageBackground } from 'react-native'
 import Menu from './Menu'
 import * as firebase from "firebase";
 import db from "../firebase";
@@ -40,31 +40,34 @@ export default class Home extends Component {
     }
     console.log(startTime())
     return (
-      
       <View style={styles.container}>
-          <Menu navigation={this.props.navigation} />
-      <View style={styles.auth}>
-          <Text style={{ marginTop: 100 }}>Hi {this.state.email}!</Text>
-          <TouchableOpacity style={{ marginTop: 1 }} onPress={this.signOutUser}>
-            <Text>Logout</Text>
-          </TouchableOpacity>
-        <Text>
-          Below are your events.
-        </Text>
-      </View>
+        <ImageBackground
+          source={{
+            uri:
+              "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
+          }}
+          style={styles.bgImage}
+        >
+        <Menu navigation={this.props.navigation} />
+          <View style={styles.auth}>
+            <Text style={{ marginTop: 100, color: "white" }}>Hi {this.state.email}!</Text>
+            <TouchableOpacity
+              style={{ marginTop: 1 }}
+              onPress={this.signOutUser}
+            >
+              <Text style={{color: "white"}}>Logout</Text>
+            </TouchableOpacity>
+            <Text style={{color: "white"}}>Below are your events.</Text>
+          </View>
 
-      <View style={styles.event}>
-        <View style={styles.singleEvent}>
-            <Text>{this.state.event.location}</Text>
-            <Text>{this.state.event.address} on </Text>
-            <Text>{this.state.event.description}</Text>
-        </View>
-
-
-      </View>
-
-
-
+          <View style={styles.event}>
+            <View style={styles.singleEvent}>
+              <Text>{this.state.event.location}</Text>
+              <Text>{this.state.event.address} on </Text>
+              <Text>{this.state.event.description}</Text>
+            </View>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -72,6 +75,14 @@ export default class Home extends Component {
 
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    top: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 420
+  },
   singleEvent: {
     justifyContent: "center",
     padding: 50,
@@ -87,7 +98,8 @@ const styles = StyleSheet.create({
   },
   auth: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    color: "white"
   },
   event: {
     flex: 4,

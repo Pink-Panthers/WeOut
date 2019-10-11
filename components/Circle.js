@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Button,
+  ImageBackground
+} from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons'
 import Menu from './Menu'
@@ -16,6 +23,13 @@ export default function Circle (props) {
 
     return (
         <View style={styles.container}>
+            <ImageBackground
+                source={{
+                    uri:
+                        "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
+                }}
+                style={styles.bgImage}
+            >
             <Menu navigation={props.navigation}/>
             <View>
                 <Text style={styles.title}>{circleData.name}</Text>
@@ -68,6 +82,8 @@ export default function Circle (props) {
                 </View>
 
             </View>
+            </ImageBackground>
+
         </View>
     )
 }
@@ -75,6 +91,14 @@ export default function Circle (props) {
 const { width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
+    bgImage: {
+        flex: 1,
+        top: 0,
+        left: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 420
+    },
     container: {
         flex: 1,
         backgroundColor: "#ff7f50",
