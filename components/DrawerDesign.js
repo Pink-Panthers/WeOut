@@ -1,9 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import firebase from 'firebase'
 import db from "../firebase";
 
-export default class DrawerDesign extends React.Component {
+
+
+export default class DrawerDesign extends Component {
   constructor() {
     super();
     this.state = {
@@ -13,7 +16,7 @@ export default class DrawerDesign extends React.Component {
 
   componentDidMount() {
     db.collection("users")
-      .doc(/*firebase.auth().currentUser.uid*/ "sampleUser")
+      .doc(firebase.auth().currentUser.uid)
       .get()
       .then(user => user.data().circles)
       .then(circles => {
@@ -21,9 +24,27 @@ export default class DrawerDesign extends React.Component {
         db.collection('circles')
         .doc(circleID)
         .get()
-        .then( circle => this.setState({userCircles: [...this.state.userCircles, circle.data()]}))
+        .then( circle => {
+          this.setState({userCircles: [...this.state.userCircles, circle.data()]})
+          console.log(circle.data())
+        })
         })
       })
+
+    db.collection("users").doc(firebase.auth().currentUser.uid)
+    .onSnapshot(function(snapshot) {
+      snapshot.docChanges().forEach(function(change) {
+          if (change.type === "added") {
+              console.log(change.doc.data())
+          }
+          if (change.type === "modified") {
+              console.log("Modified city: ", change.doc.data())
+          }
+          if (change.type === "removed") {
+              console.log("Removed city: ", change.doc.data())
+          }
+      })
+    })
   }
 
 
@@ -59,6 +80,7 @@ export default class DrawerDesign extends React.Component {
               this.navLink("Circle", circle.name, circle)
             )}
             {this.navLink("Home", "Home")}
+            {this.navLink("CreateCircle", "New Circle")}
             {this.navLink("MapContainer", "Map")}
           </View>
         </ScrollView>

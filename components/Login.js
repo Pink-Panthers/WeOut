@@ -1,12 +1,13 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text } from "react-native"
-import { TextInput, Button, Alert, Image, TouchableHighlight } from 'react-native'
+import { TextInput, Button, Image, TouchableHighlight } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import '../firebase'
 import * as firebase from 'firebase'
 import db from '../firebase'
 import * as Google from 'expo-google-app-auth'
-import { GoogleUser, GoogleAuthData } from "expo-google-sign-in";
+
+
 export default class Login extends Component{
 
     state = {
@@ -41,7 +42,7 @@ export default class Login extends Component{
                 firstName: result.user.givenName,
                 lastName: result.user.familyName,
                 email: result.user.email
-            })
+            }, { merge: true })
             return result.accessToken;
         } else {
             return { cancelled: true };
@@ -94,20 +95,20 @@ export default class Login extends Component{
                     <View style={styles.innerContainer}>
                         <View>
                             <TextInput
-                            autoCapitalize="none"
-                            onChangeText={email => this.setState({ email })}
-                            value={this.state.email}
-                            style={styles.texts}
-                            placeholder="Email"
-                            maxLength={30}
+                                autoCapitalize="none"
+                                onChangeText={email => this.setState({ email })}
+                                value={this.state.email}
+                                style={styles.texts}
+                                placeholder="Email"
+                                maxLength={30}
                             />
                             <TextInput
-                            autoCapitalize="none"
-                            onChangeText={password => this.setState({ password })}
-                            value={this.state.password}
-                            style={styles.texts}
-                            secureTextEntry={true}
-                            placeholder="Password"
+                                autoCapitalize="none"
+                                onChangeText={password => this.setState({ password })}
+                                value={this.state.password}
+                                style={styles.texts}
+                                secureTextEntry={true}
+                                placeholder="Password"
                             />
                         </View> 
                         <View>
@@ -117,8 +118,8 @@ export default class Login extends Component{
                                     onPress={this.handleLogin}
                                 />
                                 <Button
-                                title="Sign Up"
-                                onPress={this.toggleSignUp}
+                                    title="Sign Up"
+                                    onPress={this.toggleSignUp}
                                 />
                             </View>
                             <View style={styles.oath}>
@@ -172,12 +173,12 @@ export default class Login extends Component{
                         </View>
                         <View>
                             <TextInput
-                            autoCapitalize="none"
-                            onChangeText={firstName => this.setState({ firstName })}
-                            value={this.state.firstName}
-                            style={styles.texts}
-                                placeholder="First Name"
-                            maxLength={30}
+                                autoCapitalize="none"
+                                onChangeText={firstName => this.setState({ firstName })}
+                                value={this.state.firstName}
+                                style={styles.texts}
+                                    placeholder="First Name"
+                                maxLength={30}
                             />
                             <TextInput
                                 autoCapitalize="none"
