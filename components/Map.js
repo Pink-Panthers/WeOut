@@ -1,7 +1,7 @@
 import React from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { View, Text, StyleSheet } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Map = props => {
   return (
@@ -17,10 +17,23 @@ const Map = props => {
         {props.selected.description ? (
           <Callout>
             <View style={styles.callout}>
-              <Text style={{padding:2}}>
-                {props.selected.description}
+              <Text style={{ padding: 2 }}>
+                <Text style={{ padding: 2 }}>
+                  {props.details.name}
+                  {"\n"}
+                  {props.details.formatted_address}
+                  {"\n"}
+                  {props.details.formatted_phone_number}
+                  {"\nOpening Hours:"}
+                  {"\n"}
+                  {props.details.opening_hours.weekday_text.join("\n")}
+                </Text>
               </Text>
-              <MaterialIcons name="add-circle" size={22} style={{padding:2}}/>
+              <MaterialIcons
+                name="add-circle"
+                size={22}
+                style={{ padding: 2 }}
+              />
             </View>
           </Callout>
         ) : null}
@@ -31,8 +44,8 @@ const Map = props => {
 
 const styles = StyleSheet.create({
   callout: {
-    alignItems: 'center'
+    alignItems: "center"
   }
-})
+});
 
 export default Map;
