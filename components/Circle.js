@@ -7,11 +7,19 @@ import {
   Button,
   ImageBackground
 } from "react-native";
+import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons'
 import Menu from './Menu'
+import db from '../firebase';
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
+    // const events = () => circleData.upcomingEvents.map(eventID => {
+    //     db.collection('events')
+    //     .doc(eventID)
+    //     .get()
+    // })
+    // console.log(events)
 
     return (
         <View style={styles.container}>
@@ -26,28 +34,50 @@ export default function Circle (props) {
             <View>
                 <Text style={styles.title}>{circleData.name}</Text>
             </View>
-            <MaterialIcons name="add-circle" size={32} style={styles.add} onPress={() => props.navigation.navigate('MapContainer')} />
             <View style={styles.body}>
 
                 <View style={styles.events}>
-                    <Text style={styles.subtitle}>Upcoming Events</Text>
+                    <View style={styles.subtitle}>
+                        <View style={styles.icon}></View>
+                        <Text style={styles.titleText}>Upcoming Events</Text>
+                        <View style={styles.icon}>
+                            <MaterialIcons 
+                                name="add-circle"
+                                style={styles.add} 
+                                onPress={() => props.navigation.navigate('MapContainer')} 
+                            />
+                        </View>
+                    </View>
                     <View style={styles.eventList}>
+                    <ScrollView>
                     {
                         circleData.upcomingEvents[0]
                         ? circleData.upcomingEvents.map(event => 
                             <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
                         : <Text>No Upcoming Events</Text>
                     }
+                    </ScrollView>
                     </View>
                 </View>
 
                 <View style={styles.members}>
-                    <Text style={styles.subtitle}>Members</Text>
+                    <View style={styles.subtitle}>
+                        <View style={styles.icon}></View>
+                        <Text style={styles.titleText}>Members</Text>
+                        <View style={styles.icon}>
+                            <MaterialIcons 
+                                name="add-circle" 
+                                style={styles.add} 
+                            />
+                        </View>
+                    </View>
                     <View style={styles.memberList}>
+                    <ScrollView>
                     {
                         circleData.members.map(member => 
                         <Text key={Math.random() * 999} style={styles.member}>{member}</Text>)
                     }
+                    </ScrollView>
                     </View>
                 </View>
 
@@ -79,34 +109,30 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         top: 40
     },
-    add: {
-        position: 'absolute',
-        top: 40,
-        paddingRight: 14,
-        alignSelf: 'flex-end',
-        zIndex: 9
-    },
     body: {
         alignItems: 'center',
         flex: 1
     },
     events: {
-        flex: 1,
+        flex: 5,
         marginTop: 60
     },
    members: {
-       flex: 1
+       flex: 3,
+       paddingTop: 60
    },
    subtitle: {
-       fontSize: 20,
        backgroundColor: "tan",
        width: width * 0.9,
        borderColor: 'black',
        borderWidth: 1,
-       textAlign: 'center',
        marginVertical: 10,
        paddingVertical: 6,
-       alignSelf: 'center'
+       borderRadius: 10,
+       overflow: 'hidden',
+       alignItems: 'center',
+       justifyContent: 'center',
+       flexDirection: 'row'
    },
    eventList: {
        alignItems: 'center',
@@ -121,19 +147,36 @@ const styles = StyleSheet.create({
        width: width * 0.9,
        borderColor: 'black',
        borderWidth: 1,
-       fontSize: 20,
        marginVertical: 10,
-       padding: 3,
-       backgroundColor: '#ffdbac'
+       padding: 50,
+       height: 120,
+       backgroundColor: '#ffdbac',
+       borderRadius: 10,
+       overflow: 'hidden',
+       textAlign: 'center'
    },
    member: {
-        width: width * 0.42,
+        width: width * 0.3,
         borderColor: 'black',
         borderWidth: 1,
-        fontSize: 20,
-        margin: 10,
+        marginVertical: 10,
         padding: 3,
         backgroundColor: '#ffdbac',
+        textAlign: 'center',
+        borderRadius: 10,
+        overflow: 'hidden'
+   },
+   add: {
+        fontSize: 22,
+        alignSelf: 'flex-end',
+        marginRight: 6
+   },
+   titleText: {
+        fontSize: 16,
+        flex: 2,
         textAlign: 'center'
+   },
+   icon: {
+       flex: 1
    }
 });
