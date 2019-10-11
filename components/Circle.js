@@ -1,11 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons'
 import Menu from './Menu'
-import { ScrollView } from 'react-native-gesture-handler';
+import db from '../firebase';
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
+    // const events = () => circleData.upcomingEvents.map(eventID => {
+    //     db.collection('events')
+    //     .doc(eventID)
+    //     .get()
+    // })
+    // console.log(events)
 
     return (
         <View style={styles.container}>
@@ -21,12 +28,11 @@ export default function Circle (props) {
                         <Text style={styles.titleText}>Upcoming Events</Text>
                         <View style={styles.icon}>
                             <MaterialIcons 
-                                name="add-circle" 
+                                name="add-circle"
                                 style={styles.add} 
                                 onPress={() => props.navigation.navigate('MapContainer')} 
                             />
                         </View>
-                        
                     </View>
                     <View style={styles.eventList}>
                     <ScrollView>
