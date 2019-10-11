@@ -62,7 +62,7 @@ export default class MapContainer extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Menu navigation={this.props.navigation}/>
         <View style={styles.input}>
           <GooglePlacesAutocomplete
@@ -102,8 +102,8 @@ export default class MapContainer extends React.Component {
 
 const styles = StyleSheet.create({
   input: {
-    width: width*0.7,
-    height: height * 0.12,
+    width: width * 0.68,
+    height: height * 0.16,
     paddingTop: 10,
     marginTop: 30,
     alignSelf: "center"

@@ -17,21 +17,22 @@ export default function Circle (props) {
 
                 <View style={styles.events}>
                     <Text style={styles.subtitle}>Upcoming Events</Text>
-                    <View style={styles.list}>
+                    <View style={styles.eventList}>
                     {
                         circleData.upcomingEvents[0]
                         ? circleData.upcomingEvents.map(event => 
-                            <Text key={Math.random() * 999}>{event}</Text>)
+                            <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
                         : <Text>No Upcoming Events</Text>
                     }
                     </View>
                 </View>
 
                 <View style={styles.members}>
-                    <Text style={styles.subtitle} >Members</Text>
-                    <View style={styles.list}>
+                    <Text style={styles.subtitle}>Members</Text>
+                    <View style={styles.memberList}>
                     {
-                        circleData.members.map(member => <Text key={Math.random() * 999}>{member}</Text>)
+                        circleData.members.map(member => 
+                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>)
                     }
                     </View>
                 </View>
@@ -75,12 +76,40 @@ const styles = StyleSheet.create({
    subtitle: {
        fontSize: 20,
        backgroundColor: "tan",
-       width: width * .9,
+       width: width * 0.9,
        borderColor: 'black',
        borderWidth: 1,
-       textAlign: 'center'
+       textAlign: 'center',
+       marginVertical: 10,
+       paddingVertical: 6,
+       alignSelf: 'center'
    },
-   list: {
-       alignItems: 'center'
+   eventList: {
+       alignItems: 'center',
+   },
+   memberList: {
+       marginLeft: 10,
+       justifyContent: 'flex-start',
+       flexDirection: 'row',
+       flexWrap: 'wrap'
+   },
+   event: {
+       width: width * 0.9,
+       borderColor: 'black',
+       borderWidth: 1,
+       fontSize: 20,
+       marginVertical: 10,
+       padding: 3,
+       backgroundColor: '#ffdbac'
+   },
+   member: {
+        width: width * 0.42,
+        borderColor: 'black',
+        borderWidth: 1,
+        fontSize: 20,
+        margin: 10,
+        padding: 3,
+        backgroundColor: '#ffdbac',
+        textAlign: 'center'
    }
 });
