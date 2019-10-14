@@ -64,12 +64,10 @@ export default class DrawerDesign extends Component {
         <ScrollView style={styles.bottom}>
           <View>
             {this.navLink("Home", "Home")}
+            {this.navLink("CreateCircle", "Create Circle", userCircles)}
             {userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
             )}
-            {this.navLink("Home", "Home")}
-            {this.navLink("CreateCircle", "New Circle", userCircles)}
-            {this.navLink("MapContainer", "Map")}
           </View>
         </ScrollView>
       </View>

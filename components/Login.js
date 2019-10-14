@@ -316,7 +316,7 @@ export default class Login extends Component {
                     firstName: result.user.givenName,
                     lastName: result.user.familyName,
                     email: result.user.email
-                })
+                }, { merge: true })
                 return result.accessToken;
             } else {
                 return { cancelled: true };
