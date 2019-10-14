@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import firebase from 'firebase'
 import db from '../firebase'
 import { updateDrawerState } from './DrawerDesign'
+import Menu from './Menu'
 
 export default class CreateCircle extends Component {
     constructor(props) {
@@ -40,6 +41,7 @@ export default class CreateCircle extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Menu navigation={this.props.navigation}/>
                 <TextInput
                     autoCapitalize="none"
                     onChangeText={name => {this.setState({ name })}}

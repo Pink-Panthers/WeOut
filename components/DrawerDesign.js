@@ -58,16 +58,21 @@ export default class DrawerDesign extends Component {
     const { userCircles } = this.state
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')} >
         <View style={styles.top}>
-          <Image style={styles.logo} source={require("../assets/weOut.png")} />
+          <Image 
+            style={styles.logo} 
+            source={require("../assets/weOut.png")}
+          />
         </View>
+        </TouchableOpacity>
         <ScrollView style={styles.bottom}>
           <View>
-            {this.navLink("Home", "Home")}
             {this.navLink("CreateCircle", "Create Circle", userCircles)}
             {userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
             )}
+            {this.navLink("CreateEvent", "Create Event", userCircles)}
           </View>
         </ScrollView>
       </View>
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
   },
   top: {
     height: 140,
-    backgroundColor: "#ff7f50",
+    backgroundColor: "#7f99b1",
     alignItems: "center",
     justifyContent: "flex-end",
     borderBottomColor: "black",
@@ -106,7 +111,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     height: 100,
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 12
   },
   icon: {
     width: 80,

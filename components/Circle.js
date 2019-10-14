@@ -14,12 +14,6 @@ import db from '../firebase';
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
-    // const events = () => circleData.upcomingEvents.map(eventID => {
-    //     db.collection('events')
-    //     .doc(eventID)
-    //     .get()
-    // })
-    // console.log(events)
 
     return (
         <View style={styles.container}>
@@ -51,7 +45,7 @@ export default function Circle (props) {
                     <View style={styles.eventList}>
                     <ScrollView>
                     {
-                        circleData.upcomingEvents[0]
+                        circleData.upcomingEvents
                         ? circleData.upcomingEvents.map(event => 
                             <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
                         : <Text>No Upcoming Events</Text>
