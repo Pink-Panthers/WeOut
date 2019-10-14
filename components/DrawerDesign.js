@@ -38,7 +38,7 @@ export default class DrawerDesign extends Component {
   navLink(nav, text, circle) {
     return (
       <TouchableOpacity
-        onPress={ () => this.props.navigation.navigate(nav, {circle})}
+        onPress={() => this.props.navigation.navigate(nav, {circle})}
         key={Math.random() * 999}
       >
         <View style={styles.circle}>
@@ -63,6 +63,7 @@ export default class DrawerDesign extends Component {
         </View>
         <ScrollView style={styles.bottom}>
           <View>
+            {this.navLink("Home", "Home")}
             {userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
             )}

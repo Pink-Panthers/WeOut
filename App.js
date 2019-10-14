@@ -15,6 +15,7 @@ const drawerNavigation = createDrawerNavigator(
   {
     Home,
     CreateCircle,
+    Login,
     Circle,
     MapContainer
   },
