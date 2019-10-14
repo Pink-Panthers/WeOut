@@ -1,12 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Button, Image, ImageBackground } from 'react-native'
-import Menu from './Menu'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ImageBackground
+} from "react-native";
+import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
 
 export default class Home extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       email: "",
       displayName: "",
@@ -15,11 +21,12 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-
-    db.collection("events").doc("sampleEvent").get().then((event) => {
-      this.setState({event: event.data()})
-    })
-
+    db.collection("events")
+      .doc("sampleEvent")
+      .get()
+      .then(event => {
+        this.setState({ event: event.data() });
+      });
 
     const { email, displayName } = firebase.auth().currentUser;
     this.setState({ email, displayName });
@@ -31,14 +38,14 @@ export default class Home extends Component {
 
   render() {
     const startTime = () => {
-      if(this.state.event.startTime) {
-        const timer = this.state.event.startTime.seconds
+      if (this.state.event.startTime) {
+        const timer = this.state.event.startTime.seconds;
         if (timer) {
-          return (new Date(timer * 1000))
+          return new Date(timer * 1000);
         }
       }
-    }
-    console.log(startTime())
+    };
+    console.log(startTime());
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -48,16 +55,18 @@ export default class Home extends Component {
           }}
           style={styles.bgImage}
         >
-        <Menu navigation={this.props.navigation} />
+          <Menu navigation={this.props.navigation} />
           <View style={styles.auth}>
-            <Text style={{ marginTop: 100, color: "white" }}>Hi {this.state.email}!</Text>
+            <Text style={{ marginTop: 100, color: "white" }}>
+              Hi {this.state.email}!
+            </Text>
             <TouchableOpacity
               style={{ marginTop: 1 }}
               onPress={this.signOutUser}
             >
-              <Text style={{color: "white"}}>Logout</Text>
+              <Text style={{ color: "white" }}>Logout</Text>
             </TouchableOpacity>
-            <Text style={{color: "white"}}>Below are your events.</Text>
+            <Text style={{ color: "white" }}>Below are your events.</Text>
           </View>
 
           <View style={styles.event}>
@@ -73,14 +82,13 @@ export default class Home extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
     top: 0,
     left: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 420
   },
   singleEvent: {
@@ -88,13 +96,13 @@ const styles = StyleSheet.create({
     padding: 50,
     alignItems: "center",
     height: 120,
-    backgroundColor: '#ffdbac',
+    backgroundColor: "#ffdbac",
     borderBottomColor: "black",
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderLeftWidth: 1,
     borderRightWidth: 1,
-    borderRadius: 10,
+    borderRadius: 10
   },
   auth: {
     flex: 1,
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
   },
   event: {
     flex: 4,
-    alignItems: "center",
+    alignItems: "center"
 
     // marginTop: 75,
   },
@@ -117,12 +125,11 @@ const styles = StyleSheet.create({
   }
 });
 
-
-  
-
-{/* <View>
+{
+  /* <View>
             <Image
             style={{ width: 200, height: 200, borderRadius: 50, marginBottom: 50 }}
             source={{ uri: img.slice(0, img.length - 6) }}
             />
-            </View> */}
+            </View> */
+}
