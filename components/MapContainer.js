@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { getLocation } from "../services/getLocation";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -7,7 +7,7 @@ import Menu from "./Menu";
 
 const { width, height } = Dimensions.get("screen");
 
-export default class MapContainer extends React.Component {
+export default class MapContainer extends Component {
   state = {
     region: {},
     selected: {},

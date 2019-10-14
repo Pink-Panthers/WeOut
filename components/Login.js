@@ -305,9 +305,7 @@ export default class Login extends Component {
                 iosClientId:
                     "122621961076-bbv3j631vggpue3nilbsdms0ifj3cioq.apps.googleusercontent.com",
                 scopes: ["profile", "email"]
-            });
-
-
+            })
             if (result.type === 'success') {
                 const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken, result.accessToken)
                 const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
@@ -350,7 +348,6 @@ export default class Login extends Component {
     }
 
     toggleSignUp = () => {
-        console.log(firebase.auth().currentUser)
         this.setState({ signingUp: !this.state.signingUp })
     }
 
@@ -415,8 +412,7 @@ export default class Login extends Component {
 
                             />
                         </View>
-                        <TouchableOpacity onPress={this.handleLogin}
->
+                        <TouchableOpacity onPress={this.handleLogin}>
                             <Button
                                 title="LOG IN"
                                 activeOpacity={1}
@@ -443,7 +439,6 @@ export default class Login extends Component {
                                     activeOpacity={0.5}
                                     titleStyle={{ color: 'white', fontSize: 15 }}
                                     containerStyle={{ marginTop: -10 }}
-                                    
                                 />
                             </TouchableOpacity>
                                     <TouchableHighlight
@@ -529,7 +524,6 @@ export default class Login extends Component {
                                     autoCapitalize="none"
                                     autoCorrect={false}
                                     placeholderTextColor="white"
-
                                 />
                                 <Input
                                     leftIcon={
