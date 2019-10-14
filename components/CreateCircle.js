@@ -4,6 +4,7 @@ import { TextInput, Button, Image, TouchableHighlight } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import firebase from 'firebase'
 import db from '../firebase'
+import { updateDrawerState } from './DrawerDesign'
 
 export default class CreateCircle extends Component {
     constructor(props) {
@@ -17,6 +18,8 @@ export default class CreateCircle extends Component {
     
 
     handleSubmit() {
+        console.log(firebase.auth().currentUser)
+        updateDrawerState({ userCircles: [...this.props.navigation.getParam('circle'), {name: this.state.name, memberIDs: [firebase.auth().currentUser.uid], memberNames: [firebase.auth().currentUser.displayName]}]})
         db.collection('circles').doc().set({name: this.state.name, members: [firebase.auth().currentUser.uid]})
         .then( () => {
             db.collection('circles').where('members', 'array-contains', `${firebase.auth().currentUser.uid}`).get()

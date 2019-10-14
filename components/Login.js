@@ -73,7 +73,6 @@ export default class Login extends Component{
         ).catch(error => this.setState({errorMessage: error.message}))
     }
     toggleSignUp = () => {
-        console.log(firebase.auth().currentUser)
         this.setState({signingUp: !this.state.signingUp})
     }
 
