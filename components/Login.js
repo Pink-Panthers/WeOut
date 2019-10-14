@@ -87,9 +87,9 @@
 //                             style={{ width: 200, height: 200 }}
 //                             source={require("../assets/weOut.png")}
 //                         />
-//                     <View style={styles.errorMessage}>
-//                         {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
-//                     </View>
+                    // <View style={styles.errorMessage}>
+                    //     {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
+                    // </View>
 //                     </View>
 //                     <View style={styles.innerContainer}>
 //                         <View>
@@ -358,11 +358,15 @@ export default class Login extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground source={{ uri: 'https://images.unsplash.com/photo-1539136831565-c85f368448a3?ixlib=rb-1.2.1&w=1000&q=80'}} style={styles.bgImage}>
+
                 <View 
                 style={styles.TopBgImage}
                         backgroundColor="rgba(52, 52, 52, 0.8)">
                     {!this.state.signingUp ?
                     <View style={styles.loginView}>
+                                <View style={styles.errorMessage}>
+                                    {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
+                                </View>
                         <View style={styles.logo}>
                         <Image
                             style={{ width: 200, height: 200 }}
@@ -461,6 +465,9 @@ export default class Login extends Component {
                 //     enableOnAndroid={true}
                 // >
                         <View style={styles.loginView}>
+                                <View style={styles.errorMessage}>
+                                    {this.state.errorMessage ? <Text style={styles.error}>{this.state.errorMessage}</Text> : <View />}
+                                </View>
                             <View style={styles.logo}>
                                 <Image
                                     style={{ width: 200, height: 200 }}
@@ -601,6 +608,10 @@ export default class Login extends Component {
 }
 
 const styles = StyleSheet.create({
+    error: {
+        color: "white",
+  
+    },
     container: {
         flex: 1,
     },
