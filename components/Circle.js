@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -7,80 +7,81 @@ import {
   Button,
   ImageBackground
 } from "react-native";
-import { ScrollView } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons'
-import Menu from './Menu'
-import db from '../firebase';
+import { ScrollView } from "react-native-gesture-handler";
+import { MaterialIcons } from "@expo/vector-icons";
+import Menu from "./Menu";
+import db from "../firebase";
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
     console.log(circleData)
 
-    return (
-        <View style={styles.container}>
-            <ImageBackground
-                source={{
-                    uri:
-                        "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
-                }}
-                style={styles.bgImage}
-            >
-            <Menu navigation={props.navigation}/>
-            <View>
-                <Text style={styles.title}>{circleData.name}</Text>
-            </View>
-            <View style={styles.body}>
 
-                <View style={styles.events}>
-                    <View style={styles.subtitle}>
-                        <View style={styles.icon}></View>
-                        <Text style={styles.titleText}>Upcoming Events</Text>
-                        <View style={styles.icon}>
-                            <MaterialIcons 
-                                name="add-circle"
-                                style={styles.add} 
-                                onPress={() => props.navigation.navigate('MapContainer', circleData)} 
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.eventList}>
-                    <ScrollView>
-                    {
-                        circleData.upcomingEvents
-                        ? circleData.upcomingEvents.map(event => 
-                            <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
-                        : <Text>No Upcoming Events</Text>
-                    }
-                    </ScrollView>
-                    </View>
-                </View>
-
-                <View style={styles.members}>
-                    <View style={styles.subtitle}>
-                        <View style={styles.icon}></View>
-                        <Text style={styles.titleText}>Members</Text>
-                        <View style={styles.icon}>
-                            <MaterialIcons 
-                                name="add-circle" 
-                                style={styles.add} 
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.memberList}>
-                    <ScrollView>
-                    {
-                        circleData.members.map(member => 
-                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>)
-                    }
-                    </ScrollView>
-                    </View>
-                </View>
-
-            </View>
-            </ImageBackground>
-
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={{
+          uri:
+            "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
+        }}
+        style={styles.bgImage}
+      >
+        <Menu navigation={props.navigation} />
+        <View>
+          <Text style={styles.title}>{circleData.name}</Text>
         </View>
-    )
+        <View style={styles.body}>
+          <View style={styles.events}>
+            <View style={styles.subtitle}>
+              <View style={styles.icon}></View>
+              <Text style={styles.titleText}>Upcoming Events</Text>
+              <View style={styles.icon}>
+                <MaterialIcons
+                  name="add-circle"
+                  style={styles.add}
+                  onPress={() => props.navigation.navigate("MapContainer")}
+                />
+              </View>
+            </View>
+
+            <View style={styles.eventList}>
+              <ScrollView>
+                {circleData.upcomingEvents ? (
+                  circleData.upcomingEvents.map(event => (
+                    <Text key={Math.random() * 999} style={styles.event}>
+                      {event}
+                    </Text>
+                  ))
+                ) : (
+                  <Text>No Upcoming Events</Text>
+                )}
+              </ScrollView>
+
+            </View>
+          </View>
+
+          <View style={styles.members}>
+            <View style={styles.subtitle}>
+              <View style={styles.icon}></View>
+              <Text style={styles.titleText}>Members</Text>
+              <View style={styles.icon}>
+                <MaterialIcons name="add-circle" style={styles.add} />
+              </View>
+            </View>
+            <View style={styles.memberList}>
+              <ScrollView>
+                {circleData.members.map(member => (
+                  <Text key={Math.random() * 999} style={styles.member}>
+                    {member}
+                  </Text>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+  );
 }
 
 const { width } = Dimensions.get("screen");
