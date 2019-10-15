@@ -22,7 +22,7 @@ export default class Home extends Component {
 
   componentDidMount() {
     db.collection("events")
-      .doc("sampleEvent")
+      .doc("eventID1")
       .get()
       .then(event => {
         this.setState({ event: event.data() });
