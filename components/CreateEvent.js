@@ -9,24 +9,51 @@ export default class CreateEvent extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            visible: false,
+            startVisibility: false,
+            endVisibility: false,
             eventName: '',
             placeName: '',
-            address: ''
+            address: '',
+            description: '',
+            startTime: '',
+            endTime: ''
         }
-        this.showTimePicker = this.showTimePicker.bind(this)
-        this.hideTimePicker = this.hideTimePicker.bind(this)
+        this.showStartPicker = this.showStartPicker.bind(this)
+        this.hideStartPicker = this.hideStartPicker.bind(this)
+        this.handleStartPicker = this.handleStartPicker.bind(this)
+        this.showEndPicker = this.showEndPicker.bind(this)
+        this.hideEndPicker = this.hideEndPicker.bind(this)
+        this.handleEndPicker = this.handleEndPicker.bind(this)
     }
 
-    showTimePicker () {
-        this.setState({visible: true})
+    showStartPicker () {
+        this.setState({startVisibility: true})
     }
 
-    hideTimePicker () {
-        this.setState({visible: false})
+    hideStartPicker () {
+        this.setState({startVisibility: false})
+    }
+
+    handleStartPicker (date) {
+        this.setState({startTime: date})
+        this.hideStartPicker()
+    }
+
+    showEndPicker () {
+        this.setState({endVisibility: true})
+    }
+
+    hideEndPicker () {
+        this.setState({endVisibility: false})
+    }
+
+    handleEndPicker (date) {
+        this.setState({endTime: date})
+        this.hideEndPicker()
     }
 
     render() {
+        console.log(this.props.navigation.getParam('circleData'))
         return (
             <View style={styles.container}>
                 <Menu navigation={this.props.navigation}/>
@@ -55,6 +82,14 @@ export default class CreateEvent extends Component{
                     placeholder="Address"
                     maxLength={10}
                 />
+                <TextInput
+                    autoCapitalize="none"
+                    onChangeText={description => {this.setState({ description })}}
+                    value={this.state.description}
+                    style={styles.text}
+                    placeholder="Description"
+                    maxLength={30}
+                />
                 <View style={styles.calendar}>
                     <CalendarList
                         // Max amount of months allowed to scroll to the past. Default = 50
@@ -71,13 +106,21 @@ export default class CreateEvent extends Component{
                     />          
                 </View>
                 <DateTimePicker
-                    isVisible={this.state.visible}
-                    onConfirm={() => console.log('YERRRRRR')}
-                    onCancel={this.hideTimePicker}
-                    mode='time'
-                    titleIOS='Select Time'
+                    isVisible={this.state.startVisibility}
+                    onConfirm={this.handleStartPicker}
+                    onCancel={this.hideStartPicker}
+                    mode='datetime'
+                    titleIOS='Select Start Date and Time'
                 />
-                <Button title='Select Time' onPress={this.showTimePicker}/>
+                <DateTimePicker
+                    isVisible={this.state.endVisibility}
+                    onConfirm={this.handleEndPicker}
+                    onCancel={this.hideEndPicker}
+                    mode='datetime'
+                    titleIOS='Select End Date and Time'
+                />
+                <Button title='Select Start Date and Time' onPress={this.showStartPicker}/>
+                <Button title='Select End Date and Time' onPress={this.showEndPicker}/>
                 <Button title="Submit"/>
             </View>
         )

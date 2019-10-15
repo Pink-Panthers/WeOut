@@ -10,7 +10,6 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
-import db from "../firebase";
 
 export default class Circle extends Component {
     constructor(props) {
@@ -72,7 +71,7 @@ export default class Circle extends Component {
                             <MaterialIcons 
                                 name="add-circle"
                                 style={styles.add} 
-                                onPress={() => this.props.navigation.navigate('MapContainer')} 
+                                onPress={() => props.navigation.navigate('MapContainer', {circleData})} 
                             />
                         </View>
                     </View>

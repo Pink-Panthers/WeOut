@@ -65,6 +65,7 @@ export default class MapContainer extends Component {
   }
 
   render() {
+    const circleData = this.props.navigation.getParam('circleData')
     return (
       <View style={{ flex: 1 }}>
         <Menu navigation={this.props.navigation} />
@@ -98,6 +99,7 @@ export default class MapContainer extends Component {
               selected={this.state.selected}
               details={this.state.details}
               navigation={this.props.navigation}
+              circleData={circleData}
             />
           </View>
         ) : null}
