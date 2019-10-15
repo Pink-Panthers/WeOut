@@ -8,10 +8,13 @@ import Menu from "./Menu";
 const { width, height } = Dimensions.get("screen");
 
 export default class MapContainer extends Component {
-  state = {
-    region: {},
-    selected: {},
-    details: {}
+  constructor (props) {
+    super (props)
+    this.state = {
+      region: {},
+      selected: {},
+      details: {}
+   }
   };
 
   componentDidMount() {
@@ -94,6 +97,7 @@ export default class MapContainer extends Component {
               onRegionChange={reg => this.onMapRegionChange(reg)}
               selected={this.state.selected}
               details={this.state.details}
+              navigation={this.props.navigation}
             />
           </View>
         ) : null}

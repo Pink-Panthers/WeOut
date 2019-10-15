@@ -63,13 +63,13 @@ const Map = props => {
           <Callout
             style={styles.callout}
             onPress={() => {
-              // console.log("PROPS HERE", props.details);
+              console.log("PROPS HERE", props.details);
               Alert.alert(
                 "What you wanna do?",
                 "PLACEHOLDER",
                 [
                   {
-                    text: "Schedule an event here",
+                    text: "Schedule Event",
                     onPress: () => props.navigation.navigate("CreateEvent")
                   },
                   {
@@ -79,8 +79,7 @@ const Map = props => {
                   },
                   {
                     text: "Call",
-                    onPress: () =>
-                      dialCall(props.details.formatted_phone_number)
+                    onPress: () => dialCall(props.details.formatted_phone_number)
                   }
                 ],
                 { cancelable: false }
