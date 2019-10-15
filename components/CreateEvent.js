@@ -9,21 +9,44 @@ export default class CreateEvent extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            visible: false,
+            startVisibility: false,
+            endVisibility: false,
             eventName: '',
             placeName: '',
             address: ''
         }
-        this.showTimePicker = this.showTimePicker.bind(this)
-        this.hideTimePicker = this.hideTimePicker.bind(this)
+        this.showStartPicker = this.showStartPicker.bind(this)
+        this.hideStartPicker = this.hideStartPicker.bind(this)
+        this.handleStartPicker = this.handleStartPicker.bind(this)
+        this.showEndPicker = this.showEndPicker.bind(this)
+        this.hideEndPicker = this.hideEndPicker.bind(this)
+        this.handleEndPicker = this.handleEndPicker.bind(this)
     }
 
-    showTimePicker () {
-        this.setState({visible: true})
+    showStartPicker () {
+        this.setState({startVisibility: true})
     }
 
-    hideTimePicker () {
-        this.setState({visible: false})
+    hideStartPicker () {
+        this.setState({startVisibility: false})
+    }
+
+    handleStartPicker (date) {
+        console.log('Start TIME!', date)
+        this.hideStartPicker()
+    }
+
+    showEndPicker () {
+        this.setState({endVisibility: true})
+    }
+
+    hideEndPicker () {
+        this.setState({endVisibility: false})
+    }
+
+    handleEndPicker (date) {
+        console.log('End TIME!', date)
+        this.hideEndPicker()
     }
 
     render() {
@@ -71,13 +94,21 @@ export default class CreateEvent extends Component{
                     />          
                 </View>
                 <DateTimePicker
-                    isVisible={this.state.visible}
-                    onConfirm={() => console.log('YERRRRRR')}
-                    onCancel={this.hideTimePicker}
-                    mode='time'
-                    titleIOS='Select Time'
+                    isVisible={this.state.startVisibility}
+                    onConfirm={this.handleStartPicker}
+                    onCancel={this.hideStartPicker}
+                    mode='datetime'
+                    titleIOS='Select Start Date and Time'
                 />
-                <Button title='Select Time' onPress={this.showTimePicker}/>
+                <DateTimePicker
+                    isVisible={this.state.endVisibility}
+                    onConfirm={this.handleEndPicker}
+                    onCancel={this.hideEndPicker}
+                    mode='datetime'
+                    titleIOS='Select End Date and Time'
+                />
+                <Button title='Select Start Date and Time' onPress={this.showStartPicker}/>
+                <Button title='Select End Date and Time' onPress={this.showEndPicker}/>
                 <Button title="Submit"/>
             </View>
         )
