@@ -14,6 +14,7 @@ import db from '../firebase';
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
+    console.log(circleData)
 
     return (
         <View style={styles.container}>

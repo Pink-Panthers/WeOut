@@ -1,20 +1,29 @@
 import React, { Component } from "react"
 import { StyleSheet, View, Text, Dimensions } from "react-native"
-import { TextInput, Button, Image, TouchableHighlight } from 'react-native'
+import { TextInput, Button } from 'react-native'
 import Menu from './Menu'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { CalendarList } from 'react-native-calendars'
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default class CreateEvent extends Component{
     constructor(props) {
         super(props)
         this.state = {
+            visible: false,
             eventName: '',
             placeName: '',
-            address: '',
-            date: new Date('2020-06-12T14:42:42'),
-            mode: 'date',
+            address: ''
         }
+        this.showTimePicker = this.showTimePicker.bind(this)
+        this.hideTimePicker = this.hideTimePicker.bind(this)
+    }
+
+    showTimePicker () {
+        this.setState({visible: true})
+    }
+
+    hideTimePicker () {
+        this.setState({visible: false})
     }
 
     render() {
@@ -61,6 +70,14 @@ export default class CreateEvent extends Component{
                         onDayPress={() => console.log('DAY PRESSED!')}
                     />          
                 </View>
+                <DateTimePicker
+                    isVisible={this.state.visible}
+                    onConfirm={() => console.log('YERRRRRR')}
+                    onCancel={this.hideTimePicker}
+                    mode='time'
+                    titleIOS='Select Time'
+                />
+                <Button title='Select Time' onPress={this.showTimePicker}/>
                 <Button title="Submit"/>
             </View>
         )
