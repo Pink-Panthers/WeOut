@@ -1,6 +1,14 @@
 import React from "react";
 import MapView, { Marker, Callout } from "react-native-maps";
-import { View, Text, StyleSheet, Platform, Linking, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Linking,
+  Image,
+  Alert
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 dialCall = number => {
@@ -12,6 +20,31 @@ dialCall = number => {
   }
   Linking.openURL(phoneNumber);
 };
+
+// const customAlert = props => {
+//   console.log("PROPS HERE", props);
+//   Alert.alert(
+//     "What you wanna do?",
+//     "PLACEHOLDER",
+//     [
+//       {
+//         text: "Schedule an event here",
+//         onPress: () => console.log("Schedule Event Component")
+//       },
+//       {
+//         text: "Cancel",
+//         onPress: () => console.log("Cancel Pressed"),
+//         style: "cancel"
+//       },
+//       {
+//         text: "Call",
+//         onPress: props => dialCall(props.details.formatted_phone_number)
+//       }
+//     ],
+//     { cancelable: false }
+//   );
+// };
+
 const Map = props => {
   return (
     <MapView
@@ -25,12 +58,33 @@ const Map = props => {
       <Marker
         coordinate={props.region}
         image={require("../assets/addEventIcon128.png")}
-        onPress={() => console.log("ADD AN EVENT")}
       >
         {props.selected.description ? (
           <Callout
             style={styles.callout}
-            onPress={() => dialCall(props.details.formatted_phone_number)}
+            onPress={() => {
+              console.log("PROPS HERE", props.details);
+              Alert.alert(
+                "What you wanna do?",
+                "PLACEHOLDER",
+                [
+                  {
+                    text: "Schedule Event",
+                    onPress: () => props.navigation.navigate("CreateEvent")
+                  },
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  },
+                  {
+                    text: "Call",
+                    onPress: () => dialCall(props.details.formatted_phone_number)
+                  }
+                ],
+                { cancelable: false }
+              );
+            }}
           >
             <View style={styles.callout}>
               <Text style={{ padding: 2 }}>

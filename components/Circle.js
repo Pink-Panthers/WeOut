@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -7,22 +7,14 @@ import {
   Button,
   ImageBackground
 } from "react-native";
-import { ScrollView } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons'
-import Menu from './Menu'
-import db from '../firebase';
+import { ScrollView } from "react-native-gesture-handler";
+import { MaterialIcons } from "@expo/vector-icons";
+import Menu from "./Menu";
+import db from "../firebase";
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
     console.log(circleData)
-    // const events = () => circleData.upcomingEvents.map(eventID => {
-    //     db.collection('events')
-    //     .doc(eventID)
-    //     .get()
-    // })
-    // console.log(events)
-
-
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -82,12 +74,10 @@ export default function Circle (props) {
                     </ScrollView>
                     </View>
                 </View>
-
             </View>
-            </ImageBackground>
-
-        </View>
-    )
+        </ImageBackground>
+    </View>
+  );
 }
 
 const { width } = Dimensions.get("screen");
@@ -109,7 +99,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         fontWeight: 'bold',
-        top: 40
+        top: 40,
+        color: 'white'
     },
     body: {
         alignItems: 'center',
