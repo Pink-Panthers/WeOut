@@ -28,12 +28,11 @@ export default class DrawerDesign extends Component {
         .doc(circleID)
         .get()
         .then( circle => {
-          this.setState({userCircles: [...this.state.userCircles, circle.data()]})
+          this.setState({userCircles: [...this.state.userCircles, {...circle.data(), circleID}]})
         })
         })
       })
   }
-
 
   navLink(nav, text, circle) {
     return (
@@ -72,7 +71,7 @@ export default class DrawerDesign extends Component {
             {userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
             )}
-            {this.navLink("CreateEvent", "Create Event", userCircles)}
+            {this.navLink("CreateEvent", "Create Event")}
           </View>
         </ScrollView>
       </View>
