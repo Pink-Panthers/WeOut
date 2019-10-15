@@ -44,6 +44,7 @@ dialCall = number => {
 //     { cancelable: false }
 //   );
 // };
+
 const Map = props => {
   return (
     <MapView
