@@ -18,6 +18,7 @@ export default class DrawerDesign extends Component {
   }
 
   componentDidMount() {
+
     db.collection("users")
       .doc(firebase.auth().currentUser.uid)
       .get()

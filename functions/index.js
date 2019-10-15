@@ -19,14 +19,10 @@ const db = firebase.firestore();
 exports.createCircle = functions.firestore
     .document('circles/{circleId}')
     .onCreate((snap, context) => {
-    db.collection('users').doc(snap._fieldsProto.members.arrayValue.values[0].stringValue).set({
-        circles: firebase.firestore.FieldValue.arrayUnion(context.params.circleId)
-    }, { merge: true }).then( () => {
-        console.log('HERE IS THE CURUID -->', snap._fieldsProto.members.arrayValue.values[0].stringValue)
-    }).catch(err => {
-        console.log(err)
-    })
-    return
+        console.log(context.params.circleId)
+        db.collection('circles').doc(context.params.circleId).set({
+            uid: context.params.circleId
+        }, { merge: true })
     })
 
 // exports.createEvent = functions.firestore
