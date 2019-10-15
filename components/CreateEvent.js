@@ -13,7 +13,9 @@ export default class CreateEvent extends Component{
             endVisibility: false,
             eventName: '',
             placeName: '',
-            address: ''
+            address: '',
+            startTime: '',
+            endTime: ''
         }
         this.showStartPicker = this.showStartPicker.bind(this)
         this.hideStartPicker = this.hideStartPicker.bind(this)
@@ -32,8 +34,9 @@ export default class CreateEvent extends Component{
     }
 
     handleStartPicker (date) {
-        console.log('Start TIME!', date)
+        this.setState({startTime: date})
         this.hideStartPicker()
+        console.log(this.state.startTime)
     }
 
     showEndPicker () {
@@ -45,8 +48,9 @@ export default class CreateEvent extends Component{
     }
 
     handleEndPicker (date) {
-        console.log('End TIME!', date)
+        this.setState({endTime: date})
         this.hideEndPicker()
+        console.log(this.state.endTime)
     }
 
     render() {
