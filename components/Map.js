@@ -46,7 +46,12 @@ dialCall = number => {
 // };
 
 const Map = props => {
-  const circleData = props.circleData
+  const circleData = props.circleData;
+  const details = {
+    name: props.details.name,
+    address: props.details.formatted_address
+  };
+  console.log("CIRCLE DATA", circleData);
   return (
     <MapView
       provider="google"
@@ -71,7 +76,11 @@ const Map = props => {
                 [
                   {
                     text: "Schedule Event",
-                    onPress: () => props.navigation.navigate("CreateEvent", {circleData})
+                    onPress: () =>
+                      props.navigation.navigate("CreateEvent", {
+                        circleData,
+                        details
+                      })
                   },
                   {
                     text: "Cancel",
@@ -80,7 +89,8 @@ const Map = props => {
                   },
                   {
                     text: "Call",
-                    onPress: () => dialCall(props.details.formatted_phone_number)
+                    onPress: () =>
+                      dialCall(props.details.formatted_phone_number)
                   }
                 ],
                 { cancelable: false }
