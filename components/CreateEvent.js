@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Dimensions } from "react-native"
 import { TextInput, Button, Image, TouchableHighlight } from 'react-native'
 import Menu from './Menu'
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import { CalendarList } from 'react-native-calendars'
 
 export default class CreateEvent extends Component{
     constructor(props) {
@@ -21,6 +21,7 @@ export default class CreateEvent extends Component{
         return (
             <View style={styles.container}>
                 <Menu navigation={this.props.navigation}/>
+                <Text style={styles.title}>Create Event</Text>
                 <TextInput
                     autoCapitalize="none"
                     onChangeText={eventName => {this.setState({ eventName })}}
@@ -47,8 +48,6 @@ export default class CreateEvent extends Component{
                 />
                 <View style={styles.calendar}>
                     <CalendarList
-                        // Callback which gets executed when visible months change in scroll view. Default = undefined
-                        onVisibleMonthsChange={(months) => {console.log('now these months are visible', months);}}
                         // Max amount of months allowed to scroll to the past. Default = 50
                         pastScrollRange={0}
                         // Max amount of months allowed to scroll to the future. Default = 50
@@ -57,6 +56,9 @@ export default class CreateEvent extends Component{
                         scrollEnabled={true}
                         // Enable or disable vertical scroll indicator. Default = false
                         showScrollIndicator={true}
+                        minDate={new Date()}
+                        maxDate={new Date(Date.now() + 12096e5)}
+                        onDayPress={() => console.log('DAY PRESSED!')}
                     />          
                 </View>
                 <Button title="Submit"/>
@@ -65,8 +67,6 @@ export default class CreateEvent extends Component{
     }
 }
 
-const { width } = Dimensions.get("screen");
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -74,18 +74,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        height: 50,
-        fontSize: 25,
+        height: 40,
+        fontSize: 20,
         borderColor: '#CCCCCC',
         borderTopWidth: 1,
         borderBottomWidth: 1,
-        width: 260,
+        width: 320,
         justifyContent: 'center',
-        textAlign: "center"
+        textAlign: "center",
+        marginVertical: 6
     },
     calendar: {
-        borderWidth: 1,
-        borderColor: 'gray',
         height: 320
+    },
+    title: {
+        fontSize: 30,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginBottom: 20
     }
 })
