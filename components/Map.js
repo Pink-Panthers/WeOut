@@ -12,6 +12,7 @@ dialCall = number => {
   }
   Linking.openURL(phoneNumber);
 };
+
 const Map = props => {
   return (
     <MapView
