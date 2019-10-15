@@ -22,12 +22,12 @@ export default class Home extends Component {
 
   componentDidMount() {
     db.collection("events")
-      .doc("sampleEvent")
+      .doc("eventID1")
       .get()
       .then(event => {
         this.setState({ event: event.data() });
       });
-
+    
     const { email, displayName } = firebase.auth().currentUser;
     this.setState({ email, displayName });
   }
@@ -37,15 +37,14 @@ export default class Home extends Component {
   };
 
   render() {
-    const startTime = () => {
-      if (this.state.event.startTime) {
-        const timer = this.state.event.startTime.seconds;
-        if (timer) {
-          return new Date(timer * 1000);
-        }
-      }
-    };
-    console.log(startTime());
+    // const startTime = () => {
+    //   if (this.state.event.startTime) {
+    //     const timer = this.state.event.startTime.seconds
+    //     if (timer) {
+    //       return new Date(timer * 1000)
+    //     }
+    //   }
+    // }
     return (
       <View style={styles.container}>
         <ImageBackground

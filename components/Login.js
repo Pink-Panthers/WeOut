@@ -342,7 +342,7 @@ export default class Login extends Component {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 email: this.state.email
-            })
+            }, { merge: true})
         }
         ).catch(error => this.setState({ errorMessage: error.message }))
     }
