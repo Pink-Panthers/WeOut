@@ -14,6 +14,7 @@ export default class CreateEvent extends Component{
             eventName: '',
             placeName: '',
             address: '',
+            description: '',
             startTime: '',
             endTime: ''
         }
@@ -36,7 +37,6 @@ export default class CreateEvent extends Component{
     handleStartPicker (date) {
         this.setState({startTime: date})
         this.hideStartPicker()
-        console.log(this.state.startTime)
     }
 
     showEndPicker () {
@@ -50,10 +50,10 @@ export default class CreateEvent extends Component{
     handleEndPicker (date) {
         this.setState({endTime: date})
         this.hideEndPicker()
-        console.log(this.state.endTime)
     }
 
     render() {
+        console.log(this.props.navigation.getParam('circleData'))
         return (
             <View style={styles.container}>
                 <Menu navigation={this.props.navigation}/>
@@ -81,6 +81,14 @@ export default class CreateEvent extends Component{
                     style={styles.text}
                     placeholder="Address"
                     maxLength={10}
+                />
+                <TextInput
+                    autoCapitalize="none"
+                    onChangeText={description => {this.setState({ description })}}
+                    value={this.state.description}
+                    style={styles.text}
+                    placeholder="Description"
+                    maxLength={30}
                 />
                 <View style={styles.calendar}>
                     <CalendarList

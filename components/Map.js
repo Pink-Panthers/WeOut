@@ -46,6 +46,7 @@ dialCall = number => {
 // };
 
 const Map = props => {
+  const circleData = props.circleData
   return (
     <MapView
       provider="google"
@@ -63,14 +64,14 @@ const Map = props => {
           <Callout
             style={styles.callout}
             onPress={() => {
-              console.log("PROPS HERE", props.details);
+              // console.log("PROPS HERE", props.details);
               Alert.alert(
                 "What you wanna do?",
                 "PLACEHOLDER",
                 [
                   {
                     text: "Schedule Event",
-                    onPress: () => props.navigation.navigate("CreateEvent")
+                    onPress: () => props.navigation.navigate("CreateEvent", {circleData})
                   },
                   {
                     text: "Cancel",

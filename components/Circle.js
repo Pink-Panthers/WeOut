@@ -10,11 +10,9 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
-import db from "../firebase";
 
 export default function Circle (props) {
     const circleData = props.navigation.getParam('circle')
-    console.log(circleData)
     return (
         <View style={styles.container}>
             <ImageBackground
@@ -38,7 +36,7 @@ export default function Circle (props) {
                             <MaterialIcons 
                                 name="add-circle"
                                 style={styles.add} 
-                                onPress={() => props.navigation.navigate('MapContainer')} 
+                                onPress={() => props.navigation.navigate('MapContainer', {circleData})} 
                             />
                         </View>
                     </View>
