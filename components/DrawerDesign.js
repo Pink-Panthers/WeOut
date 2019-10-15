@@ -4,8 +4,22 @@ import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import firebase from 'firebase'
 import db from "../firebase";
 
-export function updateDrawerState(newState){
-  this.setState(newState)
+export function updateDrawerState(){
+  this.setState({userCircles: []})
+  db.collection("users")
+    .doc(firebase.auth().currentUser.uid)
+    .get()
+    .then(user => user.data().circles)
+    .then(circles => {
+      circles.forEach( circleID => {
+      db.collection('circles')
+      .doc(circleID)
+      .get()
+      .then( circle => {
+        this.setState({userCircles: [...this.state.userCircles, circle.data()]})
+      })
+      })
+    })
 }
 
 export default class DrawerDesign extends Component {
@@ -18,20 +32,9 @@ export default class DrawerDesign extends Component {
   }
 
   componentDidMount() {
-
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then(user => user.data().circles)
-      .then(circles => {
-        circles.forEach( circleID => {
-        db.collection('circles')
-        .doc(circleID)
-        .get()
-        .then( circle => {
-          this.setState({userCircles: [...this.state.userCircles, {...circle.data(), circleID}]})
-        })
-        })
+    db.collection('users').doc(firebase.auth().currentUser.uid)
+      .onSnapshot( user => {
+        updateDrawerState()
       })
   }
 
