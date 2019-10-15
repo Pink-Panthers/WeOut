@@ -38,7 +38,7 @@ export default class CreateCircle extends Component {
                 .where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
                 .get()
                 .then( circleID => {
-                    console.log(circleID)
+                    console.log('fuckthisshitimout', circleID)
                     db.collection('users').doc(firebase.auth().currentUser.uid).update({
                         circles: db.FieldValue.arrayUnion(circleID)
                     },
@@ -56,7 +56,6 @@ export default class CreateCircle extends Component {
         }else {
             db.collection('users').doc(firebase.auth().currentUser.uid).get()
             .then( user => {
-                console.log(user.data())
                 updateDrawerState({
                     userCircles: [
                         ...this.props.navigation.getParam('circle'),

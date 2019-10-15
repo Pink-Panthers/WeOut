@@ -1,21 +1,55 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
-  Button,
   ImageBackground
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
 import db from "../firebase";
 
-export default function Circle (props) {
-    const circleData = props.navigation.getParam('circle')
-    console.log(circleData)
-    return (
+export default class Circle extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    state = {
+        addMember: false,
+        member: '',
+        firstName: '',
+        lastName: ''
+    }
+    toggleAddMember = () => {
+        this.setState({ addMember: !this.state.addMember })
+    }
+
+    addUser = () => {
+        let usersRef = db.collection('users');
+        let circleRef = db.collection('circles')
+        const circleData = this.props.navigation.getParam("circle");
+        // console.log('in add user', circleData.data())
+        // console.log('member', this.state.member)
+        // let allUsers = usersRef.get().then(users => {
+        //         users.forEach(doc => {
+        //             this.state.member === doc.data().email ? db.collection('circles').doc(circleData.circleID).update({
+        //                 members: db.FieldValue.arrayUnion(doc.data().id)
+        //             }) : console.log('fuck this shit')
+
+        //         })
+        //     })
+    }
+
+
+    
+    render () {
+        
+        const circleData = this.props.navigation.getParam('circle')
+
+        return (
         <View style={styles.container}>
             <ImageBackground
                 source={{
@@ -24,7 +58,7 @@ export default function Circle (props) {
                 }}
                 style={styles.bgImage}
             >
-            <Menu navigation={props.navigation}/>
+            <Menu navigation={this.props.navigation}/>
             <View>
                 <Text style={styles.title}>{circleData.name}</Text>
             </View>
@@ -38,7 +72,7 @@ export default function Circle (props) {
                             <MaterialIcons 
                                 name="add-circle"
                                 style={styles.add} 
-                                onPress={() => props.navigation.navigate('MapContainer')} 
+                                onPress={() => this.props.navigation.navigate('MapContainer')} 
                             />
                         </View>
                     </View>
@@ -59,12 +93,61 @@ export default function Circle (props) {
                         <View style={styles.icon}></View>
                         <Text style={styles.titleText}>Members</Text>
                         <View style={styles.icon}>
+                        <TouchableOpacity onPress={this.toggleAddMember}>
                             <MaterialIcons 
                                 name="add-circle" 
                                 style={styles.add} 
                             />
+                        </TouchableOpacity>
                         </View>
                     </View>
+
+                        <View>
+                            {this.state.addMember ?
+                                <View>
+                                    <Input
+                                        leftIcon={
+                                            <Icon
+                                                name="user"
+                                                type="font-awesome"
+                                                color="white"
+                                                size={25}
+                                            />
+                                        }
+                                        inputStyle={{ marginLeft: 10, color: 'white' }}
+
+                                        containerStyle={{ marginVertical: 10 }}
+                                        onChangeText={member => this.setState({ member })}
+                                        value={this.state.member}
+                                        placeholder="Add User"
+                                        autoCapitalize="none"
+                                        autoCorrect={false}
+                                        placeholderTextColor="white"
+
+                                    />
+                                    <TouchableOpacity onPress={this.addUser}
+                                    >
+                                        <Button
+                                            title="SUBMIT"
+                                            activeOpacity={1}
+                                            underlayColor="transparent"
+                                            buttonStyle={{
+                                                height: 50,
+                                                width: 150,
+                                                backgroundColor: 'transparent',
+                                                borderWidth: 2,
+                                                borderColor: 'white',
+                                                borderRadius: 30,
+                                            }}
+                                            containerStyle={{ marginVertical: 10 }}
+                                            titleStyle={{ fontWeight: 'bold', color: 'white' }}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+
+                                : <View></View>}
+                        </View>
+
                     <View style={styles.memberList}>
                     <ScrollView>
                     {
@@ -77,8 +160,10 @@ export default function Circle (props) {
             </View>
         </ImageBackground>
     </View>
-  );
+  )
 }
+}
+
 
 const { width } = Dimensions.get("screen");
 
@@ -173,3 +258,7 @@ const styles = StyleSheet.create({
        flex: 1
    }
 });
+
+
+
+
