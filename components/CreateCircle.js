@@ -19,33 +19,10 @@ export default class CreateCircle extends Component {
 
     handleSubmit() {
         if(firebase.auth().currentUser.displayName) {
-            updateDrawerState({ 
-                userCircles: [...this.props.navigation.getParam('circle'),
-                    {
-                        name: this.state.name,
-                        memberIDs: [firebase.auth().currentUser.uid],
-                        memberNames: [firebase.auth().currentUser.displayName]
-                    }
-                ]
-            })
             db.collection('circles').doc().set({
                 name: this.state.name,
                 memberIDs: [firebase.auth().currentUser.uid],
                 memberNames: [firebase.auth().currentUser.displayName]
-            })
-            .then( () => {
-                db.collection('circles')
-                .where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
-                .get()
-                .then( circleID => {
-                    console.log('fuckthisshitimout', circleID)
-                    db.collection('users').doc(firebase.auth().currentUser.uid).update({
-                        circles: db.FieldValue.arrayUnion(circleID)
-                    },
-                    {
-                        merge: true
-                    })
-                })
             })
             .then( () => {
                 this.setState({name: ''})
@@ -56,37 +33,16 @@ export default class CreateCircle extends Component {
         }else {
             db.collection('users').doc(firebase.auth().currentUser.uid).get()
             .then( user => {
-                updateDrawerState({
-                    userCircles: [
-                        ...this.props.navigation.getParam('circle'),
-                        {
-                            name: this.state.name,
-                            memberIDs: [firebase.auth().currentUser.uid],
-                            memberNames: [user.data().firstName + ' ' + user.data().lastName]
-                        }
-                    ]
-                })
                 db.collection('circles').doc().set({
                     name: this.state.name,
                     memberIDs: [firebase.auth().currentUser.uid],
                     memberNames: [user.data().firstName + ' ' + user.data().lastName]
                 })
                 .then( () => {
-                    db.collection('circles').where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
-                    .get()
-                    .then( circleID => {
-                        db.collection('users').doc(firebase.auth().currentUser.uid).update({
-                            circles: db.FieldValue.arrayUnion(circleID)
-                        },
-                        {
-                            merge: true
-                        })
-                    })
-                })
-                .then( () => {
                     this.setState({name: ''})
                     this.props.navigation.navigate('Home')
-                }).catch(err => {
+                })
+                .catch(err => {
                     console.log('ERROR WHEN ADDING NEW CIRCLE!!', err)
                 })
             })
