@@ -93,56 +93,55 @@ export default class Circle extends Component {
           style={styles.bgImage}
         >
           <Menu navigation={this.props.navigation} />
-          <KeyboardAwareScrollView>
-            <View>
-              <Text style={styles.title}>
-                {circleData ? circleData.name : null}
-              </Text>
-            </View>
-            <View style={styles.body}>
-              <View style={styles.events}>
-                <View style={styles.subtitle}>
-                  <View style={styles.icon}></View>
-                  <Text style={styles.titleText}>Upcoming Events</Text>
-                  <View style={styles.icon}>
-                    <MaterialIcons
-                      name="add-circle"
-                      style={styles.add}
-                      onPress={() =>
-                        this.props.navigation.navigate("MapContainer", {
-                          circleData
-                        })
-                      }
-                    />
-                  </View>
-                </View>
-                <View style={styles.eventList}>
-                  <ScrollView>
-                    {circleData.upcomingEvents ? (
-                      circleData.upcomingEvents.map(event => (
-                        <Text key={Math.random() * 999} style={styles.event}>
-                          {event}
-                        </Text>
-                      ))
-                    ) : (
-                      <Text>No Upcoming Events</Text>
-                    )}
-                  </ScrollView>
+          <View>
+            <Text style={styles.title}>
+              {circleData ? circleData.name : null}
+            </Text>
+          </View>
+          <View style={styles.body}>
+            <View style={styles.events}>
+              <View style={styles.subtitle}>
+                <View style={styles.icon}></View>
+                <Text style={styles.titleText}>Upcoming Events</Text>
+                <View style={styles.icon}>
+                  <MaterialIcons
+                    name="add-circle"
+                    style={styles.add}
+                    onPress={() =>
+                      this.props.navigation.navigate("MapContainer", {
+                        circleData
+                      })
+                    }
+                  />
                 </View>
               </View>
-              <View style={styles.members}>
-                <View style={styles.subtitle}>
-                  <View style={styles.icon}></View>
-                  <Text style={styles.titleText}>Members</Text>
-                  <View style={styles.icon}>
-                    <TouchableOpacity onPress={this.toggleAddMember}>
-                      <MaterialIcons name="add-circle" style={styles.add} />
-                    </TouchableOpacity>
-                  </View>
+              <View style={styles.eventList}>
+                <ScrollView>
+                  {circleData.upcomingEvents ? (
+                    circleData.upcomingEvents.map(event => (
+                      <Text key={Math.random() * 999} style={styles.event}>
+                        {event}
+                      </Text>
+                    ))
+                  ) : (
+                    <Text>No Upcoming Events</Text>
+                  )}
+                </ScrollView>
+              </View>
+            </View>
+            <View style={styles.members}>
+              <View style={styles.subtitle}>
+                <View style={styles.icon}></View>
+                <Text style={styles.titleText}>Members</Text>
+                <View style={styles.icon}>
+                  <TouchableOpacity onPress={this.toggleAddMember}>
+                    <MaterialIcons name="add-circle" style={styles.add} />
+                  </TouchableOpacity>
                 </View>
-
-                <View>
-                  {this.state.addMember ? (
+              </View>
+              <View>
+                {this.state.addMember ? (
+                  <KeyboardAwareScrollView>
                     <View>
                       <Input
                         leftIcon={
@@ -180,24 +179,24 @@ export default class Circle extends Component {
                         />
                       </TouchableOpacity>
                     </View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-                <View style={styles.memberList}>
-                  <ScrollView>
-                    {circleData.memberNames
-                      ? circleData.memberNames.map(member => (
-                          <Text key={Math.random() * 999} style={styles.member}>
-                            {member}
-                          </Text>
-                        ))
-                      : null}
-                  </ScrollView>
-                </View>
+                  </KeyboardAwareScrollView>
+                ) : (
+                  <View></View>
+                )}
+              </View>
+              <View style={styles.memberList}>
+                <ScrollView>
+                  {circleData.memberNames
+                    ? circleData.memberNames.map(member => (
+                        <Text key={Math.random() * 999} style={styles.member}>
+                          {member}
+                        </Text>
+                      ))
+                    : null}
+                </ScrollView>
               </View>
             </View>
-          </KeyboardAwareScrollView>
+          </View>
         </ImageBackground>
       </View>
     );

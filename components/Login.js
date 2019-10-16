@@ -107,241 +107,239 @@ export default class Login extends Component {
           }}
           style={styles.bgImage}
         >
-          <KeyboardAwareScrollView>
-            <View
-              style={styles.TopBgImage}
-              backgroundColor="rgba(52, 52, 52, 0.8)"
-            >
-              {!this.state.signingUp ? (
-                <View style={styles.loginView}>
-                  <View style={styles.errorMessage}>
-                    {this.state.errorMessage ? (
-                      <Text style={styles.error}>
-                        {this.state.errorMessage}
-                      </Text>
-                    ) : (
-                      <View />
-                    )}
-                  </View>
-                  <View style={styles.logo}>
-                    <Image
-                      style={{ width: 200, height: 200 }}
-                      source={require("../assets/weOut2.png")}
-                    />
-                  </View>
-                  <View style={styles.loginInput}>
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="user-o"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={email => this.setState({ email })}
-                      value={this.state.email}
-                      placeholder="Email"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="lock"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={password => this.setState({ password })}
-                      value={this.state.password}
-                      placeholder="Password"
-                      secureTextEntry={true}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                  </View>
-                  <TouchableOpacity onPress={this.handleLogin}>
+          <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.container}
+            scrollEnabled={true}
+            enableOnAndroid={true}
+            contentContainerStyle={styles.TopBgImage}
+            backgroundColor="rgba(52, 52, 52, 0.8)"
+          >
+            {!this.state.signingUp ? (
+              <View style={styles.loginView}>
+                <View style={styles.errorMessage}>
+                  {this.state.errorMessage ? (
+                    <Text style={styles.error}>{this.state.errorMessage}</Text>
+                  ) : (
+                    <View />
+                  )}
+                </View>
+                <View style={styles.logo}>
+                  <Image
+                    style={{ width: 200, height: 200 }}
+                    source={require("../assets/weOut2.png")}
+                  />
+                </View>
+                <View style={styles.loginInput}>
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="user-o"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.email}
+                    placeholder="Email"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="lock"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={password => this.setState({ password })}
+                    value={this.state.password}
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                </View>
+                <TouchableOpacity onPress={this.handleLogin}>
+                  <Button
+                    title="LOG IN"
+                    activeOpacity={1}
+                    underlayColor="transparent"
+                    buttonStyle={{
+                      height: 50,
+                      width: 250,
+                      backgroundColor: "transparent",
+                      borderWidth: 2,
+                      borderColor: "white",
+                      borderRadius: 30
+                    }}
+                    containerStyle={{ marginVertical: 10 }}
+                    titleStyle={{ fontWeight: "bold", color: "white" }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles.footerView}>
+                  <Text style={{ color: "grey" }}>New here?</Text>
+                  <TouchableOpacity onPress={this.toggleSignUp}>
                     <Button
-                      title="LOG IN"
-                      activeOpacity={1}
-                      underlayColor="transparent"
-                      buttonStyle={{
-                        height: 50,
-                        width: 250,
-                        backgroundColor: "transparent",
-                        borderWidth: 2,
-                        borderColor: "white",
-                        borderRadius: 30
-                      }}
-                      containerStyle={{ marginVertical: 10 }}
-                      titleStyle={{ fontWeight: "bold", color: "white" }}
+                      title="Sign Up"
+                      type="clear"
+                      activeOpacity={0.5}
+                      titleStyle={{ color: "white", fontSize: 15 }}
+                      containerStyle={{ marginTop: -10 }}
                     />
                   </TouchableOpacity>
-
-                  <View style={styles.footerView}>
-                    <Text style={{ color: "grey" }}>New here?</Text>
-                    <TouchableOpacity onPress={this.toggleSignUp}>
-                      <Button
-                        title="Sign Up"
-                        type="clear"
-                        activeOpacity={0.5}
-                        titleStyle={{ color: "white", fontSize: 15 }}
-                        containerStyle={{ marginTop: -10 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableHighlight onPress={this.signInWithGoogleAsync}>
-                      <Image
-                        style={{ width: 43, height: 43, marginRight: 15 }}
-                        source={require("../assets/googlebutton.png")}
-                      />
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              ) : (
-                //     <KeyboardAwareScrollView
-
-                //     resetScrollToCoords={{ x: 0, y: 0 }}
-                //     contentContainerStyle={styles.container}
-                //     scrollEnabled={true}
-                //     enableOnAndroid={true}
-                // >
-                <View style={styles.loginView}>
-                  <View style={styles.errorMessage}>
-                    {this.state.errorMessage ? (
-                      <Text style={styles.error}>
-                        {this.state.errorMessage}
-                      </Text>
-                    ) : (
-                      <View />
-                    )}
-                  </View>
-                  <View style={styles.logo}>
+                  <TouchableHighlight onPress={this.signInWithGoogleAsync}>
                     <Image
-                      style={{ width: 200, height: 200 }}
-                      source={require("../assets/weOut2.png")}
+                      style={{ width: 43, height: 43, marginRight: 15 }}
+                      source={require("../assets/googlebutton.png")}
                     />
-                  </View>
-                  <View style={styles.loginInput}>
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="user-o"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={firstName => this.setState({ firstName })}
-                      value={this.state.firstName}
-                      placeholder="First Name"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="user-o"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={lastName => this.setState({ lastName })}
-                      value={this.state.lastName}
-                      placeholder="Last Name"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="user-o"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={email => this.setState({ email })}
-                      value={this.state.email}
-                      placeholder="Email"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="lock"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={password => this.setState({ password })}
-                      value={this.state.password}
-                      placeholder="Password"
-                      secureTextEntry={true}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                  </View>
-                  <TouchableOpacity onPress={this.handleSignUp}>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            ) : (
+              //     <KeyboardAwareScrollView
+
+              //     resetScrollToCoords={{ x: 0, y: 0 }}
+              //     contentContainerStyle={styles.container}
+              //     scrollEnabled={true}
+              //     enableOnAndroid={true}
+              // >
+              <View style={styles.loginView}>
+                <View style={styles.errorMessage}>
+                  {this.state.errorMessage ? (
+                    <Text style={styles.error}>{this.state.errorMessage}</Text>
+                  ) : (
+                    <View />
+                  )}
+                </View>
+                <View style={styles.logo}>
+                  <Image
+                    style={{ width: 200, height: 200 }}
+                    source={require("../assets/weOut2.png")}
+                  />
+                </View>
+                <View style={styles.loginInput}>
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="user-o"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={firstName => this.setState({ firstName })}
+                    value={this.state.firstName}
+                    placeholder="First Name"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="user-o"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={lastName => this.setState({ lastName })}
+                    value={this.state.lastName}
+                    placeholder="Last Name"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="user-o"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={email => this.setState({ email })}
+                    value={this.state.email}
+                    placeholder="Email"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                  <Input
+                    leftIcon={
+                      <Icon
+                        name="lock"
+                        type="font-awesome"
+                        color="white"
+                        size={25}
+                      />
+                    }
+                    inputStyle={{ marginLeft: 10, color: "white" }}
+                    containerStyle={{ marginVertical: 10 }}
+                    onChangeText={password => this.setState({ password })}
+                    value={this.state.password}
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    placeholderTextColor="white"
+                  />
+                </View>
+                <TouchableOpacity onPress={this.handleSignUp}>
+                  <Button
+                    title="SUBMIT"
+                    activeOpacity={1}
+                    underlayColor="transparent"
+                    buttonStyle={{
+                      height: 50,
+                      width: 250,
+                      backgroundColor: "transparent",
+                      borderWidth: 2,
+                      borderColor: "white",
+                      borderRadius: 30
+                    }}
+                    containerStyle={{ marginVertical: 10 }}
+                    titleStyle={{ fontWeight: "bold", color: "white" }}
+                  />
+                </TouchableOpacity>
+
+                <View style={styles.footerView}>
+                  <Text style={{ color: "white" }}>Already a User?</Text>
+                  <TouchableOpacity onPress={this.toggleSignUp}>
                     <Button
-                      title="SUBMIT"
-                      activeOpacity={1}
-                      underlayColor="transparent"
-                      buttonStyle={{
-                        height: 50,
-                        width: 250,
-                        backgroundColor: "transparent",
-                        borderWidth: 2,
-                        borderColor: "white",
-                        borderRadius: 30
-                      }}
-                      containerStyle={{ marginVertical: 10 }}
-                      titleStyle={{ fontWeight: "bold", color: "white" }}
+                      title="Log In"
+                      type="clear"
+                      activeOpacity={0.5}
+                      titleStyle={{ color: "white", fontSize: 15 }}
+                      containerStyle={{ marginTop: -10 }}
                     />
                   </TouchableOpacity>
-
-                  <View style={styles.footerView}>
-                    <Text style={{ color: "white" }}>Already a User?</Text>
-                    <TouchableOpacity onPress={this.toggleSignUp}>
-                      <Button
-                        title="Log In"
-                        type="clear"
-                        activeOpacity={0.5}
-                        titleStyle={{ color: "white", fontSize: 15 }}
-                        containerStyle={{ marginTop: -10 }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableHighlight onPress={this.signInWithGoogleAsync}>
-                      <Image
-                        style={{ width: 43, height: 43, marginRight: 15 }}
-                        source={require("../assets/googlebutton.png")}
-                      />
-                    </TouchableHighlight>
-                  </View>
+                  <TouchableHighlight onPress={this.signInWithGoogleAsync}>
+                    <Image
+                      style={{ width: 43, height: 43, marginRight: 15 }}
+                      source={require("../assets/googlebutton.png")}
+                    />
+                  </TouchableHighlight>
                 </View>
-              )}
-            </View>
+              </View>
+            )}
           </KeyboardAwareScrollView>
         </ImageBackground>
       </View>
