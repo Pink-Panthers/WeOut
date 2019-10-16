@@ -16,25 +16,26 @@ export default class Home extends Component {
     this.state = {
       email: "",
       displayName: "",
-      event: {}
-    };
+      events: []
+    }
   }
 
   componentDidMount() {
     db.collection("events")
-      .doc("eventID1")
-      .get()
-      .then(event => {
-        this.setState({ event: event.data() });
-      });
-    
-    const { email, displayName } = firebase.auth().currentUser;
-    this.setState({ email, displayName });
+      .where("members", 'array-contains', `${firebase.auth().currentUser.uid}`)
+      .onSnapshot( events => {
+        var newEvents = []
+        events.forEach( event => {
+          newEvents.push(event.data())
+        })
+        const { email, displayName } = firebase.auth().currentUser
+        this.setState({ email, displayName, events: newEvents })
+      })
   }
 
   signOutUser = () => {
     firebase.auth().signOut();
-  };
+  }
 
   render() {
     // const startTime = () => {
@@ -45,6 +46,7 @@ export default class Home extends Component {
     //     }
     //   }
     // }
+    const { events } = this.state
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -69,11 +71,16 @@ export default class Home extends Component {
           </View>
 
           <View style={styles.event}>
-            <View style={styles.singleEvent}>
-              <Text>{this.state.event.location}</Text>
-              <Text>{this.state.event.address} on </Text>
-              <Text>{this.state.event.description}</Text>
-            </View>
+            {events ? events.map( event => {
+              return (
+                <View key={Math.floor(Math.random() * 231425635342)} style={styles.singleEvent}>
+                  <Text>{event.eventName + ' ' + event.description}</Text>
+                  <Text>{event.placeName + ' ' + event.address}</Text>
+                  <Text>Start Time: {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}</Text>
+                  <Text>End Time: {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}</Text>
+                </View>
+              )
+            }) : null}
           </View>
         </ImageBackground>
       </View>
