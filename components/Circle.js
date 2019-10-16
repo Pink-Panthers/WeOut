@@ -12,7 +12,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu"
 import * as firebase from 'firebase'
 import db from '../firebase'
-import * as firebase from "firebase";
 
 
 export default class Circle extends Component {
@@ -109,20 +108,6 @@ export default class Circle extends Component {
                         </ScrollView>
                     </View>
                 </View>
-            <View style={styles.eventList}>
-                <ScrollView>
-                  {circleData.upcomingEvents ? (
-                    circleData.upcomingEvents.map(event => (
-                      <Text key={Math.random() * 999} style={styles.event}>
-                        {event}
-                      </Text>
-                    ))
-                  ) : (
-                    <Text>No Upcoming Events</Text>
-                  )}
-                </ScrollView>
-              </View>
-
             <View style={styles.members}>
               <View style={styles.subtitle}>
                 <View style={styles.icon}></View>
@@ -186,6 +171,7 @@ export default class Circle extends Component {
                         </ScrollView>
                     </View>
                 </View>
+            </View>
             </ImageBackground>
         </View>
     )
@@ -285,4 +271,4 @@ const styles = StyleSheet.create({
   icon: {
     flex: 1
   }
-});
+})
