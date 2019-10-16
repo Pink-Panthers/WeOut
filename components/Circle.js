@@ -9,7 +9,8 @@ import {
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
-import Menu from "./Menu";
+import Menu from "./Menu"
+import * as firebase from 'firebase'
 import db from '../firebase'
 
 export default class Circle extends Component {
@@ -22,11 +23,22 @@ export default class Circle extends Component {
         member: '',
         firstName: '',
         lastName: '',
-        circle: {}
+        circle: this.props.navigation.getParam("circle")
     }
 
     toggleAddMember = () => {
         this.setState({ addMember: !this.state.addMember })
+    }
+
+    componentDidMount() {
+        db.collection('circles')
+        .onSnapshot( circles => {
+            circles.forEach( circle => {
+                if(circle.data().uid === this.state.circle.uid) {
+                    this.setState({ circle })
+                }
+            })
+        })
     }
 
     addUser = () => {
@@ -34,7 +46,6 @@ export default class Circle extends Component {
         const circleData = this.props.navigation.getParam("circle");
         let allUsers = usersRef.get().then(users => {
                 users.forEach(doc => {
-                    console.log(circleData.uid)
                     this.state.member === doc.data().email ? db.collection('circles').doc(`${circleData.uid}`).update({
                         memberIDs: firebase.firestore.FieldValue.arrayUnion(`${doc.id}`), memberNames: firebase.firestore.FieldValue.arrayUnion(`${doc.data().firstName} ${doc.data().lastName}`)      
                     })
@@ -44,12 +55,13 @@ export default class Circle extends Component {
                 })
 
                 users.forEach(doc => {
-                    this.state.member === doc.data().email ? db.collection('users').doc(`${doc.id}`).update({
+                    this.state.member === doc.data().email ? db.collection('users').doc(`${doc.id}`).set({
                         circles: firebase.firestore.FieldValue.arrayUnion(`${circleData.uid}`)
-                    })
+                    }, { merge: true })
                         : console.log('nomatch')
                 }) 
             })
+
         
         this.toggleAddMember()
         
@@ -58,7 +70,6 @@ export default class Circle extends Component {
     render () {
         
         const circleData = this.props.navigation.getParam("circle")
-        console.log('trying', circleData)
         return (
         <View style={styles.container}>
             <ImageBackground
@@ -73,7 +84,6 @@ export default class Circle extends Component {
                 <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
             </View>
             <View style={styles.body}>
-
                 <View style={styles.events}>
                     <View style={styles.subtitle}>
                         <View style={styles.icon}></View>
@@ -87,15 +97,28 @@ export default class Circle extends Component {
                         </View>
                     </View>
                     <View style={styles.eventList}>
-                    <ScrollView>
-                    {
-                        circleData.upcomingEvents
-                        ? circleData.upcomingEvents.map(event => 
-                            <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
-                        : <Text>No Upcoming Events</Text>
-                    }
-                    </ScrollView>
+                        <ScrollView>
+                            {
+                                circleData.upcomingEvents
+                                ? circleData.upcomingEvents.map(event => 
+                                    <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
+                                : <Text>No Upcoming Events</Text>
+                            }
+                        </ScrollView>
+                    </View>
                 </View>
+            <View style={styles.eventList}>
+                <ScrollView>
+                  {circleData.upcomingEvents ? (
+                    circleData.upcomingEvents.map(event => (
+                      <Text key={Math.random() * 999} style={styles.event}>
+                        {event}
+                      </Text>
+                    ))
+                  ) : (
+                    <Text>No Upcoming Events</Text>
+                  )}
+                </ScrollView>
               </View>
             </View>
 
@@ -152,19 +175,19 @@ export default class Circle extends Component {
                 ) : (
                   <View></View>
                 )}
-              </View>
+                </View>
                     <View style={styles.memberList}>
-                    <ScrollView>
-                    {   circleData.memberNames ?
-                        circleData.memberNames.map(member => 
-                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>) : null
-                    }
-                    </ScrollView>
+                        <ScrollView>
+                            {   circleData.memberNames ?
+                                circleData.memberNames.map(member => 
+                                <Text key={Math.random() * 999} style={styles.member}>{member}</Text>) : null
+                            }
+                        </ScrollView>
                     </View>
                 </View>
-        </ImageBackground>
-      </View>
-    );
+            </ImageBackground>
+        </View>
+    )
   }
 }
 
