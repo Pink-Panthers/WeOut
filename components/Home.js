@@ -17,8 +17,8 @@ export default class Home extends Component {
       email: "",
       displayName: "",
       events: [],
-      imageUrl: ''
-    }
+      imageUrl: ""
+    };
   }
 
   componentDidMount() {
@@ -27,53 +27,53 @@ export default class Home extends Component {
       require("../assets/pics/2.jpg"),
       require("../assets/pics/3.jpg"),
       require("../assets/pics/4.jpg"),
-      require('../assets/pics/5.jpg'),
-      require('../assets/pics/6.jpg'),
-      require('../assets/pics/7.jpg'),
-      require('../assets/pics/8.jpg'),
-      require('../assets/pics/9.jpg'),
-      require('../assets/pics/10.jpg'),
-      require('../assets/pics/11.jpg'),
-      require('../assets/pics/12.jpg'),
-    ]
+      require("../assets/pics/5.jpg"),
+      require("../assets/pics/6.jpg"),
+      require("../assets/pics/7.jpg"),
+      require("../assets/pics/8.jpg"),
+      require("../assets/pics/9.jpg"),
+      require("../assets/pics/10.jpg"),
+      require("../assets/pics/11.jpg"),
+      require("../assets/pics/12.jpg")
+    ];
     db.collection("events")
-      .where("members", 'array-contains', `${firebase.auth().currentUser.uid}`)
-      .onSnapshot( events => {
-        var newEvents = []
-        events.forEach( event => {
-          newEvents.push(event.data())
-        })
-        const { email, displayName } = firebase.auth().currentUser
-        this.setState({ email, displayName, events: newEvents })
-      })
-    this.state.imageUrl.length > 0 ? console.log('good'): this.setState({ imageUrl: randomImages[Math.floor(Math.random() * randomImages.length)]})
+      .where("members", "array-contains", `${firebase.auth().currentUser.uid}`)
+      .onSnapshot(events => {
+        var newEvents = [];
+        events.forEach(event => {
+          newEvents.push(event.data());
+        });
+        const { email, displayName } = firebase.auth().currentUser;
+        this.setState({ email, displayName, events: newEvents });
+      });
+    this.state.imageUrl.length > 0
+      ? console.log("good")
+      : this.setState({
+          imageUrl:
+            randomImages[Math.floor(Math.random() * randomImages.length)]
+        });
   }
 
   signOutUser = () => {
     firebase.auth().signOut();
-  }
+  };
 
   render() {
-
-
-    const { events } = this.state
+    const { events } = this.state;
     return (
       <View style={styles.container}>
         <ImageBackground source={this.state.imageUrl} style={styles.bgImage}>
           <Menu navigation={this.props.navigation} />
 
-            <View style={styles.auth}>
-              <Text style={{ color: "white" }}>
-                Hi {this.state.email}!
-              </Text>
-              <TouchableOpacity
-                style={{ marginTop: 1 }}
-                onPress={this.signOutUser}
-              >
-                <Text style={{ color: "white" }}>Logout</Text>
-              </TouchableOpacity>
-              <Text style={{ color: "white" }}>Below are your events.</Text>
-
+          <View style={styles.auth}>
+            <Text style={{ color: "white" }}>Hi {this.state.email}!</Text>
+            <TouchableOpacity
+              style={{ marginTop: 1 }}
+              onPress={this.signOutUser}
+            >
+              <Text style={{ color: "white" }}>Logout</Text>
+            </TouchableOpacity>
+            <Text style={{ color: "white" }}>Below are your events.</Text>
           </View>
           <View style={styles.event}>
             {events
@@ -115,7 +115,6 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-
   bgImage: {
     flex: 1,
     top: 0,
@@ -142,7 +141,8 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   auth: {
-    flex: 1,
+    flex: 0.5,
+    marginTop: 50,
     alignItems: "center",
     justifyContent: "center",
     height: 300,

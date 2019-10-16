@@ -47,7 +47,7 @@ const Map = props => {
             onPress={() => {
               Alert.alert(
                 "We Out?",
-                "PLACEHOLDER",
+                "",
                 [
                   {
                     text: "Schedule Event",
