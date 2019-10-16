@@ -21,32 +21,13 @@ dialCall = number => {
   Linking.openURL(phoneNumber);
 };
 
-// const customAlert = props => {
-//   console.log("PROPS HERE", props);
-//   Alert.alert(
-//     "What you wanna do?",
-//     "PLACEHOLDER",
-//     [
-//       {
-//         text: "Schedule an event here",
-//         onPress: () => console.log("Schedule Event Component")
-//       },
-//       {
-//         text: "Cancel",
-//         onPress: () => console.log("Cancel Pressed"),
-//         style: "cancel"
-//       },
-//       {
-//         text: "Call",
-//         onPress: props => dialCall(props.details.formatted_phone_number)
-//       }
-//     ],
-//     { cancelable: false }
-//   );
-// };
-
 const Map = props => {
-  const circleData = props.circleData
+  const circleData = props.circleData;
+  const details = {
+    name: props.details.name,
+    address: props.details.formatted_address
+  };
+  const region = props.region;
   return (
     <MapView
       provider="google"
@@ -64,14 +45,18 @@ const Map = props => {
           <Callout
             style={styles.callout}
             onPress={() => {
-              // console.log("PROPS HERE", props.details);
               Alert.alert(
-                "What you wanna do?",
+                "We Out?",
                 "PLACEHOLDER",
                 [
                   {
                     text: "Schedule Event",
-                    onPress: () => props.navigation.navigate("CreateEvent", {circleData})
+                    onPress: () =>
+                      props.navigation.navigate("CreateEvent", {
+                        circleData,
+                        details,
+                        region
+                      })
                   },
                   {
                     text: "Cancel",
@@ -80,7 +65,8 @@ const Map = props => {
                   },
                   {
                     text: "Call",
-                    onPress: () => dialCall(props.details.formatted_phone_number)
+                    onPress: () =>
+                      dialCall(props.details.formatted_phone_number)
                   }
                 ],
                 { cancelable: false }
