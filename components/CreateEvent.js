@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
-import { TextInput, Button } from "react-native";
-import Menu from "./Menu";
-import { CalendarList } from "react-native-calendars";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import getDirections from "react-native-google-maps-directions";
+import React, { Component } from "react"
+import { StyleSheet, View, Text, Dimensions } from "react-native"
+import { TextInput, Button } from "react-native"
+import Menu from "./Menu"
+import { CalendarList } from "react-native-calendars"
+import DateTimePicker from "react-native-modal-datetime-picker"
+import getDirections from "react-native-google-maps-directions"
+import db from '../firebase'
 
 export default class CreateEvent extends Component {
   constructor(props) {
@@ -18,14 +19,15 @@ export default class CreateEvent extends Component {
       description: "",
       startTime: "",
       endTime: ""
-    };
-    this.showStartPicker = this.showStartPicker.bind(this);
-    this.hideStartPicker = this.hideStartPicker.bind(this);
-    this.handleStartPicker = this.handleStartPicker.bind(this);
-    this.showEndPicker = this.showEndPicker.bind(this);
-    this.hideEndPicker = this.hideEndPicker.bind(this);
-    this.handleEndPicker = this.handleEndPicker.bind(this);
-    this.handleGetDirections = this.handleGetDirections.bind(this);
+    }
+    this.showStartPicker = this.showStartPicker.bind(this)
+    this.hideStartPicker = this.hideStartPicker.bind(this)
+    this.handleStartPicker = this.handleStartPicker.bind(this)
+    this.showEndPicker = this.showEndPicker.bind(this)
+    this.hideEndPicker = this.hideEndPicker.bind(this)
+    this.handleEndPicker = this.handleEndPicker.bind(this)
+    this.handleGetDirections = this.handleGetDirections.bind(this)
+    this.handlSubmit = this.handleSubmit.bind(this)
   }
 
   showStartPicker() {
@@ -79,6 +81,21 @@ export default class CreateEvent extends Component {
     getDirections(data);
   };
 
+  handleSubmit() {
+        const circleData = this.props.navigation.getParam('circleData')
+        db.collection('events').doc().set({
+            circle: circleData.uid,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
+            address: this.state.address,
+            description: this.state.description,
+            placeName: this.state.placeName,
+            eventName: this.state.eventName,
+            members: circleData.memberIDs
+        })
+    }
+
+
   render() {
     const details = this.props.navigation.getParam("details");
     return (
@@ -126,22 +143,21 @@ export default class CreateEvent extends Component {
           maxLength={30}
         />
         <Button onPress={this.handleGetDirections} title="Get Directions" />
-
-        <View style={styles.calendar}>
-          <CalendarList
-            // Max amount of months allowed to scroll to the past. Default = 50
-            pastScrollRange={0}
-            // Max amount of months allowed to scroll to the future. Default = 50
-            futureScrollRange={1}
-            // Enable or disable scrolling of calendar list
-            scrollEnabled={true}
-            // Enable or disable vertical scroll indicator. Default = false
-            showScrollIndicator={true}
-            minDate={new Date()}
-            maxDate={new Date(Date.now() + 12096e5)}
-            onDayPress={() => console.log("DAY PRESSED!")}
-          />
-        </View>
+//         <View style={styles.calendar}>
+//           <CalendarList
+//             // Max amount of months allowed to scroll to the past. Default = 50
+//             pastScrollRange={0}
+//             // Max amount of months allowed to scroll to the future. Default = 50
+//             futureScrollRange={1}
+//             // Enable or disable scrolling of calendar list
+//             scrollEnabled={true}
+//             // Enable or disable vertical scroll indicator. Default = false
+//             showScrollIndicator={true}
+//             minDate={new Date()}
+//             maxDate={new Date(Date.now() + 12096e5)}
+//             onDayPress={() => console.log("DAY PRESSED!")}
+//           />
+//         </View>
         <DateTimePicker
           isVisible={this.state.startVisibility}
           onConfirm={this.handleStartPicker}

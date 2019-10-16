@@ -36,6 +36,24 @@ export default class DrawerDesign extends Component {
       .onSnapshot( user => {
         updateDrawerState()
       })
+    db.collection('circles')
+    .where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
+    .onSnapshot( circles => {
+      circles.forEach( circle => {
+        let uid = circle.data().uid
+        db.collection('events')
+        .where('circle', '==', `${uid}`)
+        .get()
+        .then( events => {
+          events.forEach( event => {
+            // console.log('trying', event._document.key.path.segments[6])
+            db.collections('events').doc(event._document.key.path.segments[6]).update({
+              members: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
+            })
+          })
+        })
+      })
+    })
   }
 
   navLink(nav, text, circle) {

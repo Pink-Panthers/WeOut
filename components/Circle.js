@@ -10,67 +10,89 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
+import db from '../firebase'
 
 export default class Circle extends Component {
   constructor(props) {
     super(props);
   }
 
-  state = {
-    addMember: false,
-    member: "",
-    firstName: "",
-    lastName: ""
-  };
-  toggleAddMember = () => {
-    this.setState({ addMember: !this.state.addMember });
-  };
+    state = {
+        addMember: false,
+        member: '',
+        firstName: '',
+        lastName: '',
+        circle: {}
+    }
 
-  addUser = () => {
-    let usersRef = db.collection("users");
-    let circleRef = db.collection("circles");
-    const circleData = this.props.navigation.getParam("circle");
-    // console.log('in add user', circleData.data())
-    // console.log('member', this.state.member)
-    // let allUsers = usersRef.get().then(users => {
-    //         users.forEach(doc => {
-    //             this.state.member === doc.data().email ? db.collection('circles').doc(circleData.circleID).update({
-    //                 members: db.FieldValue.arrayUnion(doc.data().id)
-    //             }) : console.log('fuck this shit')
+    toggleAddMember = () => {
+        this.setState({ addMember: !this.state.addMember })
+    }
 
-    //         })
-    //     })
-  };
+    addUser = () => {
+        let usersRef = db.collection('users');
+        const circleData = this.props.navigation.getParam("circle");
+        let allUsers = usersRef.get().then(users => {
+                users.forEach(doc => {
+                    console.log(circleData.uid)
+                    this.state.member === doc.data().email ? db.collection('circles').doc(`${circleData.uid}`).update({
+                        memberIDs: firebase.firestore.FieldValue.arrayUnion(`${doc.id}`), memberNames: firebase.firestore.FieldValue.arrayUnion(`${doc.data().firstName} ${doc.data().lastName}`)      
+                    })
 
-  render() {
-    const circleData = this.props.navigation.getParam("circle");
+                    : console.log('nomatch')
 
-    return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={{
-            uri:
-              "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
-          }}
-          style={styles.bgImage}
-        >
-          <Menu navigation={this.props.navigation} />
-          <View>
-            <Text style={styles.title}>{circleData.name}</Text>
-          </View>
-          <View style={styles.body}>
-            <View style={styles.events}>
-              <View style={styles.subtitle}>
-                <View style={styles.icon}></View>
-                <Text style={styles.titleText}>Upcoming Events</Text>
-                <View style={styles.icon}>
-                  <MaterialIcons
-                    name="add-circle"
-                    style={styles.add}
-                    onPress={() =>
-                      this.props.navigation.navigate("MapContainer", {
-                        circleData
-                      })
+                })
+
+                users.forEach(doc => {
+                    this.state.member === doc.data().email ? db.collection('users').doc(`${doc.id}`).update({
+                        circles: firebase.firestore.FieldValue.arrayUnion(`${circleData.uid}`)
+                    })
+                        : console.log('nomatch')
+                }) 
+            })
+        
+        this.toggleAddMember()
+        
+    }
+    
+    render () {
+        
+        const circleData = this.props.navigation.getParam("circle")
+        console.log('trying', circleData)
+        return (
+        <View style={styles.container}>
+            <ImageBackground
+                source={{
+                    uri:
+                        "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
+                }}
+                style={styles.bgImage}
+            >
+            <Menu navigation={this.props.navigation}/>
+            <View>
+                <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
+            </View>
+            <View style={styles.body}>
+
+                <View style={styles.events}>
+                    <View style={styles.subtitle}>
+                        <View style={styles.icon}></View>
+                        <Text style={styles.titleText}>Upcoming Events</Text>
+                        <View style={styles.icon}>
+                            <MaterialIcons 
+                                name="add-circle"
+                                style={styles.add} 
+                                onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.eventList}>
+                    <ScrollView>
+                    {
+                        circleData.upcomingEvents
+                        ? circleData.upcomingEvents.map(event => 
+                            <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
+                        : <Text>No Upcoming Events</Text>
                     }
                   />
                 </View>
@@ -144,16 +166,15 @@ export default class Circle extends Component {
                   <View></View>
                 )}
               </View>
-
-              <View style={styles.memberList}>
-                <ScrollView>
-                  {circleData.memberNames.map(member => (
-                    <Text key={Math.random() * 999} style={styles.member}>
-                      {member}
-                    </Text>
-                  ))}
-                </ScrollView>
-              </View>
+                    <View style={styles.memberList}>
+                    <ScrollView>
+                    {   circleData.memberNames ?
+                        circleData.memberNames.map(member => 
+                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>) : null
+                    }
+                    </ScrollView>
+                    </View>
+                </View>
             </View>
           </View>
         </ImageBackground>
