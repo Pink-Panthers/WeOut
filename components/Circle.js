@@ -10,6 +10,7 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
+import db from '../firebase'
 
 export default class Circle extends Component {
     constructor(props) {
@@ -20,8 +21,11 @@ export default class Circle extends Component {
         addMember: false,
         member: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        circle: {}
     }
+
+
     toggleAddMember = () => {
         this.setState({ addMember: !this.state.addMember })
     }
@@ -46,8 +50,8 @@ export default class Circle extends Component {
     
     render () {
         
-        const circleData = this.props.navigation.getParam('circle')
-
+        const circleData = this.props.navigation.getParam("circle")
+        console.log('trying', circleData)
         return (
         <View style={styles.container}>
             <ImageBackground
@@ -59,7 +63,7 @@ export default class Circle extends Component {
             >
             <Menu navigation={this.props.navigation}/>
             <View>
-                <Text style={styles.title}>{circleData.name}</Text>
+                <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
             </View>
             <View style={styles.body}>
 
@@ -71,7 +75,7 @@ export default class Circle extends Component {
                             <MaterialIcons 
                                 name="add-circle"
                                 style={styles.add} 
-                                onPress={() => props.navigation.navigate('MapContainer', {circleData})} 
+                                onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
                             />
                         </View>
                     </View>
@@ -149,9 +153,9 @@ export default class Circle extends Component {
 
                     <View style={styles.memberList}>
                     <ScrollView>
-                    {
+                    {   circleData.memberNames ?
                         circleData.memberNames.map(member => 
-                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>)
+                        <Text key={Math.random() * 999} style={styles.member}>{member}</Text>) : null
                     }
                     </ScrollView>
                     </View>

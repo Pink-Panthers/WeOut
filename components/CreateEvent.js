@@ -4,6 +4,7 @@ import { TextInput, Button } from 'react-native'
 import Menu from './Menu'
 import { CalendarList } from 'react-native-calendars'
 import DateTimePicker from "react-native-modal-datetime-picker";
+import db from '../firebase'
 
 export default class CreateEvent extends Component{
     constructor(props) {
@@ -24,6 +25,7 @@ export default class CreateEvent extends Component{
         this.showEndPicker = this.showEndPicker.bind(this)
         this.hideEndPicker = this.hideEndPicker.bind(this)
         this.handleEndPicker = this.handleEndPicker.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     showStartPicker () {
@@ -52,8 +54,21 @@ export default class CreateEvent extends Component{
         this.hideEndPicker()
     }
 
+    handleSubmit() {
+        const circleData = this.props.navigation.getParam('circleData')
+        db.collection('events').doc().set({
+            circle: circleData.uid,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
+            address: this.state.address,
+            description: this.state.description,
+            placeName: this.state.placeName,
+            eventName: this.state.eventName,
+            members: circleData.memberIDs
+        })
+    }
+
     render() {
-        console.log(this.props.navigation.getParam('circleData'))
         return (
             <View style={styles.container}>
                 <Menu navigation={this.props.navigation}/>
@@ -90,7 +105,7 @@ export default class CreateEvent extends Component{
                     placeholder="Description"
                     maxLength={30}
                 />
-                <View style={styles.calendar}>
+                {/* <View style={styles.calendar}>
                     <CalendarList
                         // Max amount of months allowed to scroll to the past. Default = 50
                         pastScrollRange={0}
@@ -104,7 +119,7 @@ export default class CreateEvent extends Component{
                         maxDate={new Date(Date.now() + 12096e5)}
                         onDayPress={() => console.log('DAY PRESSED!')}
                     />          
-                </View>
+                </View> */}
                 <DateTimePicker
                     isVisible={this.state.startVisibility}
                     onConfirm={this.handleStartPicker}
@@ -121,7 +136,7 @@ export default class CreateEvent extends Component{
                 />
                 <Button title='Select Start Date and Time' onPress={this.showStartPicker}/>
                 <Button title='Select End Date and Time' onPress={this.showEndPicker}/>
-                <Button title="Submit"/>
+                <Button title="Submit" onPress={this.handleSubmit}/>
             </View>
         )
     }

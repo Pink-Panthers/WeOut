@@ -28,15 +28,10 @@ exports.createCircle = functions.firestore
         })
     })
 
-// exports.createEvent = functions.firestore
-//     .document('events/{eventId}')
-//     .onCreate((snap, context) => {
-//     db.collection('circles').doc(snap._fieldsProto.circle.stringValue).set({
-//         circles: firebase.firestore.FieldValue.arrayUnion(context.params.eventId)
-//     }, { merge: true }).then( () => {
-//         console.log('HERE IS THE CURUID -->', snap._fieldsProto.circle.stringValue)
-//     }).catch(err => {
-//         console.log(err)
-//     })
-//     return
-//     })
+exports.createEvent = functions.firestore
+    .document('events/{eventId}')
+    .onCreate((snap, context) => {
+        db.collection('circles').doc(snap._fieldsProto.circle.stringValue).set({
+            upcomingEvents: firebase.firestore.FieldValue.arrayUnion(context.params.eventId)
+        }, { merge: true })
+    })
