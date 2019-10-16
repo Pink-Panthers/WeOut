@@ -75,6 +75,9 @@ export default class Home extends Component {
             </TouchableOpacity>
             <Text style={{ color: "white" }}>Below are your events.</Text>
           </View>
+          <View style={{borderBottomColor: "black", borderBottomWidth: 1, marginBottom: 15}}>
+          <Text>                                                                                              </Text>
+          </View>
           <View style={styles.event}>
             {events
               ? events.map(event => {
@@ -126,8 +129,9 @@ const styles = StyleSheet.create({
   singleEvent: {
     color: "white",
     justifyContent: "center",
-    padding: 50,
+    padding: 40,
     alignItems: "center",
+    width: 340,
     height: 120,
     backgroundColor: "rgba(6, 80, 121, 0.48)",
     borderBottomColor: "rgba(255, 255, 255, 0.36)",
@@ -138,16 +142,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderLeftWidth: 3,
     borderRightWidth: 3,
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 5
   },
   auth: {
     flex: 0.5,
-    marginTop: 50,
+    marginTop: 75,
     alignItems: "center",
     justifyContent: "center",
-    height: 300,
+    height: 320,
     width: 300,
     color: "white",
+    marginBottom: 1,
     backgroundColor: "rgba(6, 80, 121, 0.48)",
     borderBottomColor: "rgba(255, 255, 255, 0.36)",
     borderTopColor: "rgba(255, 255, 255, 0.36)",
