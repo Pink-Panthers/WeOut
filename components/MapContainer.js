@@ -8,14 +8,14 @@ import Menu from "./Menu";
 const { width, height } = Dimensions.get("screen");
 
 export default class MapContainer extends Component {
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props);
     this.state = {
       region: {},
       selected: {},
       details: {}
-   }
-  };
+    };
+  }
 
   componentDidMount() {
     this.getInitialState();
@@ -65,7 +65,7 @@ export default class MapContainer extends Component {
   }
 
   render() {
-    const circleData = this.props.navigation.getParam('circleData')
+    const circleData = this.props.navigation.getParam("circleData");
     return (
       <View style={{ flex: 1 }}>
         <Menu navigation={this.props.navigation} />
@@ -80,7 +80,6 @@ export default class MapContainer extends Component {
             onPress={(data, details) => {
               this.notifyChange(details.geometry.location);
               this.setState({ selected: data, details });
-              // console.log(details.geometry.location)
             }}
             query={{
               key: "AIzaSyDtL-Gqej9DslO6FZU49rSS8PFOwNUmFM4",

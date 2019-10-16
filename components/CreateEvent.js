@@ -4,6 +4,7 @@ import { TextInput, Button } from "react-native";
 import Menu from "./Menu";
 import { CalendarList } from "react-native-calendars";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import getDirections from "react-native-google-maps-directions";
 
 export default class CreateEvent extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class CreateEvent extends Component {
     this.showEndPicker = this.showEndPicker.bind(this);
     this.hideEndPicker = this.hideEndPicker.bind(this);
     this.handleEndPicker = this.handleEndPicker.bind(this);
+    this.handleGetDirections = this.handleGetDirections.bind(this);
   }
 
   showStartPicker() {
@@ -52,10 +54,33 @@ export default class CreateEvent extends Component {
     this.hideEndPicker();
   }
 
+  handleGetDirections = () => {
+    const region = this.props.navigation.getParam("region");
+    const data = {
+      source: {
+        latitude: undefined,
+        longitude: undefined
+      },
+      destination: {
+        latitude: region.latitude,
+        longitude: region.longitude
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "transit"
+        },
+        {
+          key: "dir_action",
+          value: "navigate"
+        }
+      ]
+    };
+    getDirections(data);
+  };
+
   render() {
-    // console.log(this.props.navigation.getParam("circleData"));
     const details = this.props.navigation.getParam("details");
-    console.log("DETAILS", details);
     return (
       <View style={styles.container}>
         <Menu navigation={this.props.navigation} />
@@ -100,6 +125,8 @@ export default class CreateEvent extends Component {
           placeholder="Description"
           maxLength={30}
         />
+        <Button onPress={this.handleGetDirections} title="Get Directions" />
+
         <View style={styles.calendar}>
           <CalendarList
             // Max amount of months allowed to scroll to the past. Default = 50
