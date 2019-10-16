@@ -86,10 +86,7 @@ export default class Circle extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={{
-            uri:
-              "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
-          }}
+          source={require("../assets/pics/4.jpg")}
           style={styles.bgImage}
         >
           <Menu navigation={this.props.navigation} />
@@ -262,13 +259,18 @@ const styles = StyleSheet.create({
     flexWrap: "wrap"
   },
   event: {
+    color: "white",
     width: width * 0.9,
-    borderColor: "black",
-    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.36)",
+    borderWidth: 3,
     marginVertical: 10,
     padding: 50,
     height: 120,
-    backgroundColor: "#ffdbac",
+    backgroundColor: "rgba(6, 80, 121, 0.7)",
+    borderTopWidth: 3,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
     borderRadius: 10,
     overflow: "hidden",
     textAlign: "center"
