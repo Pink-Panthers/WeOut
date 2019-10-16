@@ -11,6 +11,8 @@ import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
 import db from '../firebase'
+import * as firebase from "firebase";
+
 
 export default class Circle extends Component {
   constructor(props) {
@@ -34,7 +36,8 @@ export default class Circle extends Component {
         const circleData = this.props.navigation.getParam("circle");
         let allUsers = usersRef.get().then(users => {
                 users.forEach(doc => {
-                    console.log(circleData.uid)
+                    console.log('circledata', circleData)
+                    console.log('user email', doc.data().email, 'user id', doc.id)
                     this.state.member === doc.data().email ? db.collection('circles').doc(`${circleData.uid}`).update({
                         memberIDs: firebase.firestore.FieldValue.arrayUnion(`${doc.id}`), memberNames: firebase.firestore.FieldValue.arrayUnion(`${doc.data().firstName} ${doc.data().lastName}`)      
                     })
@@ -58,7 +61,6 @@ export default class Circle extends Component {
     render () {
         
         const circleData = this.props.navigation.getParam("circle")
-        console.log('trying', circleData)
         return (
         <View style={styles.container}>
             <ImageBackground
@@ -97,7 +99,6 @@ export default class Circle extends Component {
                     </ScrollView>
                 </View>
               </View>
-            </View>
 
             <View style={styles.members}>
               <View style={styles.subtitle}>
@@ -162,6 +163,8 @@ export default class Circle extends Component {
                     </ScrollView>
                     </View>
                 </View>
+              </View>
+
         </ImageBackground>
       </View>
     );
@@ -216,6 +219,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   eventList: {
+    flex: 3,
     alignItems: "center"
   },
   memberList: {

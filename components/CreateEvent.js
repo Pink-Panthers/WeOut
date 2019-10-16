@@ -27,7 +27,7 @@ export default class CreateEvent extends Component {
     this.hideEndPicker = this.hideEndPicker.bind(this)
     this.handleEndPicker = this.handleEndPicker.bind(this)
     this.handleGetDirections = this.handleGetDirections.bind(this)
-    this.handlSubmit = this.handleSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   showStartPicker() {
@@ -177,7 +177,7 @@ export default class CreateEvent extends Component {
           onPress={this.showStartPicker}
         />
         <Button title="Select End Date and Time" onPress={this.showEndPicker} />
-        <Button title="Submit" />
+        <Button title="Submit" onPress={this.handleSubmit}/>
       </View>
     );
   }
