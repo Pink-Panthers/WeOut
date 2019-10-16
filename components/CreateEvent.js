@@ -143,21 +143,21 @@ export default class CreateEvent extends Component {
           maxLength={30}
         />
         <Button onPress={this.handleGetDirections} title="Get Directions" />
-//         <View style={styles.calendar}>
+{/* //         <View style={styles.calendar}>
 //           <CalendarList
-//             // Max amount of months allowed to scroll to the past. Default = 50
-//             pastScrollRange={0}
-//             // Max amount of months allowed to scroll to the future. Default = 50
-//             futureScrollRange={1}
-//             // Enable or disable scrolling of calendar list
-//             scrollEnabled={true}
-//             // Enable or disable vertical scroll indicator. Default = false
-//             showScrollIndicator={true}
-//             minDate={new Date()}
-//             maxDate={new Date(Date.now() + 12096e5)}
-//             onDayPress={() => console.log("DAY PRESSED!")}
-//           />
-//         </View>
+            // Max amount of months allowed to scroll to the past. Default = 50
+            pastScrollRange={0}
+            // Max amount of months allowed to scroll to the future. Default = 50
+            futureScrollRange={1}
+            // Enable or disable scrolling of calendar list
+            scrollEnabled={true}
+            // Enable or disable vertical scroll indicator. Default = false
+            showScrollIndicator={true}
+            minDate={new Date()}
+            maxDate={new Date(Date.now() + 12096e5)}
+            onDayPress={() => console.log("DAY PRESSED!")}
+          />
+        </View> */}
         <DateTimePicker
           isVisible={this.state.startVisibility}
           onConfirm={this.handleStartPicker}

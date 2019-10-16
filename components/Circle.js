@@ -94,21 +94,8 @@ export default class Circle extends Component {
                             <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
                         : <Text>No Upcoming Events</Text>
                     }
-                  />
+                    </ScrollView>
                 </View>
-              </View>
-              <View style={styles.eventList}>
-                <ScrollView>
-                  {circleData.upcomingEvents ? (
-                    circleData.upcomingEvents.map(event => (
-                      <Text key={Math.random() * 999} style={styles.event}>
-                        {event}
-                      </Text>
-                    ))
-                  ) : (
-                    <Text>No Upcoming Events</Text>
-                  )}
-                </ScrollView>
               </View>
             </View>
 
@@ -175,8 +162,6 @@ export default class Circle extends Component {
                     </ScrollView>
                     </View>
                 </View>
-            </View>
-          </View>
         </ImageBackground>
       </View>
     );
