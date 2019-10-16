@@ -25,28 +25,35 @@ export default class Circle extends Component {
         circle: {}
     }
 
-
     toggleAddMember = () => {
         this.setState({ addMember: !this.state.addMember })
     }
 
     addUser = () => {
         let usersRef = db.collection('users');
-        let circleRef = db.collection('circles')
         const circleData = this.props.navigation.getParam("circle");
-        // console.log('in add user', circleData.data())
-        // console.log('member', this.state.member)
-        // let allUsers = usersRef.get().then(users => {
-        //         users.forEach(doc => {
-        //             this.state.member === doc.data().email ? db.collection('circles').doc(circleData.circleID).update({
-        //                 members: db.FieldValue.arrayUnion(doc.data().id)
-        //             }) : console.log('fuck this shit')
+        let allUsers = usersRef.get().then(users => {
+                users.forEach(doc => {
+                    console.log(circleData.uid)
+                    this.state.member === doc.data().email ? db.collection('circles').doc(`${circleData.uid}`).update({
+                        memberIDs: firebase.firestore.FieldValue.arrayUnion(`${doc.id}`), memberNames: firebase.firestore.FieldValue.arrayUnion(`${doc.data().firstName} ${doc.data().lastName}`)      
+                    })
 
-        //         })
-        //     })
+                    : console.log('nomatch')
+
+                })
+
+                users.forEach(doc => {
+                    this.state.member === doc.data().email ? db.collection('users').doc(`${doc.id}`).update({
+                        circles: firebase.firestore.FieldValue.arrayUnion(`${circleData.uid}`)
+                    })
+                        : console.log('nomatch')
+                }) 
+            })
+        
+        this.toggleAddMember()
+        
     }
-
-
     
     render () {
         
