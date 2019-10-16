@@ -9,6 +9,7 @@ import {
 import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class Home extends Component {
   constructor(props) {
@@ -75,42 +76,48 @@ export default class Home extends Component {
             </TouchableOpacity>
             <Text style={{ color: "white" }}>Below are your events.</Text>
           </View>
-          <View style={{borderBottomColor: "black", borderBottomWidth: 1, marginBottom: 15}}>
-          <Text>                                                                                              </Text>
-          </View>
-          <View style={styles.event}>
-            {events
-              ? events.map(event => {
-                  return (
-                    <View
-                      key={Math.floor(Math.random() * 231425635342)}
-                      style={styles.singleEvent}
-                    >
-                      <Text style={{ color: "white", textShadowColor: "red" }}>
-                        {event.eventName + " " + event.description}
-                      </Text>
-                      <Text style={{ color: "white", textShadowColor: "red" }}>
-                        {event.placeName + " " + event.address}
-                      </Text>
-                      <Text style={{ color: "white", textShadowColor: "red" }}>
-                        Start Time:{" "}
-                        {String(new Date(event.startTime.seconds * 1000)).slice(
-                          0,
-                          25
-                        )}
-                      </Text>
-                      <Text style={{ color: "white", textShadowColor: "red" }}>
-                        End Time:{" "}
-                        {String(new Date(event.endTime.seconds * 1000)).slice(
-                          0,
-                          25
-                        )}
-                      </Text>
-                    </View>
-                  );
-                })
-              : null}
-          </View>
+          <ScrollView>
+            <View style={styles.event}>
+              {events
+                ? events.map(event => {
+                    return (
+                      <View
+                        key={Math.floor(Math.random() * 231425635342)}
+                        style={styles.singleEvent}
+                      >
+                        <Text
+                          style={{ color: "white", textShadowColor: "red" }}
+                        >
+                          {event.eventName + " " + event.description}
+                        </Text>
+                        <Text
+                          style={{ color: "white", textShadowColor: "red" }}
+                        >
+                          {event.placeName + " " + event.address}
+                        </Text>
+                        <Text
+                          style={{ color: "white", textShadowColor: "red" }}
+                        >
+                          Start Time:{" "}
+                          {String(
+                            new Date(event.startTime.seconds * 1000)
+                          ).slice(0, 25)}
+                        </Text>
+                        <Text
+                          style={{ color: "white", textShadowColor: "red" }}
+                        >
+                          End Time:{" "}
+                          {String(new Date(event.endTime.seconds * 1000)).slice(
+                            0,
+                            25
+                          )}
+                        </Text>
+                      </View>
+                    );
+                  })
+                : null}
+            </View>
+          </ScrollView>
         </ImageBackground>
       </View>
     );
@@ -146,8 +153,8 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   auth: {
-    flex: 0.5,
-    marginTop: 75,
+    flex: 0.3,
+    marginTop: 50,
     alignItems: "center",
     justifyContent: "center",
     height: 320,
@@ -166,7 +173,8 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   event: {
-    flex: 4,
+    flex: 3,
+    height: 300,
     alignItems: "center"
 
     // marginTop: 75,
