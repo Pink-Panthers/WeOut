@@ -12,6 +12,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu"
 import * as firebase from 'firebase'
 import db from '../firebase'
+import * as firebase from "firebase";
+
 
 export default class Circle extends Component {
   constructor(props) {
@@ -120,7 +122,6 @@ export default class Circle extends Component {
                   )}
                 </ScrollView>
               </View>
-            </View>
 
             <View style={styles.members}>
               <View style={styles.subtitle}>
@@ -239,6 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   eventList: {
+    flex: 3,
     alignItems: "center"
   },
   memberList: {
