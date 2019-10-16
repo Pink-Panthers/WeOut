@@ -1,18 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import { getLocation } from "../services/getLocation";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Map from "./Map";
-import Menu from './Menu'
+import Menu from "./Menu";
 
 const { width, height } = Dimensions.get("screen");
 
-export default class MapContainer extends React.Component {
-  state = {
-    region: {},
-    selected: {}
-  };
-  
+export default class MapContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      region: {},
+      selected: {},
+      details: {}
+    };
+  }
+
   componentDidMount() {
     this.getInitialState();
   }
@@ -61,9 +65,10 @@ export default class MapContainer extends React.Component {
   }
 
   render() {
+    const circleData = this.props.navigation.getParam("circleData");
     return (
-      <View style={{flex: 1}}>
-        <Menu navigation={this.props.navigation}/>
+      <View style={{ flex: 1 }}>
+        <Menu navigation={this.props.navigation} />
         <View style={styles.input}>
           <GooglePlacesAutocomplete
             title={true}
@@ -72,10 +77,9 @@ export default class MapContainer extends React.Component {
             autoFocus={true}
             listViewDisplayed={false}
             fetchDetails={true}
-            onPress={(data, details = null) => {
+            onPress={(data, details) => {
               this.notifyChange(details.geometry.location);
-              this.setState({ selected: data });
-              console.log(details.geometry.location)
+              this.setState({ selected: data, details });
             }}
             query={{
               key: "AIzaSyDtL-Gqej9DslO6FZU49rSS8PFOwNUmFM4",
@@ -92,6 +96,9 @@ export default class MapContainer extends React.Component {
               region={this.state.region}
               onRegionChange={reg => this.onMapRegionChange(reg)}
               selected={this.state.selected}
+              details={this.state.details}
+              navigation={this.props.navigation}
+              circleData={circleData}
             />
           </View>
         ) : null}
@@ -110,7 +117,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-    borderTopColor: 'black',
+    borderTopColor: "black",
     borderTopWidth: 1
   }
-})
+});

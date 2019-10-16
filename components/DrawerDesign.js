@@ -1,31 +1,41 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import firebase from 'firebase'
 import db from "../firebase";
 
-export default class DrawerDesign extends React.Component {
+
+
+export default class DrawerDesign extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       userCircles: []
     }
   }
 
   componentDidMount() {
-    db.collection("users")
-      .doc(/*firebase.auth().currentUser.uid*/ "sampleUser")
-      .get()
-      .then(user => user.data().circles)
-      .then(circles => {
-        circles.forEach( circleID => {
-        db.collection('circles')
-        .doc(circleID)
+    db.collection('circles')
+    .where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
+    .onSnapshot( circles => {
+      var allCircs = []
+      circles.forEach( circle => {
+        let uid = circle.data().uid
+        allCircs.push(circle.data())
+        db.collection('events')
+        .where('circle', '==', `${uid}`)
         .get()
-        .then( circle => this.setState({userCircles: [...this.state.userCircles, circle.data()]}))
+        .then( events => {
+          events.forEach( event => {
+            db.collections('events').doc(event._document.key.path.segments[6]).update({
+              members: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
+            })
+          })
         })
       })
+      this.setState({ userCircles: allCircs })
+    })
   }
-
 
   navLink(nav, text, circle) {
     return (
@@ -50,15 +60,21 @@ export default class DrawerDesign extends React.Component {
     const { userCircles } = this.state
     return (
       <View style={styles.container}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')} >
         <View style={styles.top}>
-          <Image style={styles.logo} source={require("../assets/weOut.png")} />
+          <Image 
+            style={styles.logo} 
+            source={require("../assets/weOut.png")}
+          />
         </View>
+        </TouchableOpacity>
         <ScrollView style={styles.bottom}>
           <View>
-            {this.navLink("Home", "Home")}
-            {userCircles.map(circle =>
+            {this.navLink("CreateCircle", "Create Circle", userCircles)}
+            {userCircles ? userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
-            )}
+            ) : null}
+            {/* {this.navLink("CreateEvent", "Create Event")} */}
           </View>
         </ScrollView>
       </View>
@@ -74,7 +90,7 @@ const styles = StyleSheet.create({
   },
   top: {
     height: 140,
-    backgroundColor: "#ff7f50",
+    backgroundColor: "#7f99b1",
     alignItems: "center",
     justifyContent: "flex-end",
     borderBottomColor: "black",
@@ -82,7 +98,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flex: 1,
-    backgroundColor: "tan",
+    backgroundColor: "rgba(6, 80, 121, 0.48)",
     paddingTop: 10
   },
   link: {
@@ -97,7 +113,8 @@ const styles = StyleSheet.create({
   },
   circle: {
     height: 100,
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 12
   },
   icon: {
     width: 80,

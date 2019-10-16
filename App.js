@@ -4,6 +4,8 @@ import LoadingScreen from "./components/LoadingScreen";
 import MapContainer from "./components/MapContainer";
 import Login from "./components/Login";
 import Home from "./components/Home";
+import CreateEvent from './components/CreateEvent';
+import CreateCircle from './components/CreateCircle'
 import Circle from "./components/Circle";
 import DrawerDesign from "./components/DrawerDesign";
 import { createDrawerNavigator } from "react-navigation-drawer";
@@ -13,6 +15,8 @@ import { createStackNavigator } from "react-navigation-stack";
 const drawerNavigation = createDrawerNavigator(
   {
     Home,
+    CreateCircle,
+    CreateEvent,
     Login,
     Circle,
     MapContainer

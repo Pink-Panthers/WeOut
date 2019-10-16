@@ -70,7 +70,7 @@
   <component name="ToolWindowManager">
     <frame x="354" y="1107" width="1299" height="728" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3299373" />
+      <window_info active="true" content_ui="combo" id="Project" startVisibility="true" weight="0.3299373" />
       <window_info id="Structure" side_tool="true" />
       <window_info id="Image Layers" />
       <window_info id="Designer" />
