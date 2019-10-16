@@ -93,6 +93,10 @@ export default class CreateEvent extends Component {
             eventName: this.state.eventName,
             members: circleData.memberIDs
         })
+        .then( () => console.log('SUCCESS CREATING EVENT'))
+        .catch(err => {
+            console.log('ERROR CREATING EVENT:', err)
+        })
     }
 
 

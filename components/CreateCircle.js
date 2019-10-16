@@ -4,7 +4,6 @@ import { TextInput, Button, Image, TouchableHighlight } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import firebase from 'firebase'
 import db from '../firebase'
-import { updateDrawerState } from './DrawerDesign'
 import Menu from './Menu'
 
 export default class CreateCircle extends Component {

@@ -4,55 +4,36 @@ import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import firebase from 'firebase'
 import db from "../firebase";
 
-export function updateDrawerState(){
-  this.setState({userCircles: []})
-  db.collection("users")
-    .doc(firebase.auth().currentUser.uid)
-    .get()
-    .then(user => user.data().circles)
-    .then(circles => {
-      circles.forEach( circleID => {
-      db.collection('circles')
-      .doc(circleID)
-      .get()
-      .then( circle => {
-        this.setState({userCircles: [...this.state.userCircles, circle.data()]})
-      })
-      })
-    })
-}
+
 
 export default class DrawerDesign extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       userCircles: []
     }
-    updateDrawerState = updateDrawerState.bind(this)
   }
 
   componentDidMount() {
-    db.collection('users').doc(firebase.auth().currentUser.uid)
-      .onSnapshot( user => {
-        updateDrawerState()
-      })
     db.collection('circles')
     .where('memberIDs', 'array-contains', `${firebase.auth().currentUser.uid}`)
     .onSnapshot( circles => {
+      var allCircs = []
       circles.forEach( circle => {
         let uid = circle.data().uid
+        allCircs.push(circle.data())
         db.collection('events')
         .where('circle', '==', `${uid}`)
         .get()
         .then( events => {
           events.forEach( event => {
-            // console.log('trying', event._document.key.path.segments[6])
             db.collections('events').doc(event._document.key.path.segments[6]).update({
               members: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid)
             })
           })
         })
       })
+      this.setState({ userCircles: allCircs })
     })
   }
 
@@ -90,9 +71,9 @@ export default class DrawerDesign extends Component {
         <ScrollView style={styles.bottom}>
           <View>
             {this.navLink("CreateCircle", "Create Circle", userCircles)}
-            {userCircles.map(circle =>
+            {userCircles ? userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
-            )}
+            ) : null}
             {/* {this.navLink("CreateEvent", "Create Event")} */}
           </View>
         </ScrollView>
