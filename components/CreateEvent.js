@@ -151,26 +151,11 @@ export default class CreateEvent extends Component {
         ? <Text>Start Time: {String(new Date(this.state.startTime)).slice(0, 21)}</Text>
         : null
         }
-        {this.state.startTime
+        {this.state.endTime
         ? <Text>End Time: {String(new Date(this.state.endTime)).slice(0, 21)}</Text>
         : null
         }
         <Button onPress={this.handleGetDirections} title="Get Directions" />
-{/* //         <View style={styles.calendar}>
-//           <CalendarList
-            // Max amount of months allowed to scroll to the past. Default = 50
-            pastScrollRange={0}
-            // Max amount of months allowed to scroll to the future. Default = 50
-            futureScrollRange={1}
-            // Enable or disable scrolling of calendar list
-            scrollEnabled={true}
-            // Enable or disable vertical scroll indicator. Default = false
-            showScrollIndicator={true}
-            minDate={new Date()}
-            maxDate={new Date(Date.now() + 12096e5)}
-            onDayPress={() => console.log("DAY PRESSED!")}
-          />
-        </View> */}
         <DateTimePicker
           isVisible={this.state.startVisibility}
           onConfirm={this.handleStartPicker}
