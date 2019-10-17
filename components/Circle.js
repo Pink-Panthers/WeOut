@@ -24,7 +24,8 @@ export default class Circle extends Component {
         member: '',
         firstName: '',
         lastName: '',
-        circle: this.props.navigation.getParam("circle")
+        circle: this.props.navigation.getParam("circle"),
+        events: []
     }
 
     toggleAddMember = () => {
@@ -40,6 +41,12 @@ export default class Circle extends Component {
                 }
             })
         })
+        this.state.circle.upcomingEvents.forEach(event => this.eventHandler(event))
+    }
+
+    async eventHandler (eventID) {
+      let event = await db.collection('events').doc(eventID).get()
+      this.setState({events: [...this.state.events, event.data()]})
     }
 
     addUser = () => {
@@ -62,7 +69,6 @@ export default class Circle extends Component {
                         : console.log('nomatch')
                 }) 
             })
-
         
         this.toggleAddMember()
         
@@ -71,6 +77,7 @@ export default class Circle extends Component {
     render () {
         
         const circleData = this.props.navigation.getParam("circle")
+        
         return (
         <View style={styles.container}>
             <ImageBackground
@@ -101,8 +108,19 @@ export default class Circle extends Component {
                         <ScrollView>
                             {
                                 circleData.upcomingEvents
-                                ? circleData.upcomingEvents.map(event => 
-                                    <Text key={Math.random() * 999} style={styles.event}>{event}</Text>)
+                                ? this.state.events.map(event => 
+                                  <View style={styles.event} key={Math.random() * 999}>
+                                    <Text>{event.eventName}</Text>
+                                    <Text></Text>
+                                    <Text>Start Time:{" "}
+                                      {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
+                                  </Text>
+                                  <Text>
+                                    End Time:{" "}
+                                    {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
+                                  </Text>
+                                  </View>
+                                  )
                                 : <Text>No Upcoming Events</Text>
                             }
                         </ScrollView>
@@ -240,12 +258,13 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     marginVertical: 10,
-    padding: 50,
+    padding: 30,
     height: 120,
     backgroundColor: "#ffdbac",
     borderRadius: 10,
     overflow: "hidden",
-    textAlign: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   member: {
     width: width * 0.3,
