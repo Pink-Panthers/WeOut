@@ -9,16 +9,16 @@ import {
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Input, Button, Icon } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
-import Menu from "./Menu"
-import * as firebase from 'firebase'
-import db from '../firebase'
-
+import Menu from "./Menu";
+import * as firebase from "firebase";
+import db from "../firebase";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default class Circle extends Component {
   constructor(props) {
     super(props);
   }
-
+  
     state = {
         addMember: false,
         member: '',
@@ -49,27 +49,42 @@ export default class Circle extends Component {
       this.setState({events: [...this.state.events, event.data()]})
     }
 
-    addUser = () => {
-        let usersRef = db.collection('users');
-        const circleData = this.props.navigation.getParam("circle");
-        let allUsers = usersRef.get().then(users => {
-                users.forEach(doc => {
-                    this.state.member === doc.data().email ? db.collection('circles').doc(`${circleData.uid}`).update({
-                        memberIDs: firebase.firestore.FieldValue.arrayUnion(`${doc.id}`), memberNames: firebase.firestore.FieldValue.arrayUnion(`${doc.data().firstName} ${doc.data().lastName}`)      
-                    })
+  addUser = () => {
+    let usersRef = db.collection("users");
+    const circleData = this.props.navigation.getParam("circle");
+    let allUsers = usersRef.get().then(users => {
+      users.forEach(doc => {
+        this.state.member === doc.data().email
+          ? db
+              .collection("circles")
+              .doc(`${circleData.uid}`)
+              .update({
+                memberIDs: firebase.firestore.FieldValue.arrayUnion(
+                  `${doc.id}`
+                ),
+                memberNames: firebase.firestore.FieldValue.arrayUnion(
+                  `${doc.data().firstName} ${doc.data().lastName}`
+                )
+              })
+          : console.log("nomatch");
+      });
 
-                    : console.log('nomatch')
-
-                })
-
-                users.forEach(doc => {
-                    this.state.member === doc.data().email ? db.collection('users').doc(`${doc.id}`).set({
-                        circles: firebase.firestore.FieldValue.arrayUnion(`${circleData.uid}`)
-                    }, { merge: true })
-                        : console.log('nomatch')
-                }) 
-            })
-        
+      users.forEach(doc => {
+        this.state.member === doc.data().email
+          ? db
+              .collection("users")
+              .doc(`${doc.id}`)
+              .set(
+                {
+                  circles: firebase.firestore.FieldValue.arrayUnion(
+                    `${circleData.uid}`
+                  )
+                },
+                { merge: true }
+              )
+          : console.log("nomatch");
+      });
+    });
         this.toggleAddMember()
         
     }
@@ -125,7 +140,23 @@ export default class Circle extends Component {
                             }
                         </ScrollView>
                     </View>
+
                 </View>
+              </View>
+              <View style={styles.eventList}>
+                <ScrollView>
+                  {circleData.upcomingEvents ? (
+                    circleData.upcomingEvents.map(event => (
+                      <Text key={Math.random() * 999} style={styles.event}>
+                        {event}
+                      </Text>
+                    ))
+                  ) : (
+                    <Text>No Upcoming Events</Text>
+                  )}
+                </ScrollView>
+              </View>
+            </View>
             <View style={styles.members}>
               <View style={styles.subtitle}>
                 <View style={styles.icon}></View>
@@ -136,63 +167,67 @@ export default class Circle extends Component {
                   </TouchableOpacity>
                 </View>
               </View>
-
               <View>
                 {this.state.addMember ? (
-                  <View>
-                    <Input
-                      leftIcon={
-                        <Icon
-                          name="user"
-                          type="font-awesome"
-                          color="white"
-                          size={25}
-                        />
-                      }
-                      inputStyle={{ marginLeft: 10, color: "white" }}
-                      containerStyle={{ marginVertical: 10 }}
-                      onChangeText={member => this.setState({ member })}
-                      value={this.state.member}
-                      placeholder="Add User"
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholderTextColor="white"
-                    />
-                    <TouchableOpacity onPress={this.addUser}>
-                      <Button
-                        title="SUBMIT"
-                        activeOpacity={1}
-                        underlayColor="transparent"
-                        buttonStyle={{
-                          height: 50,
-                          width: 150,
-                          backgroundColor: "transparent",
-                          borderWidth: 2,
-                          borderColor: "white",
-                          borderRadius: 30
-                        }}
+                  <KeyboardAwareScrollView>
+                    <View>
+                      <Input
+                        leftIcon={
+                          <Icon
+                            name="user"
+                            type="font-awesome"
+                            color="white"
+                            size={25}
+                          />
+                        }
+                        inputStyle={{ marginLeft: 10, color: "white" }}
                         containerStyle={{ marginVertical: 10 }}
-                        titleStyle={{ fontWeight: "bold", color: "white" }}
+                        onChangeText={member => this.setState({ member })}
+                        value={this.state.member}
+                        placeholder="Add User"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholderTextColor="white"
                       />
-                    </TouchableOpacity>
-                  </View>
+                      <TouchableOpacity onPress={this.addUser}>
+                        <Button
+                          title="SUBMIT"
+                          activeOpacity={1}
+                          underlayColor="transparent"
+                          buttonStyle={{
+                            height: 50,
+                            width: 150,
+                            backgroundColor: "transparent",
+                            borderWidth: 2,
+                            borderColor: "white",
+                            borderRadius: 30
+                          }}
+                          containerStyle={{ marginVertical: 10 }}
+                          titleStyle={{ fontWeight: "bold", color: "white" }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </KeyboardAwareScrollView>
                 ) : (
                   <View></View>
                 )}
-                </View>
-                    <View style={styles.memberList}>
-                        <ScrollView>
-                            {   circleData.memberNames ?
-                                circleData.memberNames.map(member => 
-                                <Text key={Math.random() * 999} style={styles.member}>{member}</Text>) : null
-                            }
-                        </ScrollView>
-                    </View>
-                </View>
+              </View>
+              <View style={styles.memberList}>
+                <ScrollView>
+                  {circleData.memberNames
+                    ? circleData.memberNames.map(member => (
+                        <Text key={Math.random() * 999} style={styles.member}>
+                          {member}
+                        </Text>
+                      ))
+                    : null}
+                </ScrollView>
+              </View>
             </View>
-            </ImageBackground>
-        </View>
-    )
+          </View>
+        </ImageBackground>
+      </View>
+    );
   }
 }
 
@@ -254,13 +289,18 @@ const styles = StyleSheet.create({
     flexWrap: "wrap"
   },
   event: {
+    color: "white",
     width: width * 0.9,
-    borderColor: "black",
-    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.36)",
+    borderWidth: 3,
     marginVertical: 10,
     padding: 30,
     height: 120,
-    backgroundColor: "#ffdbac",
+    backgroundColor: "rgba(6, 80, 121, 0.7)",
+    borderTopWidth: 3,
+    borderBottomWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
     borderRadius: 10,
     overflow: "hidden",
     alignItems: 'center',
@@ -290,4 +330,4 @@ const styles = StyleSheet.create({
   icon: {
     flex: 1
   }
-})
+});

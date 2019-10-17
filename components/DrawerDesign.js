@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flex: 1,
-    backgroundColor: "tan",
+    backgroundColor: "rgba(6, 80, 121, 0.48)",
     paddingTop: 10
   },
   link: {
