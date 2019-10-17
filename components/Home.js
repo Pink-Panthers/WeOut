@@ -10,6 +10,7 @@ import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
 import { ScrollView } from "react-native-gesture-handler";
+import { updateDrawerIfCircleMounted } from './DrawerDesign'
 
 export default class Home extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    updateDrawerIfCircleMounted(false)
     let randomImages = [
       require("../assets/pics/1.jpg"),
       require("../assets/pics/2.jpg"),
