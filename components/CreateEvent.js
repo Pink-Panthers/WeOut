@@ -10,12 +10,13 @@ import db from '../firebase'
 export default class CreateEvent extends Component {
   constructor(props) {
     super(props);
+    const details = this.props.navigation.getParam("details");
     this.state = {
       startVisibility: false,
       endVisibility: false,
       eventName: "",
-      placeName: "",
-      address: "",
+      placeName: details.name,
+      address: details.address,
       description: "",
       startTime: "",
       endTime: ""
@@ -102,7 +103,6 @@ export default class CreateEvent extends Component {
 
 
   render() {
-    const details = this.props.navigation.getParam("details");
     return (
       <View style={styles.container}>
         <Menu navigation={this.props.navigation} />
@@ -122,7 +122,7 @@ export default class CreateEvent extends Component {
           onChangeText={placeName => {
             this.setState({ placeName });
           }}
-          value={details.name}
+          value={this.state.placeName}
           style={styles.text}
           placeholder={"Place Name"}
           maxLength={10}
@@ -132,7 +132,7 @@ export default class CreateEvent extends Component {
           onChangeText={address => {
             this.setState({ address });
           }}
-          value={details.address}
+          value={this.state.address}
           style={styles.text}
           placeholder="Address"
           maxLength={10}
@@ -147,6 +147,14 @@ export default class CreateEvent extends Component {
           placeholder="Description"
           maxLength={30}
         />
+        {this.state.startTime
+        ? <Text>Start Time: {String(new Date(this.state.startTime)).slice(0, 21)}</Text>
+        : null
+        }
+        {this.state.startTime
+        ? <Text>End Time: {String(new Date(this.state.endTime)).slice(0, 21)}</Text>
+        : null
+        }
         <Button onPress={this.handleGetDirections} title="Get Directions" />
 {/* //         <View style={styles.calendar}>
 //           <CalendarList
