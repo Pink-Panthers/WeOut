@@ -1,17 +1,22 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import React, { Component } from "react"
+import { View, Text, StyleSheet, Image } from "react-native"
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler"
+import { updateMountedCircle, setNewCircleData } from './Circle'
 import firebase from 'firebase'
-import db from "../firebase";
+import db from "../firebase"
 
-
+export let updateDrawerIfCircleMounted = function(bool) {
+  this.setState({ circleMounted: bool })
+}
 
 export default class DrawerDesign extends Component {
   constructor() {
     super()
     this.state = {
-      userCircles: []
+      userCircles: [],
+      circleMounted: false
     }
+    updateDrawerIfCircleMounted = updateDrawerIfCircleMounted.bind(this)
   }
 
   componentDidMount() {
@@ -33,14 +38,27 @@ export default class DrawerDesign extends Component {
           })
         })
       })
+      if(this.state.circleMounted) {
+        updateMountedCircle(allCircs)
+      }
       this.setState({ userCircles: allCircs })
     })
   }
 
+
+
   navLink(nav, text, circle) {
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigation.navigate(nav, {circle})}
+        onPress={() => {
+          if(this.state.circleMounted) {
+            setNewCircleData(circle)
+          }
+          if( text !== 'Create Circle' ) {
+            this.setState({ circleMounted: true })
+          }
+          this.props.navigation.navigate(nav, {circle})
+        }}
         key={Math.random() * 999}
       >
         <View style={styles.circle}>
@@ -60,7 +78,10 @@ export default class DrawerDesign extends Component {
     const { userCircles } = this.state
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')} >
+        <TouchableOpacity onPress={() => {
+          this.setState({ circleMounted: false })
+          this.props.navigation.navigate('Home')
+        }}>
         <View style={styles.top}>
           <Image 
             style={styles.logo} 

@@ -13,10 +13,27 @@ import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { updateDrawerIfCircleMounted } from './DrawerDesign'
+
+export let updateMountedCircle = function(allCircs) {
+  let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)
+  this.setState({ circleData: newCirc[0] })
+}
+
+export let setNewCircleData = function(circle) {
+  this.setState({ circleData: circle })
+}
 
 export default class Circle extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+    this.state = {
+      addMember: false,
+      member: "",
+      circleData: this.props.navigation.getParam("circle")
+    }
+    updateMountedCircle = updateMountedCircle.bind(this)
+    setNewCircleData = setNewCircleData.bind(this)
   }
   
     state = {
@@ -28,30 +45,23 @@ export default class Circle extends Component {
         events: []
     }
 
-    toggleAddMember = () => {
-        this.setState({ addMember: !this.state.addMember })
-    }
+  componentDidMount() {
+    this.setState({ circleData: this.props.navigation.getParam("circle") })
+    this.state.circle.upcomingEvents.forEach(event => this.eventHandler(event))
+  }
 
-    componentDidMount() {
-        db.collection('circles')
-        .onSnapshot( circles => {
-            circles.forEach( circle => {
-                if(circle.data().uid === this.state.circle.uid) {
-                    this.setState({ circle })
-                }
-            })
-        })
-        this.state.circle.upcomingEvents.forEach(event => this.eventHandler(event))
-    }
-
-    async eventHandler (eventID) {
-      let event = await db.collection('events').doc(eventID).get()
-      this.setState({events: [...this.state.events, event.data()]})
-    }
+  toggleAddMember = () => {
+    this.setState({ addMember: !this.state.addMember })
+  }
+  
+  async eventHandler (eventID) {
+    let event = await db.collection('events').doc(eventID).get()
+    this.setState({events: [...this.state.events, event.data()]})
+  }
 
   addUser = () => {
     let usersRef = db.collection("users");
-    const circleData = this.props.navigation.getParam("circle");
+    const circleData = this.state.circleData
     let allUsers = usersRef.get().then(users => {
       users.forEach(doc => {
         this.state.member === doc.data().email
@@ -83,68 +93,64 @@ export default class Circle extends Component {
                 { merge: true }
               )
           : console.log("nomatch");
-      });
-    });
-        this.toggleAddMember()
-        
-    }
-    
-    render () {
-        
-        const circleData = this.props.navigation.getParam("circle")
-        
-        return (
-        <View style={styles.container}>
-            <ImageBackground
-                source={{
-                    uri:
-                        "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
-                }}
-                style={styles.bgImage}
-            >
-            <Menu navigation={this.props.navigation}/>
-            <View>
-                <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
+      })
+    })
+    this.toggleAddMember()
+  }
+
+  render() {
+    let circleData = this.state.circleData
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../assets/pics/4.jpg")}
+          style={styles.bgImage}
+        >
+          <Menu navigation={this.props.navigation} />
+          <View>
+            <Text style={styles.title}>
+              {circleData ? circleData.name : null}
+            </Text>
+          </View>
+          <View style={styles.body}>
+            <View style={styles.events}>
+              <View style={styles.subtitle}>
+                <View style={styles.icon}></View>
+                <Text style={styles.titleText}>Upcoming Events</Text>
+                <View style={styles.icon}>
+                  <MaterialIcons
+                    name="add-circle"
+                    style={styles.add}
+                    onPress={() =>
+                      this.props.navigation.navigate("MapContainer", {
+                        circleData
+                      })
+                    }
+                  />
+                </View>
+              </View>
+              <View style={styles.eventList}>
+                 <ScrollView>
+                    {
+                        circleData.upcomingEvents
+                        ? this.state.events.map(event => 
+                          <View style={styles.event} key={Math.random() * 999}>
+                            <Text>{event.eventName}</Text>
+                            <Text></Text>
+                            <Text>Start Time:{" "}
+                              {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
+                          </Text>
+                          <Text>
+                            End Time:{" "}
+                            {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
+                          </Text>
+                          </View>
+                          )
+                        : <Text>No Upcoming Events</Text>
+                    }
+                </ScrollView>
+              </View>
             </View>
-
-            <View style={styles.body}>
-              <View style={styles.events}>
-                <View style={styles.subtitle}>
-                  <View style={styles.icon}></View>
-                    <Text style={styles.titleText}>Upcoming Events</Text>
-                    <View style={styles.icon}>
-                      <MaterialIcons 
-                        name="add-circle"
-                        style={styles.add} 
-                        onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
-                      />
-                    </View>
-                  </View>
-
-                      <View style={styles.eventList}>
-                          <ScrollView>
-                              {
-                                  circleData.upcomingEvents
-                                  ? this.state.events.map(event => 
-                                    <View style={styles.event} key={Math.random() * 999}>
-                                      <Text>{event.eventName}</Text>
-                                      <Text></Text>
-                                      <Text>Start Time:{" "}
-                                        {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
-                                    </Text>
-                                    <Text>
-                                      End Time:{" "}
-                                      {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
-                                    </Text>
-                                    </View>
-                                    )
-                                  : <Text>No Upcoming Events</Text>
-                              }
-                          </ScrollView>
-                      </View>
-                  </View>
-                
-
             <View style={styles.members}>
               <View style={styles.subtitle}>
                 <View style={styles.icon}></View>
