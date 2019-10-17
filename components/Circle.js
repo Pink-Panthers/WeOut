@@ -12,16 +12,35 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { updateDrawerIfCircleMounted } from './DrawerDesign'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 export let updateMountedCircle = function(allCircs) {
-  let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)
-  this.setState({ circleData: newCirc[0] })
+  let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)[0]
+  db.collection('events')
+  .where('circle', '==', newCirc.uid)
+  .get()
+  .then( events => {
+    var allEvents = []
+    events.forEach( event => {
+      allEvents.push(event.data())
+    })
+    console.log(allEvents, '------update')
+    this.setState({ circleData: newCirc, events: allEvents })
+  })
 }
 
 export let setNewCircleData = function(circle) {
-  this.setState({ circleData: circle })
+  db.collection('events')
+  .where('circle', '==', circle.uid)
+  .get()
+  .then( events => {
+    var allEvents = []
+    events.forEach( event => {
+      allEvents.push(event.data())
+    })
+    console.log(allEvents, '------set')
+    this.setState({ circleData: circle, events: allEvents })
+  })
 }
 
 export default class Circle extends Component {
@@ -30,33 +49,29 @@ export default class Circle extends Component {
     this.state = {
       addMember: false,
       member: "",
-      circleData: this.props.navigation.getParam("circle")
+      circleData: this.props.navigation.getParam("circle"),
+      events: []
     }
     updateMountedCircle = updateMountedCircle.bind(this)
     setNewCircleData = setNewCircleData.bind(this)
   }
-  
-    state = {
-        addMember: false,
-        member: '',
-        firstName: '',
-        lastName: '',
-        circle: this.props.navigation.getParam("circle"),
-        events: []
-    }
 
   componentDidMount() {
-    this.setState({ circleData: this.props.navigation.getParam("circle") })
-    this.state.circle.upcomingEvents.forEach(event => this.eventHandler(event))
+    db.collection('events')
+    .where('circle', '==', this.props.navigation.getParam("circle").uid)
+    .get()
+    .then( events => {
+    var allEvents = []
+    events.forEach( event => {
+      allEvents.push(event.data())
+    })
+    console.log(allEvents, '------mount')
+    this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
+    })
   }
 
   toggleAddMember = () => {
     this.setState({ addMember: !this.state.addMember })
-  }
-  
-  async eventHandler (eventID) {
-    let event = await db.collection('events').doc(eventID).get()
-    this.setState({events: [...this.state.events, event.data()]})
   }
 
   addUser = () => {
