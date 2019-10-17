@@ -12,8 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Menu from "./Menu";
 import * as firebase from "firebase";
 import db from "../firebase";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { updateDrawerIfCircleMounted } from './DrawerDesign'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 export let updateMountedCircle = function(allCircs) {
   let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)
@@ -30,20 +29,12 @@ export default class Circle extends Component {
     this.state = {
       addMember: false,
       member: "",
-      circleData: this.props.navigation.getParam("circle")
+      circleData: this.props.navigation.getParam("circle"),
+      events: []
     }
     updateMountedCircle = updateMountedCircle.bind(this)
     setNewCircleData = setNewCircleData.bind(this)
   }
-  
-    state = {
-        addMember: false,
-        member: '',
-        firstName: '',
-        lastName: '',
-        circle: this.props.navigation.getParam("circle"),
-        events: []
-    }
 
   componentDidMount() {
     this.setState({ circleData: this.props.navigation.getParam("circle") })
