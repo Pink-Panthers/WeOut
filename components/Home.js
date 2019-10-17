@@ -88,7 +88,7 @@ export default class Home extends Component {
                         <Text
                           style={{ color: "white", textShadowColor: "red" }}
                         >
-                          {event.eventName + " " + event.description}
+                          {event.eventName + "\n" + event.description}
                         </Text>
                         <Text
                           style={{ color: "white", textShadowColor: "red" }}

@@ -106,57 +106,45 @@ export default class Circle extends Component {
             <View>
                 <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
             </View>
-            <View style={styles.body}>
-                <View style={styles.events}>
-                    <View style={styles.subtitle}>
-                        <View style={styles.icon}></View>
-                        <Text style={styles.titleText}>Upcoming Events</Text>
-                        <View style={styles.icon}>
-                            <MaterialIcons 
-                                name="add-circle"
-                                style={styles.add} 
-                                onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.eventList}>
-                        <ScrollView>
-                            {
-                                circleData.upcomingEvents
-                                ? this.state.events.map(event => 
-                                  <View style={styles.event} key={Math.random() * 999}>
-                                    <Text>{event.eventName}</Text>
-                                    <Text></Text>
-                                    <Text>Start Time:{" "}
-                                      {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
-                                  </Text>
-                                  <Text>
-                                    End Time:{" "}
-                                    {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
-                                  </Text>
-                                  </View>
-                                  )
-                                : <Text>No Upcoming Events</Text>
-                            }
-                        </ScrollView>
-                    </View>
 
-                </View>
-              </View>
-              <View style={styles.eventList}>
-                <ScrollView>
-                  {circleData.upcomingEvents ? (
-                    circleData.upcomingEvents.map(event => (
-                      <Text key={Math.random() * 999} style={styles.event}>
-                        {event}
-                      </Text>
-                    ))
-                  ) : (
-                    <Text>No Upcoming Events</Text>
-                  )}
-                </ScrollView>
-              </View>
-            </View>
+            <View style={styles.body}>
+              <View style={styles.events}>
+                <View style={styles.subtitle}>
+                  <View style={styles.icon}></View>
+                    <Text style={styles.titleText}>Upcoming Events</Text>
+                    <View style={styles.icon}>
+                      <MaterialIcons 
+                        name="add-circle"
+                        style={styles.add} 
+                        onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
+                      />
+                    </View>
+                  </View>
+
+                      <View style={styles.eventList}>
+                          <ScrollView>
+                              {
+                                  circleData.upcomingEvents
+                                  ? this.state.events.map(event => 
+                                    <View style={styles.event} key={Math.random() * 999}>
+                                      <Text>{event.eventName}</Text>
+                                      <Text></Text>
+                                      <Text>Start Time:{" "}
+                                        {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
+                                    </Text>
+                                    <Text>
+                                      End Time:{" "}
+                                      {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
+                                    </Text>
+                                    </View>
+                                    )
+                                  : <Text>No Upcoming Events</Text>
+                              }
+                          </ScrollView>
+                      </View>
+                  </View>
+                
+
             <View style={styles.members}>
               <View style={styles.subtitle}>
                 <View style={styles.icon}></View>
@@ -224,7 +212,7 @@ export default class Circle extends Component {
                 </ScrollView>
               </View>
             </View>
-          </View>
+            </View>
         </ImageBackground>
       </View>
     );
@@ -263,7 +251,7 @@ const styles = StyleSheet.create({
   },
   members: {
     flex: 3,
-    paddingTop: 60
+    paddingTop: 10
   },
   subtitle: {
     backgroundColor: "tan",
