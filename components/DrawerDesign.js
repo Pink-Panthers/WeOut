@@ -74,7 +74,6 @@ export default class DrawerDesign extends Component {
             {userCircles ? userCircles.map(circle =>
               this.navLink("Circle", circle.name, circle)
             ) : null}
-            {/* {this.navLink("CreateEvent", "Create Event")} */}
           </View>
         </ScrollView>
       </View>

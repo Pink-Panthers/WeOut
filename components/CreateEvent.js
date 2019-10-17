@@ -97,6 +97,7 @@ export default class CreateEvent extends Component {
         .catch(err => {
             console.log('ERROR CREATING EVENT:', err)
         })
+        this.props.navigation.navigate('Home')
     }
 
 

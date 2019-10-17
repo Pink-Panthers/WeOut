@@ -18,28 +18,36 @@ export default class Circle extends Component {
   constructor(props) {
     super(props);
   }
+  
+    state = {
+        addMember: false,
+        member: '',
+        firstName: '',
+        lastName: '',
+        circle: this.props.navigation.getParam("circle"),
+        events: []
+    }
 
-  state = {
-    addMember: false,
-    member: "",
-    firstName: "",
-    lastName: "",
-    circle: this.props.navigation.getParam("circle")
-  };
+    toggleAddMember = () => {
+        this.setState({ addMember: !this.state.addMember })
+    }
 
-  toggleAddMember = () => {
-    this.setState({ addMember: !this.state.addMember });
-  };
+    componentDidMount() {
+        db.collection('circles')
+        .onSnapshot( circles => {
+            circles.forEach( circle => {
+                if(circle.data().uid === this.state.circle.uid) {
+                    this.setState({ circle })
+                }
+            })
+        })
+        this.state.circle.upcomingEvents.forEach(event => this.eventHandler(event))
+    }
 
-  componentDidMount() {
-    db.collection("circles").onSnapshot(circles => {
-      circles.forEach(circle => {
-        if (circle.data().uid === this.state.circle.uid) {
-          this.setState({ circle });
-        }
-      });
-    });
-  }
+    async eventHandler (eventID) {
+      let event = await db.collection('events').doc(eventID).get()
+      this.setState({events: [...this.state.events, event.data()]})
+    }
 
   addUser = () => {
     let usersRef = db.collection("users");
@@ -77,39 +85,62 @@ export default class Circle extends Component {
           : console.log("nomatch");
       });
     });
+        this.toggleAddMember()
+        
+    }
+    
+    render () {
+        
+        const circleData = this.props.navigation.getParam("circle")
+        
+        return (
+        <View style={styles.container}>
+            <ImageBackground
+                source={{
+                    uri:
+                        "https://www.toptal.com/designers/subtlepatterns/patterns/vertical_cloth.png"
+                }}
+                style={styles.bgImage}
+            >
+            <Menu navigation={this.props.navigation}/>
+            <View>
+                <Text style={styles.title}>{circleData ? circleData.name : null}</Text>
+            </View>
+            <View style={styles.body}>
+                <View style={styles.events}>
+                    <View style={styles.subtitle}>
+                        <View style={styles.icon}></View>
+                        <Text style={styles.titleText}>Upcoming Events</Text>
+                        <View style={styles.icon}>
+                            <MaterialIcons 
+                                name="add-circle"
+                                style={styles.add} 
+                                onPress={() => this.props.navigation.navigate('MapContainer', {circleData})} 
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.eventList}>
+                        <ScrollView>
+                            {
+                                circleData.upcomingEvents
+                                ? this.state.events.map(event => 
+                                  <View style={styles.event} key={Math.random() * 999}>
+                                    <Text>{event.eventName}</Text>
+                                    <Text></Text>
+                                    <Text>Start Time:{" "}
+                                      {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
+                                  </Text>
+                                  <Text>
+                                    End Time:{" "}
+                                    {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
+                                  </Text>
+                                  </View>
+                                  )
+                                : <Text>No Upcoming Events</Text>
+                            }
+                        </ScrollView>
+                    </View>
 
-    this.toggleAddMember();
-  };
-
-  render() {
-    const circleData = this.props.navigation.getParam("circle");
-    return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../assets/pics/4.jpg")}
-          style={styles.bgImage}
-        >
-          <Menu navigation={this.props.navigation} />
-          <View>
-            <Text style={styles.title}>
-              {circleData ? circleData.name : null}
-            </Text>
-          </View>
-          <View style={styles.body}>
-            <View style={styles.events}>
-              <View style={styles.subtitle}>
-                <View style={styles.icon}></View>
-                <Text style={styles.titleText}>Upcoming Events</Text>
-                <View style={styles.icon}>
-                  <MaterialIcons
-                    name="add-circle"
-                    style={styles.add}
-                    onPress={() =>
-                      this.props.navigation.navigate("MapContainer", {
-                        circleData
-                      })
-                    }
-                  />
                 </View>
               </View>
               <View style={styles.eventList}>
@@ -263,7 +294,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.36)",
     borderWidth: 3,
     marginVertical: 10,
-    padding: 50,
+    padding: 30,
     height: 120,
     backgroundColor: "rgba(6, 80, 121, 0.7)",
     borderTopWidth: 3,
@@ -272,7 +303,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 3,
     borderRadius: 10,
     overflow: "hidden",
-    textAlign: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   member: {
     width: width * 0.3,
