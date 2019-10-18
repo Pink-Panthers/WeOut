@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  Dimensions
 } from "react-native";
 import Menu from "./Menu";
 import * as firebase from "firebase";
@@ -97,27 +98,20 @@ export default class Home extends Component {
                         >
                           {event.eventName + "\n" + event.description}
                         </Text>
-                        <Text
-                          style={{ color: "white", textShadowColor: "red" }}
-                        >
-                          {event.placeName + " " + event.address}
+                        <Text style={{ color: "white", textShadowColor: "red" }}>
+                          {event.placeName}
                         </Text>
-                        <Text
-                          style={{ color: "white", textShadowColor: "red" }}
-                        >
-                          Start Time:{" "}
-                          {String(
-                            new Date(event.startTime.seconds * 1000)
-                          ).slice(0, 25)}
+                        <Text style={{ color: "white", textShadowColor: "red"}}>
+                          {event.address}
                         </Text>
-                        <Text
-                          style={{ color: "white", textShadowColor: "red" }}
-                        >
-                          End Time:{" "}
-                          {String(new Date(event.endTime.seconds * 1000)).slice(
-                            0,
-                            25
-                          )}
+                        <Text style={{ color: "white", textShadowColor: "red" }}>
+                          {event.description}
+                        </Text>
+                        <Text style={{ color: "white", textShadowColor: "red" }}>
+                          Start Time: {String(new Date(event.startTime.seconds * 1000)).slice(0, 21)}
+                        </Text>
+                        <Text style={{ color: "white", textShadowColor: "red" }}>
+                          End Time: {String(new Date(event.endTime.seconds * 1000)).slice(0,21)}
                         </Text>
                       </View>
                     );
@@ -131,6 +125,8 @@ export default class Home extends Component {
   }
 }
 
+const { width } = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
@@ -143,10 +139,10 @@ const styles = StyleSheet.create({
   singleEvent: {
     color: "white",
     justifyContent: "center",
-    padding: 40,
+    padding: 10,
     alignItems: "center",
     width: 340,
-    height: 120,
+    height: 160,
     backgroundColor: "rgba(6, 80, 121, 0.48)",
     borderBottomColor: "rgba(255, 255, 255, 0.36)",
     borderTopColor: "rgba(255, 255, 255, 0.36)",
@@ -157,17 +153,16 @@ const styles = StyleSheet.create({
     borderLeftWidth: 3,
     borderRightWidth: 3,
     borderRadius: 10,
-    marginBottom: 5
+    marginBottom: 10
   },
   auth: {
-    flex: 0.3,
     marginTop: 50,
     alignItems: "center",
     justifyContent: "center",
-    height: 320,
+    height: 100,
     width: 300,
     color: "white",
-    marginBottom: 1,
+    marginBottom: 10,
     backgroundColor: "rgba(6, 80, 121, 0.48)",
     borderBottomColor: "rgba(255, 255, 255, 0.36)",
     borderTopColor: "rgba(255, 255, 255, 0.36)",
@@ -183,8 +178,6 @@ const styles = StyleSheet.create({
     flex: 3,
     height: 300,
     alignItems: "center"
-
-    // marginTop: 75,
   },
   container: {
     flex: 1,

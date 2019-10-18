@@ -134,7 +134,8 @@ export default class CreateEvent extends Component {
           value={this.state.eventName}
           style={styles.text}
           placeholder="Event Name"
-          maxLength={10}
+          maxLength={20}
+          clearButtonMode='always'
         />
         <TextInput
           autoCapitalize="none"
@@ -144,7 +145,8 @@ export default class CreateEvent extends Component {
           value={this.state.placeName}
           style={styles.text}
           placeholder={"Place Name"}
-          maxLength={10}
+          maxLength={20}
+          clearButtonMode='always'
         />
         <TextInput
           autoCapitalize="none"
@@ -154,7 +156,8 @@ export default class CreateEvent extends Component {
           value={this.state.address}
           style={styles.text}
           placeholder="Address"
-          maxLength={10}
+          maxLength={20}
+          clearButtonMode='always'
         />
         <TextInput
           autoCapitalize="none"
@@ -164,16 +167,21 @@ export default class CreateEvent extends Component {
           value={this.state.description}
           style={styles.text}
           placeholder="Description"
-          maxLength={30}
+          maxLength={20}
+          clearButtonMode='always'
         />
-        {this.state.startTime
-        ? <Text>Start Time: {String(new Date(this.state.startTime)).slice(0, 21)}</Text>
-        : null
-        }
-        {this.state.endTime
-        ? <Text>End Time: {String(new Date(this.state.endTime)).slice(0, 21)}</Text>
-        : null
-        }
+        <View style={styles.times}>
+          {this.state.startTime
+          ? <Text style={{fontSize: 16}}>Start Time: {String(new Date(this.state.startTime)).slice(0, 21)}</Text>
+          : null
+          }
+        </View>
+        <View style={styles.times}>
+          {this.state.endTime
+          ? <Text style={{fontSize: 16}}>End Time: {String(new Date(this.state.endTime)).slice(0, 21)}</Text>
+          : null
+          }
+        </View>
         <Button onPress={this.handleGetDirections} title="Get Directions" />
         <DateTimePicker
           isVisible={this.state.startVisibility}
@@ -217,13 +225,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 6
   },
-  calendar: {
-    height: 320
-  },
   title: {
     fontSize: 30,
     textAlign: "center",
     fontWeight: "bold",
     marginBottom: 20
+  },
+  times: {
+    width: 400,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });

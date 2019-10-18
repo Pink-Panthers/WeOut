@@ -148,14 +148,16 @@ export default class Circle extends Component {
                         ? this.state.events.map(event => 
                           <View style={styles.event} key={Math.random() * 999}>
                             <Text>{event.eventName}</Text>
-                            <Text></Text>
+                            <Text>{event.placeName}</Text>
+                            <Text>{event.address}</Text>
+                            <Text>{event.description}</Text>
                             <Text>Start Time:{" "}
-                              {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
-                          </Text>
-                          <Text>
-                            End Time:{" "}
-                            {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
-                          </Text>
+                                {String(new Date(event.startTime.seconds * 1000)).slice(0, 25)}
+                            </Text>
+                            <Text>
+                              End Time:{" "}
+                              {String(new Date(event.endTime.seconds * 1000)).slice(0, 25)}
+                            </Text>
                           </View>
                           )
                         : <Text>No Upcoming Events</Text>
@@ -265,18 +267,18 @@ const styles = StyleSheet.create({
   },
   events: {
     flex: 5,
-    marginTop: 60
+    marginTop: 46
   },
   members: {
-    flex: 3,
-    paddingTop: 10
+    flex: 2.8,
+    paddingTop: 6
   },
   subtitle: {
     backgroundColor: "tan",
     width: width * 0.9,
     borderColor: "black",
     borderWidth: 1,
-    marginVertical: 10,
+    marginVertical: 6,
     paddingVertical: 6,
     borderRadius: 10,
     overflow: "hidden",
@@ -301,7 +303,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     marginVertical: 10,
     padding: 30,
-    height: 120,
+    height: 140,
     backgroundColor: "rgba(6, 80, 121, 0.7)",
     borderTopWidth: 3,
     borderBottomWidth: 3,
