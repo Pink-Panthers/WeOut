@@ -24,7 +24,6 @@ export let updateMountedCircle = function(allCircs) {
     events.forEach( event => {
       allEvents.push(event.data())
     })
-    console.log(allEvents, '------update')
     this.setState({ circleData: newCirc, events: allEvents })
   })
 }
@@ -38,7 +37,6 @@ export let setNewCircleData = function(circle) {
     events.forEach( event => {
       allEvents.push(event.data())
     })
-    console.log(allEvents, '------set')
     this.setState({ circleData: circle, events: allEvents })
   })
 }
@@ -65,7 +63,6 @@ export default class Circle extends Component {
     events.forEach( event => {
       allEvents.push(event.data())
     })
-    console.log(allEvents, '------mount')
     this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
     })
   }
