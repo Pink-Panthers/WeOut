@@ -34,4 +34,7 @@ exports.createEvent = functions.firestore
         db.collection('circles').doc(snap._fieldsProto.circle.stringValue).set({
             upcomingEvents: firebase.firestore.FieldValue.arrayUnion(context.params.eventId)
         }, { merge: true })
+        db.collection('events').doc(context.params.eventId).set({
+            uid: context.params.eventId
+        }, { merge: true })
     })

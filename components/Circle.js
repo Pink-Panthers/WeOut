@@ -16,29 +16,31 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export let updateMountedCircle = function(allCircs) {
   let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)[0]
-  db.collection('events')
-  .where('circle', '==', newCirc.uid)
-  .get()
-  .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
-    })
-    this.setState({ circleData: newCirc, events: allEvents })
-  })
+    db.collection('events')
+      .where('circle', '==', newCirc.uid)
+      .get()
+      .then(events => {
+        var allEvents = []
+        events.forEach(event => {
+          allEvents.push(event.data())
+        })
+        this.setState({ circleData: newCirc, events: allEvents })
+      })
 }
 
 export let setNewCircleData = function(circle) {
-  db.collection('events')
-  .where('circle', '==', circle.uid)
-  .get()
-  .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
-    })
-    this.setState({ circleData: circle, events: allEvents })
-  })
+  if(circle.uid) {
+    db.collection('events')
+      .where('circle', '==', circle.uid)
+      .get()
+      .then(events => {
+        var allEvents = []
+        events.forEach(event => {
+          allEvents.push(event.data())
+        })
+        this.setState({ circleData: circle, events: allEvents })
+      })
+  }
 }
 
 export default class Circle extends Component {
@@ -48,23 +50,24 @@ export default class Circle extends Component {
       addMember: false,
       member: "",
       circleData: this.props.navigation.getParam("circle"),
-      events: []
+      events: [],
+      addedUID: ''
     }
     updateMountedCircle = updateMountedCircle.bind(this)
     setNewCircleData = setNewCircleData.bind(this)
   }
 
   componentDidMount() {
-    db.collection('events')
-    .where('circle', '==', this.props.navigation.getParam("circle").uid)
-    .get()
-    .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
-    })
-    this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
-    })
+      db.collection('events')
+        .where('circle', '==', this.props.navigation.getParam("circle").uid)
+        .get()
+        .then(events => {
+          var allEvents = []
+          events.forEach(event => {
+            allEvents.push(event.data())
+          })
+          this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
+        })
   }
 
   toggleAddMember = () => {
@@ -89,8 +92,22 @@ export default class Circle extends Component {
                 )
               })
           : console.log("nomatch");
-      });
-
+      })
+      db.collection('users').where('email', '==', `${this.state.member}`)
+      .get()
+      .then( (user) => {
+        this.setState({ addedUID: user.data().uid })
+        db.collection('events').where('circle', '==', `${circleData.uid}`)
+        .get()
+        .then( events => {
+          events.forEach( event => {
+            db.collection('events').doc(event.uid).update({
+              members: firebase.firestore.FieldValue.arrayUnion(this.state.addedUID)
+            })
+          })
+        })
+      })
+  
       users.forEach(doc => {
         this.state.member === doc.data().email
           ? db
@@ -103,11 +120,13 @@ export default class Circle extends Component {
                   )
                 },
                 { merge: true }
-              )
+          ).then(() => this.setState({ member: "" }))
           : console.log("nomatch");
       })
+      this.setState({ member: "" });
     })
     this.toggleAddMember()
+    
   }
 
   render() {
