@@ -212,7 +212,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 48,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "rgba(6, 80, 121, 0.7)"
   },
   text: {
     height: 40,
