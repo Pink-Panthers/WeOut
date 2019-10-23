@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Dimensions } from "react-native"
 import { TextInput, Button } from "react-native"
 import Menu from "./Menu"
 import { CalendarList } from "react-native-calendars"
+import { updateMapContainer } from './MapContainer'
 import DateTimePicker from "react-native-modal-datetime-picker"
 import getDirections from "react-native-google-maps-directions"
 import db from '../firebase'
@@ -29,6 +30,20 @@ export default class CreateEvent extends Component {
     this.handleEndPicker = this.handleEndPicker.bind(this)
     this.handleGetDirections = this.handleGetDirections.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  componentDidMount() {
+    const details = this.props.navigation.getParam("details")
+    this.setState({
+      startVisibility: false,
+      endVisibility: false,
+      eventName: "",
+      placeName: details.name,
+      address: details.address,
+      description: "",
+      startTime: "",
+      endTime: ""
+    })
   }
 
   showStartPicker() {
@@ -86,6 +101,7 @@ export default class CreateEvent extends Component {
         const circleData = this.props.navigation.getParam('circleData')
         db.collection('events').doc().set({
             circle: circleData.uid,
+            circleName: circleData.name,
             startTime: this.state.startTime,
             endTime: this.state.endTime,
             address: this.state.address,
@@ -94,7 +110,10 @@ export default class CreateEvent extends Component {
             eventName: this.state.eventName,
             members: circleData.memberIDs
         })
-        .then( () => console.log('SUCCESS CREATING EVENT'))
+        .then( () => {
+          console.log('SUCCESS CREATING EVENT')
+          updateMapContainer()
+        })
         .catch(err => {
             console.log('ERROR CREATING EVENT:', err)
         })

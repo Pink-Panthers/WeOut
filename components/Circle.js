@@ -16,29 +16,33 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 export let updateMountedCircle = function(allCircs) {
   let newCirc = allCircs.filter( circle => circle.uid === this.state.circleData.uid)[0]
-  db.collection('events')
-  .where('circle', '==', newCirc.uid)
-  .get()
-  .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
+  if(newCirc) {
+    db.collection('events')
+    .where('circle', '==', newCirc.uid)
+    .get()
+    .then( events => {
+      var allEvents = []
+      events.forEach( event => {
+        allEvents.push(event.data())
+      })
+      this.setState({ circleData: newCirc, events: allEvents })
     })
-    this.setState({ circleData: newCirc, events: allEvents })
-  })
+  }
 }
 
 export let setNewCircleData = function(circle) {
-  db.collection('events')
-  .where('circle', '==', circle.uid)
-  .get()
-  .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
+  if(circle.uid) {
+    db.collection('events')
+    .where('circle', '==', circle.uid)
+    .get()
+    .then( events => {
+      var allEvents = []
+      events.forEach( event => {
+        allEvents.push(event.data())
+      })
+      this.setState({ circleData: circle, events: allEvents })
     })
-    this.setState({ circleData: circle, events: allEvents })
-  })
+  }
 }
 
 export default class Circle extends Component {
@@ -55,16 +59,18 @@ export default class Circle extends Component {
   }
 
   componentDidMount() {
-    db.collection('events')
-    .where('circle', '==', this.props.navigation.getParam("circle").uid)
-    .get()
-    .then( events => {
-    var allEvents = []
-    events.forEach( event => {
-      allEvents.push(event.data())
-    })
-    this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
-    })
+    if(this.props.navigation.getParam("circle").uid) {
+      db.collection('events')
+      .where('circle', '==', this.props.navigation.getParam("circle").uid)
+      .get()
+      .then( events => {
+      var allEvents = []
+      events.forEach( event => {
+        allEvents.push(event.data())
+      })
+      this.setState({ circleData: this.props.navigation.getParam("circle"), events: allEvents })
+      })
+    }
   }
 
   toggleAddMember = () => {
