@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        textAlign: "center"
+        textAlign: "center",
+        backgroundColor: "rgba(6, 80, 121, 0.7)"
     },
     text: {
         height: 50,
